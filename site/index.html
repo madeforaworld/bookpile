@@ -413,6 +413,127 @@
   td { color: var(--ink-2); font-variant-numeric: tabular-nums; }
   td.t { color: var(--ink); font-family: var(--font-display); }
 
+
+  /* ---------- product explainer ---------- */
+
+  .lede { max-width: 62ch; margin: 0 0 30px; }
+  .lede h2 { margin-bottom: 12px; }
+  .lede p { font-size: 16px; line-height: 1.65; color: var(--ink-2); margin: 0 0 13px; }
+  .lede p strong { color: var(--ink); font-weight: 600; }
+
+  .two-up { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+
+  /* chat transcript */
+  .chat { display: flex; flex-direction: column; gap: 10px; padding: 20px; }
+  .msg {
+    max-width: 78%;
+    padding: 9px 13px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .msg.out {
+    align-self: flex-end;
+    background: var(--structure);
+    color: var(--card);
+    border-bottom-right-radius: 3px;
+  }
+  .msg.in {
+    align-self: flex-start;
+    background: var(--structure-2);
+    border: 1px solid var(--ring);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    border-bottom-left-radius: 3px;
+  }
+  .msg.in b { font-weight: 600; }
+  .chat-day {
+    align-self: center;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding: 4px 0;
+  }
+
+  /* the pipeline */
+  .pipe { list-style: none; margin: 0; padding: 20px; display: flex; flex-direction: column; gap: 0; }
+  .pipe li {
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    gap: 14px;
+    padding: 0 0 16px;
+    position: relative;
+  }
+  .pipe li:last-child { padding-bottom: 0; }
+  .pipe li::before {
+    content: "";
+    position: absolute;
+    left: 12px; top: 22px; bottom: 0;
+    width: 1px;
+    background: var(--rule);
+  }
+  .pipe li:last-child::before { display: none; }
+  .pipe .n {
+    width: 25px; height: 25px;
+    border-radius: 50%;
+    border: 1px solid var(--structure);
+    color: var(--structure);
+    background: var(--card);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    display: grid;
+    place-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  .pipe h4 { margin: 3px 0 3px; font-size: 14.5px; font-weight: 600; color: var(--ink); }
+  .pipe p { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--ink-2); }
+  .pipe code { font-family: var(--font-mono); font-size: 12px; color: var(--structure); }
+
+  .rule-box {
+    margin: 18px 20px 20px;
+    padding: 14px 16px;
+    border-left: 2px solid var(--structure);
+    background: var(--structure-2);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--ink-2);
+  }
+  .rule-box b { color: var(--ink); font-weight: 600; }
+
+  /* storage options */
+  .stores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .store { padding: 18px 18px 20px; }
+  .store h4 {
+    margin: 0 0 8px;
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 600;
+  }
+  .store p { margin: 0; font-size: 13px; line-height: 1.55; color: var(--ink-2); }
+  .store .tag {
+    display: inline-block;
+    margin-top: 11px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--structure);
+  }
+
+  @media (max-width: 900px) {
+    .two-up { grid-template-columns: 1fr; }
+    .stores { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .stores { grid-template-columns: 1fr; }
+  }
+
   /* ---------- tooltip ---------- */
 
   #tip {
@@ -489,6 +610,110 @@
       </div>
     </div>
   </header>
+
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section>
+    <div class="lede">
+      <h2>You text it. It writes the record.</h2>
+      <p>
+        Bookpile sits in whatever messaging app you already have open. You tell it
+        what you are reading in ordinary language, and it turns that into a
+        structured, validated record in a library <strong>you own</strong> — a
+        folder of Markdown notes, a database file, a spreadsheet, whatever you
+        picked.
+      </p>
+      <p>
+        No app to open. No form to fill in. The dashboard further down is built
+        from exactly these messages.
+      </p>
+    </div>
+
+    <div class="two-up">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-id">Telegram &middot; the reference inbox</span>
+          <span class="card-q">What using it actually looks like</span>
+        </div>
+        <div class="chat">
+          <div class="chat-day">Wednesday</div>
+          <div class="msg out">add The Tin Almanac by Marguerite Sowande</div>
+          <div class="msg in">Added &middot; The Tin Almanac</div>
+          <div class="msg out">start The Tin Almanac</div>
+          <div class="msg in">Reading &middot; The Tin Almanac</div>
+          <div class="chat-day">Three weeks later</div>
+          <div class="msg out">finished The Tin Almanac today, 4 stars</div>
+          <div class="msg in">Finished &middot; The Tin Almanac &middot; 4/5</div>
+          <div class="msg out">find almanac</div>
+          <div class="msg in">The Tin Almanac &middot; finished</div>
+        </div>
+        <p class="card-note" style="margin:0 20px 20px">
+          Every reply above is real output from the reference implementation, not
+          invented copy. Telegram is the documented default; Discord, email and a
+          plain CLI are the same adapter port.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <span class="card-id">What happens to that message</span>
+          <span class="card-q">Seven steps, none of them optional</span>
+        </div>
+        <ol class="pipe">
+          <li><span class="n">1</span><div>
+            <h4>Allowlist</h4>
+            <p>Your numeric ID, checked on every message. Anyone else gets silence — never an error that reveals the bot exists.</p>
+          </div></li>
+          <li><span class="n">2</span><div>
+            <h4>Deterministic parse</h4>
+            <p>Plain commands never reach a model. An install with no AI key at all is fully functional.</p>
+          </div></li>
+          <li><span class="n">3</span><div>
+            <h4>Validate</h4>
+            <p>Strict schema, no coercion. <code>"today"</code> is refused — the server decides what today is, not the model.</p>
+          </div></li>
+          <li><span class="n">4</span><div>
+            <h4>Resolve ambiguity</h4>
+            <p>A title matching two books is a question back to you, never a guess.</p>
+          </div></li>
+          <li><span class="n">5</span><div>
+            <h4>One named operation</h4>
+            <p>Five exist. There is no generic update and no escape hatch.</p>
+          </div></li>
+          <li><span class="n">6</span><div>
+            <h4>Read the record back</h4>
+            <p>From storage, after writing.</p>
+          </div></li>
+          <li><span class="n">7</span><div>
+            <h4>Reply</h4>
+            <p>Only once the read-back confirms it. You are never told something was saved that wasn't.</p>
+          </div></li>
+        </ol>
+        <div class="rule-box">
+          Natural language is untrusted input.<br>
+          Model output is an untrusted proposal.<br>
+          <b>Only validated named operations may mutate storage.</b>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE DASHBOARD ============ -->
+  <section>
+    <div class="lede">
+      <h2>Then it shows you what you have been reading.</h2>
+      <p>
+        Everything below is a live dashboard running on a synthetic 30-book
+        library — no backend, no server, computed in your browser from the same
+        fixture the test suite uses.
+      </p>
+      <p>
+        <strong>You do not get whatever charts we happened to build.</strong> What
+        you record decides what can be shown, and the build asks what you want to
+        know. This is one possible dashboard, not the dashboard.
+      </p>
+    </div>
+  </section>
 
   <!-- ============ HERO: M26 ============ -->
   <section>
@@ -616,6 +841,46 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+
+  <!-- ============ STORAGE ============ -->
+  <section>
+    <div class="lede">
+      <h2>Your library outlives the tool.</h2>
+      <p>
+        Bookpile does not own your data — it agrees on a shape for it. Two people
+        running completely different builds can still hand each other a library
+        without losing anything, because both honour the same record contract.
+      </p>
+      <p>
+        <strong>The test of success is an export and re-import, not a
+        resemblance.</strong> Leave your implementation entirely and the library
+        still opens.
+      </p>
+    </div>
+    <div class="stores">
+      <div class="card store">
+        <h4>Markdown</h4>
+        <p>One note per book in a folder you can read, grep and version with git. Nothing proprietary.</p>
+        <span class="tag">Shipped</span>
+      </div>
+      <div class="card store">
+        <h4>SQLite</h4>
+        <p>A single file. Easy to back up, easy to query, no server to run.</p>
+        <span class="tag">Shipped</span>
+      </div>
+      <div class="card store">
+        <h4>Google Sheets</h4>
+        <p>A familiar table. Cannot hold full re-read history, so it declares that limit rather than dropping data.</p>
+        <span class="tag">Specified</span>
+      </div>
+      <div class="card store">
+        <h4>Whatever you use</h4>
+        <p>An adapter generated for your existing system passes exactly the same conformance vectors. No exemptions.</p>
+        <span class="tag">Bring your own</span>
+      </div>
     </div>
   </section>
 
