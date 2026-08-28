@@ -12,12 +12,22 @@ from .ports import LibraryRepository
 
 
 class AmbiguousReference(Exception):
+    """Two matches is a question, never a guess.
+
+    Carries title, author and year for each candidate — a list of bare titles
+    is not enough to choose between two editions or two books of the same name.
+    """
+
     def __init__(self, ref: str, candidates: list[BookRecord]):
         self.ref, self.candidates = ref, candidates
-        super().__init__(
-            f"{ref!r} matches {len(candidates)} books: "
-            + ", ".join(c.title for c in candidates[:5])
-        )
+        super().__init__(f"{ref!r} matches {len(candidates)} books: "
+                         + "; ".join(self.describe(c) for c in candidates[:5]))
+
+    @staticmethod
+    def describe(book: BookRecord) -> str:
+        author = book.authors[0] if book.authors else "unknown author"
+        year = f", {book.first_published}" if book.first_published else ""
+        return f"{book.title} — {author}{year}"
 
 
 class NotFound(Exception):

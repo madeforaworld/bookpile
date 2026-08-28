@@ -278,11 +278,12 @@ def main() -> int:
             return 2
 
     adapters = [args.adapter] if args.adapter else ["sqlite", "markdown"]
-    total = failed = 0
+    total = failed = distinct = 0
     failures: list[str] = []
 
     for path in suites:
         data = json.loads(path.read_text())
+        distinct += len(data["vectors"])
         # storage vectors are adapter-specific; the rest need one pass only
         run_on = adapters if data["suite"] == "storage" else adapters[:1]
         for adapter in run_on:
@@ -303,7 +304,8 @@ def main() -> int:
                     print(f"  ERROR {vec['id']}: {type(exc).__name__}: {exc}")
 
     print("\n" + "=" * 62)
-    print(f"{total - failed}/{total} vectors passed")
+    print(f"{total - failed}/{total} executions passed "
+          f"({distinct} distinct vectors; the storage suite runs on every adapter)")
     if failures:
         print("\nfailures:")
         for f in failures:

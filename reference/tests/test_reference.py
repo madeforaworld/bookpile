@@ -95,6 +95,17 @@ class TestService(unittest.TestCase):
         with self.assertRaises(AmbiguousReference):
             s.resolve("The Long")
 
+    def test_ambiguity_names_author_and_year_not_just_titles(self):
+        s = service()
+        s.add_book("The Long Recension", authors=["Tomas Bergqvist"], first_published=2011)
+        s.add_book("The Long Winter")          # no author recorded, no year
+        with self.assertRaises(AmbiguousReference) as ctx:
+            s.resolve("The Long")
+        message = str(ctx.exception)
+        self.assertIn("Tomas Bergqvist", message)
+        self.assertIn("2011", message)
+        self.assertIn("unknown author", message, "a missing author must be stated, not omitted")
+
     def test_missing_book_raises(self):
         with self.assertRaises(NotFound):
             service().resolve("nothing")

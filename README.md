@@ -29,7 +29,7 @@ shaped to it, and **prove the result correct against portable test vectors**.
 ```bash
 git clone https://github.com/madeforaworld/bookpile
 cd bookpile
-./scripts/check.sh                       # privacy gate + 43 tests + 58 vectors
+./scripts/check.sh                       # privacy gate + 63 tests + 56 vectors
 python3 -c "
 import sys; sys.path[:0] = ['.', 'reference']
 from bookpile.adapters import SQLiteRepository
@@ -208,8 +208,9 @@ conformance vectors qualifies.
 ./scripts/check.sh
   privacy gate     clean
   safety tests     27 passed
-  reference tests  35 passed
-  vectors          63/63 passed   (sqlite and markdown)
+  reference tests  36 passed
+  vectors          63/63 executions passed
+                   56 distinct; storage runs on both adapters
 ```
 
 **Telegram, precisely.** Tested against a stubbed transport: allowlist,
@@ -231,7 +232,7 @@ no provider configured Bookpile never touches the network.
 | | |
 |---|---|
 | `spec/` | Schema, nine numbered invariants, intents, storage port, API contract. Normative. |
-| `conformance/` | 63 vectors in language-agnostic JSON, plus the runner. **The real contract.** |
+| `conformance/` | 56 vectors in language-agnostic JSON, plus the runner. **The real contract.** |
 | `safety/` | Allowlist, validation, idempotency, redaction. Fixed code, never generated. |
 | `onboarding/` | What to inspect, what to default, the two questions worth asking. |
 | `reference/` | Domain, service, adapters, intake, metadata, projection. Evidence the spec is buildable. |

@@ -14,7 +14,7 @@ generating an implementation that passes the vectors.
 
 ## Current state — read before planning
 
-`spec/`, `conformance/` (51 vectors), `safety/`, `onboarding/`, `reference/`,
+`spec/`, `conformance/` (56 vectors), `safety/`, `onboarding/`, `reference/`,
 `docs/METRICS.md`, `fixtures/` and `site/` all exist and pass
 `./scripts/check.sh`.
 
@@ -73,6 +73,24 @@ Two rules that keep this honest:
 6. **Run `scripts/privacy-check.js` before any commit.** It is a gate, not advice.
 7. **Never make this repository public, push, or change visibility** without the
    owner's explicit approval in the current conversation.
+
+## Operating rules for an ingest message
+
+Be an operator, not an author. Classify the intent, run one named operation,
+verify the result, report tersely.
+
+- **Never hand-edit stored records.** If a named operation cannot do what was
+  asked, stop and say so rather than writing to the store directly.
+- **Ambiguous titles:** present title, author and year, and ask. Never guess.
+- **Covers are irreplaceable.** Never delete or overwrite one. Download only
+  when absent.
+- **Dates:** resolve "today" from the system clock, never mentally, and never
+  let a model supply one.
+- **Discovery suggests books the library does not contain.** Never re-suggest
+  something already on the shelf.
+- **Misuse guard:** if a message asks for something no named operation covers —
+  bulk edits, deleting covers, touching someone else's library — do not
+  improvise. Say what is missing and stop.
 
 ## Chart rules
 
