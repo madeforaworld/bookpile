@@ -14,6 +14,11 @@ The complete set of operations that may change the library. There is no generic
 ## Resolution order
 
 1. **Parse deterministically first.** Explicit commands never reach a model.
+   This is the primary path, not a fallback. Self-hosted deployments routinely
+   run small quantised local models — 4-bit quantisation is common — and such a
+   model is perfectly capable of returning confident, malformed, or invented
+   structure. The deterministic layer means the everyday commands never depend
+   on model quality at all.
 2. If unresolved, ask an LLM for **structured intent JSON only**.
 3. **Validate against the schema.** Reject anything unparseable.
 4. Resolve ambiguity — a `book_ref` matching two books is a question, not a guess.
@@ -37,6 +42,10 @@ The complete set of operations that may change the library. There is no generic
 
 `date` is always resolved **server-side**. A message saying "today" never lets
 the model decide what today is.
+
+`confidence` below 0.75 is refused outright rather than written. With a small
+local model, low confidence is common and normal — the correct response is to
+ask, not to guess and correct later.
 
 ## Status transitions
 

@@ -107,8 +107,12 @@ class TestTelegramPolicy(unittest.TestCase):
             super().__init__(**kw)
             self.sent = []
 
+        _queued = None
+
         def _call(self, method, **params):
             self.sent.append((method, params))
+            if method == "getUpdates" and self._queued is not None:
+                return self._queued
             return {"ok": True, "result": []}
 
     def _intake(self):
@@ -141,6 +145,29 @@ class TestTelegramPolicy(unittest.TestCase):
         self.assertIsNone(t.handle_update(
             {"update_id": 3, "message": {"from": {"id": 111}, "chat": {"id": 111},
                                          "photo": [{"file_id": "x"}]}}))
+
+    def test_poll_once_advances_the_offset(self):
+        t = self._intake()
+        t._queued = {"ok": True, "result": [
+            {"update_id": 10, "message": {"from": {"id": 111}, "chat": {"id": 111},
+                                          "text": "start Salt in the Wiring"}},
+            {"update_id": 11, "message": {"from": {"id": 111}, "chat": {"id": 111},
+                                          "text": "finished Salt in the Wiring"}}]}
+        nxt = t.poll_once(offset=10)
+        self.assertEqual(nxt, 12, "offset must advance past the last update")
+        self.assertEqual(t.handler.service.resolve("Salt in the Wiring").status, "finished")
+
+    def test_poll_once_with_no_updates_keeps_offset(self):
+        t = self._intake()
+        t._queued = {"ok": True, "result": []}
+        self.assertEqual(t.poll_once(offset=42), 42)
+
+    def test_replies_go_to_the_originating_chat(self):
+        t = self._intake()
+        t.handle_update(self._update(111, "start Salt in the Wiring"))
+        sends = [p for m, p in t.sent if m == "sendMessage"]
+        self.assertEqual(len(sends), 1)
+        self.assertEqual(sends[0]["chat_id"], 111)
 
     def test_audit_line_omits_message_body(self):
         t = self._intake()

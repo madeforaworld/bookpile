@@ -45,6 +45,11 @@ for line in ['add The Tin Almanac by Marguerite Sowande',
 No credentials, no network, no AI key. Open `site/index.html` for the live
 dashboard.
 
+**It does not need a good model, or any model.** Plain commands are parsed
+deterministically and never reach an LLM. That is not a fallback — real
+self-hosted deployments run heavily quantised local models, and a system that
+only works with a frontier model is not self-hostable.
+
 ## How a message becomes a record
 
 ```mermaid
@@ -124,13 +129,15 @@ conformance vectors qualifies.
 ./scripts/check.sh
   privacy gate     clean
   safety tests     27 passed
-  reference tests  16 passed
+  reference tests  19 passed
   vectors          58/58 passed   (sqlite and markdown)
 ```
 
-**Not verified:** the Telegram network path. Its policy layer — allowlist,
-idempotency, audit redaction — is tested, but nothing has spoken to the live
-API, because that needs a real bot token. The source says so.
+**Telegram, precisely.** Tested against a stubbed transport: allowlist,
+idempotency, poll-offset advancement, reply routing, audit redaction. **Not
+tested:** the actual HTTPS call to `api.telegram.org`, which needs a live bot
+token. The approach is proven — the author runs a Telegram reading bot daily —
+but *this* adapter has never opened a socket, and the source says so.
 
 **Not built:** Sheets and PostgreSQL adapters, the projection HTTP API,
 `docker compose`, a dashboard wired to a live store rather than the fixture.
