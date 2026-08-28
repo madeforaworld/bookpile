@@ -29,7 +29,7 @@ shaped to it, and **prove the result correct against portable test vectors**.
 ```bash
 git clone https://github.com/madeforaworld/bookpile
 cd bookpile
-./scripts/check.sh                       # privacy gate + 63 tests + 56 vectors
+./scripts/check.sh                       # privacy gate + 70 tests + 59 vectors
 python3 -c "
 import sys; sys.path[:0] = ['.', 'reference']
 from bookpile.adapters import SQLiteRepository
@@ -78,29 +78,35 @@ start it, `start The Copper Question` opens one.
 **You own too many books and cannot choose.**
 
 ```
-you   what should I read next, something short and historical
-bot   For 'something short and historical', from your shelf:
-        The Wintering House — historical
-        The Eighth of Never — 275 pages
-        On Being Wrong Precisely — 290 pages
+you   what should I read next, something speculative
+bot   For 'something speculative', on your shelf:
+        The Sieve and the Sea — speculative
+        The Copper Question — still unread
+        The Eighth of Never — still unread  (ownership unknown — check the shelf)
+      (1 more on your wishlist, not bought yet — ask "what should I buy")
 ```
 
-It picks from books you already have and have not read, and says **why** each
-one surfaced. No model required — the matching is deterministic.
+It picks only from books you **own** and have not read — you cannot start a book
+you have not bought — and says why each surfaced. Unknown ownership stays a
+candidate but is flagged, because unknown is not no. No model required; the
+matching is deterministic.
 
 **You want something new, chosen from what you already read.**
 
 ```
 you   what should I buy
-bot   Not in your library yet:
+bot   Already on your list, not bought yet:
+        An Instrument of Tides — Halvard Nakamura
+
+      New, from subjects you read:
         Emma — Jane Austen (1815)
-        Little Women — Louisa May Alcott (1848)
         The Great Gatsby — F. Scott Fitzgerald (1920)
 ```
 
-A different question, so a different operation. `recommend` looks at your
-shelf; `discover` looks outside it, drawing on the subjects you actually read
-and filtering out everything you already own.
+**Two pools, not one.** Your own unbought wishlist comes first — you already
+decided you wanted those — then new titles drawn from the subjects you actually
+read. A book you borrowed and finished is unowned but already read, so it is in
+neither pool.
 
 ## What gets captured
 
@@ -208,9 +214,9 @@ conformance vectors qualifies.
 ./scripts/check.sh
   privacy gate     clean
   safety tests     27 passed
-  reference tests  36 passed
-  vectors          63/63 executions passed
-                   56 distinct; storage runs on both adapters
+  reference tests  43 passed
+  vectors          66/66 executions passed
+                   59 distinct; storage runs on both adapters
 ```
 
 **Telegram, precisely.** Tested against a stubbed transport: allowlist,
@@ -232,7 +238,7 @@ no provider configured Bookpile never touches the network.
 | | |
 |---|---|
 | `spec/` | Schema, nine numbered invariants, intents, storage port, API contract. Normative. |
-| `conformance/` | 56 vectors in language-agnostic JSON, plus the runner. **The real contract.** |
+| `conformance/` | 59 vectors in language-agnostic JSON, plus the runner. **The real contract.** |
 | `safety/` | Allowlist, validation, idempotency, redaction. Fixed code, never generated. |
 | `onboarding/` | What to inspect, what to default, the two questions worth asking. |
 | `reference/` | Domain, service, adapters, intake, metadata, projection. Evidence the spec is buildable. |

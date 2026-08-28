@@ -13,10 +13,32 @@ The complete set of operations that may change the library. There is no generic
 | `recommend` | vibe? | Read-only. Picks from books you already have but have not read. |
 | `discover` | — | Read-only. Suggests books you do **not** have, from subjects you already read. |
 
-`recommend` and `discover` answer different questions and must never be
-conflated. *"What should I read next"* means choose from the pile you already
-own. *"What should I buy"* means look outside it. A discovery result that
-suggests a book already on the shelf is a defect.
+### Two pools
+
+`recommend` and `discover` draw from **different pools** and must never be
+conflated.
+
+| Pool | Membership | Answers |
+|---|---|---|
+| **Reading** | `status: to_read` **and** `owned` is not `false` | *What should I read next?* |
+| **Buying** | `owned: false` **and** `status: to_read`, then new titles from outside | *What should I buy?* |
+
+Three rules follow, and each has a vector:
+
+- **Never suggest reading a book you do not own.** It is not available to you
+  tonight; it belongs to the buying pool.
+- **Unknown ownership stays in the reading pool, flagged.** `null` is not `false`
+  (I1). The reply says "check the shelf" rather than dropping the book or
+  assuming you have it.
+- **Unknown ownership never enters the buying pool.** An unverified book must
+  not become a shopping suggestion.
+
+A book you borrowed and finished is `owned: false` but not `to_read`, so it is
+in neither pool. It is a third thing — *read but not owned* — and putting it in
+the buy list fills that list with books you have already been through.
+
+Your own unbought wishlist comes **before** external suggestions: you have
+already decided you want those.
 
 ## Resolution order
 

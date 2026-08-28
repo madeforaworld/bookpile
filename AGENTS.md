@@ -14,7 +14,7 @@ generating an implementation that passes the vectors.
 
 ## Current state — read before planning
 
-`spec/`, `conformance/` (56 vectors), `safety/`, `onboarding/`, `reference/`,
+`spec/`, `conformance/` (59 vectors), `safety/`, `onboarding/`, `reference/`,
 `docs/METRICS.md`, `fixtures/` and `site/` all exist and pass
 `./scripts/check.sh`.
 
@@ -86,8 +86,10 @@ verify the result, report tersely.
   when absent.
 - **Dates:** resolve "today" from the system clock, never mentally, and never
   let a model supply one.
-- **Discovery suggests books the library does not contain.** Never re-suggest
-  something already on the shelf.
+- **Two pools.** Reading suggestions come from books owned and unread; buying
+  suggestions come from unowned-and-unread, then new titles. Never suggest
+  reading a book the user does not own, and never treat unknown ownership as
+  "not owned".
 - **Misuse guard:** if a message asks for something no named operation covers —
   bulk edits, deleting covers, touching someone else's library — do not
   improvise. Say what is missing and stop.

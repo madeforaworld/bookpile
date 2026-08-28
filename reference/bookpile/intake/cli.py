@@ -68,27 +68,42 @@ class CLIIntake:
                 r = self.service.rate_book(intent.book_ref, intent.rating)
                 return f"{r.record.title} · {intent.rating}/5"
             if intent.intent == "recommend":
-                picks = self.service.recommend(intent.vibe)
-                if not picks:
-                    return "Nothing unread on the shelf."
-                head = ("From your shelf" if not intent.vibe
-                        else f"For {intent.vibe!r}, from your shelf")
+                result = self.service.recommend(intent.vibe)
+                waiting = result["wishlist_waiting"]
+                tail = (f"\n({waiting} more on your wishlist, not bought yet — "
+                        f'ask "what should I buy")' if waiting else "")
+                if not result["picks"]:
+                    return ("Nothing on your shelf left unread." + tail) if waiting else \
+                           "Nothing unread on the shelf."
+                head = ("On your shelf" if not intent.vibe
+                        else f"For {intent.vibe!r}, on your shelf")
                 lines = [head + ":"]
-                for pick in picks:
-                    b = pick["book"]
-                    owned = "" if b.owned is True else "  (not bought yet)"
-                    lines.append(f"  {b.title} — {pick['reason']}{owned}")
-                return "\n".join(lines)
+                for pick in result["picks"]:
+                    flag = "  (ownership unknown — check the shelf)" if pick["check_shelf"] else ""
+                    lines.append(f"  {pick['book'].title} — {pick['reason']}{flag}")
+                return "\n".join(lines) + tail
             if intent.intent == "discover":
-                found = self.service.discover()
-                if not found:
-                    return ("No suggestions — metadata lookups are off, or nothing "
-                            "came back. Bookpile works fine without them.")
-                lines = ["Not in your library yet:"]
-                for m in found:
-                    who = f" — {m.authors[0]}" if m.authors else ""
-                    yr = f" ({m.first_published})" if m.first_published else ""
-                    lines.append(f"  {m.title}{who}{yr}")
+                result = self.service.discover()
+                lines = []
+                if result["wishlist"]:
+                    lines.append("Already on your list, not bought yet:")
+                    for b in result["wishlist"]:
+                        who = f" — {b.authors[0]}" if b.authors else ""
+                        lines.append(f"  {b.title}{who}")
+                if result["new"]:
+                    if lines:
+                        lines.append("")
+                    lines.append("New, from subjects you read:")
+                    for m in result["new"]:
+                        who = f" — {m.authors[0]}" if m.authors else ""
+                        yr = f" ({m.first_published})" if m.first_published else ""
+                        lines.append(f"  {m.title}{who}{yr}")
+                if not lines:
+                    return ("Nothing to buy — your wishlist is empty and metadata "
+                            "lookups are off. Bookpile works fine without them.")
+                if result["note"]:
+                    lines.append("")
+                    lines.append(f"({result['note']})")
                 return "\n".join(lines)
             if intent.intent == "search_library":
                 hits = self.service.search_library(intent.query)

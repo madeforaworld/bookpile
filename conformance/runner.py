@@ -194,6 +194,19 @@ def run_vector(vec: dict, adapter: str) -> None:
                     if raw is not None:
                         dispatch(service, validate_intent(raw))
 
+            elif "project_service" in when:
+                name = when["project_service"]
+                result = getattr(service, name)()
+                if "pick_titles" in then:
+                    got = [p["book"].title for p in result["picks"]]
+                    check(got == then["pick_titles"],
+                          f"picks: expected {then['pick_titles']}, got {got}")
+                if "wishlist_titles" in then:
+                    got = [b.title for b in result["wishlist"]]
+                    check(got == then["wishlist_titles"],
+                          f"wishlist: expected {then['wishlist_titles']}, got {got}")
+                return
+
             elif "project" in when:
                 books = repo.list_books()
                 name = when["project"]

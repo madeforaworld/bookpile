@@ -111,15 +111,30 @@ class LibraryService:
                                  "external_id": found.external_id, "url": found.url}
         return book.with_(**changes) if changes else book
 
-    def discover(self, limit: int = 5) -> list:
-        """Books you do NOT have, drawn from the subjects you already read.
+    def discover(self, limit: int = 5) -> dict:
+        """Pool two: what to buy.
 
-        Distinct from recommend(): this is what to acquire, so anything already
-        in the library is filtered out rather than suggested back to you.
+        Two sources, in priority order:
+
+        1. Books already in your library marked ``owned: false`` — you have
+           already decided you want these, so they are the obvious purchases.
+        2. New titles from the subjects you actually read, excluding everything
+           the library already knows about.
+
+        Unknown ownership is never treated as "not owned"; an unverified book
+        does not become a shopping suggestion.
         """
-        if self.metadata is None:
-            return []
         books = self.repo.list_books()
+        # Unowned AND still unread. A borrowed book you already finished is not
+        # a shopping suggestion — that is a different list ("read but do not
+        # own"), and conflating them fills the buy list with books you have
+        # already been through.
+        wishlist = [b for b in books if b.owned is False and b.status == "to_read"]
+        wishlist.sort(key=lambda b: (b.added_at or "", b.title))
+
+        if self.metadata is None:
+            return {"wishlist": wishlist[:limit], "new": [],
+                    "note": "metadata lookups are off, so only your own wishlist is shown"}
         counts: dict[str, int] = {}
         for b in books:
             for s_ in b.subjects:
@@ -127,13 +142,15 @@ class LibraryService:
             for c in b.categories:
                 counts[c] = counts.get(c, 0) + 1
         top = [s_ for s_, _ in sorted(counts.items(), key=lambda kv: -kv[1])[:4]]
-        if not top:
-            return []
-        try:
-            return self.metadata.discover(
-                top, exclude_titles={b.title for b in books}, limit=limit)
-        except Exception:
-            return []
+        room = max(limit - len(wishlist), 0)
+        found = []
+        if top and room:
+            try:
+                found = self.metadata.discover(
+                    top, exclude_titles={b.title for b in books}, limit=room)
+            except Exception:
+                found = []
+        return {"wishlist": wishlist[:limit], "new": found, "note": None}
 
     def set_reading_status(self, book_ref: str, status: str, when: str | None = None) -> WriteResult:
         book = self.resolve(book_ref)
@@ -199,15 +216,18 @@ class LibraryService:
     _SHORT = {"short", "quick", "light", "brief", "small"}
     _LONG = {"long", "big", "chunky", "meaty", "substantial"}
 
-    def recommend(self, vibe: str | None = None, limit: int = 3) -> list[dict]:
-        """Pick from the unread pile. Deterministic — no model involved.
+    def recommend(self, vibe: str | None = None, limit: int = 3) -> dict:
+        """Pool one: books you can start tonight.
 
-        Returns candidates with the reason each was chosen, because an
-        unexplained recommendation is not actionable.
+        Deliberately excludes anything you have not bought. A book you do not
+        own is not something you can read next — it belongs to the buying pool.
+        Unknown ownership stays a candidate, flagged, because unknown is not no.
         """
-        pool = [b for b in self.repo.list_books() if b.status == "to_read"]
+        unread = [b for b in self.repo.list_books() if b.status == "to_read"]
+        pool = [b for b in unread if b.owned is not False]
+        on_wishlist = [b for b in unread if b.owned is False]
         if not pool:
-            return []
+            return {"picks": [], "wishlist_waiting": len(on_wishlist)}
 
         words = set((vibe or "").lower().replace(",", " ").split())
         scored: list[tuple[int, list[str], BookRecord]] = []
@@ -234,20 +254,16 @@ class LibraryService:
                     score += 2; why.append(f"{book.page_count} pages")
                 if words & self._LONG and book.page_count >= 450:
                     score += 2; why.append(f"{book.page_count} pages")
-            if words & {"own", "owned", "shelf", "here"} and book.owned is True:
-                score += 2; why.append("already on your shelf")
-            # a book you own beats one you would have to buy, all else equal
+            # a book you certainly have beats one whose ownership is unknown
             if book.owned is True:
                 score += 1
             scored.append((score, why, book))
 
         scored.sort(key=lambda t: (-t[0], t[2].page_count or 10**6, t[2].title))
-        top = scored[:limit]
-        matched = any(s > 1 for s, _, _ in top)
-        return [{
+        picks = [{
             "book": b,
             "score": s,
-            "reason": ", ".join(dict.fromkeys(w)) if w else
-                      ("on your shelf already" if b.owned is True else "still unread"),
-            "matched_vibe": matched and s > 1,
-        } for s, w, b in top]
+            "reason": ", ".join(dict.fromkeys(w)) if w else "still unread",
+            "check_shelf": b.owned is None,
+        } for s, w, b in scored[:limit]]
+        return {"picks": picks, "wishlist_waiting": len(on_wishlist)}

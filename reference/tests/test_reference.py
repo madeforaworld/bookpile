@@ -150,30 +150,64 @@ class TestAcquisitionLanguage(unittest.TestCase):
         self.assertEqual(parse("what should i read next")["intent"], "recommend")
 
 
-class TestRecommend(unittest.TestCase):
+class TestTwoPools(unittest.TestCase):
+    """Reading pool and buying pool are separate and must not leak into each other."""
+
     def _svc(self):
         s = service()
-        s.add_book("Short Historical", categories=["Historical"], page_count=180)
-        s.add_book("Long Speculative", page_count=700)
-        s.set_owned("Long Speculative", True)
-        s.add_book("Already Reading")
+        s.add_book("Short Historical", categories=["Historical"], page_count=180, owned=True)
+        s.add_book("Long Speculative", page_count=700, owned=True)
+        s.add_book("Unknown Shelf")                       # owned is None
+        s.add_book("Not Bought Yet", owned=False)         # wishlist
+        s.add_book("Already Reading", owned=True)
         s.set_reading_status("Already Reading", "reading")
+        s.add_book("Borrowed And Finished", owned=False)
+        s.set_reading_status("Borrowed And Finished", "finished")
         return s
 
-    def test_only_suggests_unread_books(self):
-        titles = [p["book"].title for p in self._svc().recommend()]
+    # -- pool one: what to read --
+
+    def test_never_suggests_reading_a_book_you_do_not_own(self):
+        titles = [p["book"].title for p in self._svc().recommend()["picks"]]
+        self.assertNotIn("Not Bought Yet", titles,
+                         "you cannot read tonight a book you have not bought")
+
+    def test_unknown_ownership_stays_a_candidate_but_is_flagged(self):
+        picks = self._svc().recommend()["picks"]
+        row = next(p for p in picks if p["book"].title == "Unknown Shelf")
+        self.assertTrue(row["check_shelf"], "unknown is not no — flag it, do not drop it")
+
+    def test_does_not_suggest_a_book_already_in_progress(self):
+        titles = [p["book"].title for p in self._svc().recommend()["picks"]]
         self.assertNotIn("Already Reading", titles)
 
+    def test_reports_how_many_are_waiting_to_be_bought(self):
+        self.assertEqual(self._svc().recommend()["wishlist_waiting"], 1)
+
     def test_vibe_moves_the_match_to_the_top(self):
-        picks = self._svc().recommend("something short and historical")
+        picks = self._svc().recommend("something short and historical")["picks"]
         self.assertEqual(picks[0]["book"].title, "Short Historical")
 
     def test_every_pick_carries_a_reason(self):
-        for pick in self._svc().recommend():
+        for pick in self._svc().recommend()["picks"]:
             self.assertTrue(pick["reason"], "an unexplained recommendation is not actionable")
 
-    def test_empty_shelf_returns_nothing_not_an_error(self):
-        self.assertEqual(service().recommend(), [])
+    def test_empty_shelf_is_not_an_error(self):
+        self.assertEqual(service().recommend()["picks"], [])
+
+    # -- pool two: what to buy --
+
+    def test_buying_pool_is_your_unread_wishlist(self):
+        titles = [b.title for b in self._svc().discover()["wishlist"]]
+        self.assertEqual(titles, ["Not Bought Yet"])
+
+    def test_borrowed_and_finished_is_not_a_purchase_suggestion(self):
+        titles = [b.title for b in self._svc().discover()["wishlist"]]
+        self.assertNotIn("Borrowed And Finished", titles)
+
+    def test_unknown_ownership_never_becomes_a_shopping_suggestion(self):
+        titles = [b.title for b in self._svc().discover()["wishlist"]]
+        self.assertNotIn("Unknown Shelf", titles, "unknown is not the same as not owned")
 
 
 class TestMetadata(unittest.TestCase):
@@ -221,14 +255,25 @@ class TestMetadata(unittest.TestCase):
         self.assertEqual(s.metadata.enrich_calls, [], "metadata lookups are opt-in")
 
     def test_discover_excludes_books_you_already_have(self):
-        s = service(); s.add_book("Owned Title", categories=["History"])
+        s = service(); s.add_book("Owned Title", categories=["History"], owned=True)
         s.metadata = StubProvider(discoveries=[
             MetadataResult(title="Owned Title"), MetadataResult(title="New Title")])
-        self.assertEqual([m.title for m in s.discover()], ["New Title"])
+        self.assertEqual([m.title for m in s.discover()["new"]], ["New Title"])
 
-    def test_discover_without_a_provider_is_empty_not_an_error(self):
-        s = service(); s.add_book("A")
-        self.assertEqual(s.discover(), [])
+    def test_wishlist_comes_before_new_suggestions(self):
+        s = service()
+        s.add_book("On My List", categories=["History"], owned=False)
+        s.metadata = StubProvider(discoveries=[MetadataResult(title="Something New")])
+        out = s.discover()
+        self.assertEqual([b.title for b in out["wishlist"]], ["On My List"])
+        self.assertEqual([m.title for m in out["new"]], ["Something New"])
+
+    def test_discover_without_a_provider_still_shows_your_wishlist(self):
+        s = service(); s.add_book("On My List", owned=False)
+        out = s.discover()
+        self.assertEqual([b.title for b in out["wishlist"]], ["On My List"])
+        self.assertEqual(out["new"], [])
+        self.assertIsNotNone(out["note"], "say why there are no new suggestions")
 
 
 class TestTelegramPolicy(unittest.TestCase):

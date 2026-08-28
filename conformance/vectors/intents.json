@@ -332,6 +332,84 @@
           "reading_count": 0
         }
       }
+    },
+    {
+      "id": "reading-pool-excludes-unowned",
+      "invariant": "I1",
+      "given": {
+        "books": [
+          {
+            "title": "Bought",
+            "owned": true
+          },
+          {
+            "title": "Wishlisted",
+            "owned": false
+          }
+        ]
+      },
+      "when": {
+        "project_service": "recommend"
+      },
+      "then": {
+        "pick_titles": [
+          "Bought"
+        ]
+      }
+    },
+    {
+      "id": "reading-pool-keeps-unknown-ownership",
+      "invariant": "I1",
+      "given": {
+        "books": [
+          {
+            "title": "Unverified"
+          }
+        ]
+      },
+      "when": {
+        "project_service": "recommend"
+      },
+      "then": {
+        "pick_titles": [
+          "Unverified"
+        ]
+      }
+    },
+    {
+      "id": "buying-pool-is-unowned-and-unread",
+      "invariant": "I1",
+      "given": {
+        "books": [
+          {
+            "title": "Wishlisted",
+            "owned": false
+          },
+          {
+            "title": "Borrowed Read",
+            "owned": false,
+            "status": "finished",
+            "readings": [
+              {
+                "started_at": "2025-01-01",
+                "finished_at": "2025-01-05",
+                "outcome": "finished"
+              }
+            ]
+          },
+          {
+            "title": "Unverified"
+          }
+        ]
+      },
+      "when": {
+        "project_service": "discover"
+      },
+      "then": {
+        "wishlist_titles": [
+          "Wishlisted"
+        ]
+      }
     }
   ]
 }
