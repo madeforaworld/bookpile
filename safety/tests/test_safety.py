@@ -27,7 +27,7 @@ class TestAllowlist(unittest.TestCase):
     def test_usernames_rejected(self):
         # usernames are reassignable; trusting one is a security bug
         with self.assertRaises(AllowlistError):
-            Allowlist.from_config("@shane,222")
+            Allowlist.from_config("@someone,222")
 
     def test_string_id_denied_not_coerced(self):
         a = Allowlist.from_config("111")
