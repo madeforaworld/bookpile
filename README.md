@@ -1,34 +1,35 @@
 # Bookpile
 
-**An executable specification for a personal reading system.**
+**For people who love books and want to know what they have actually been reading.**
 
-Message it *"finished The Tin Almanac today, four stars"* and get a validated
-record in a library you own. Where that library lives — Markdown, SQLite, a
-Google Sheet, the thing you already use — is an adapter, not a decision this
-project makes for you.
+Tell it what you finished, the way you would tell a friend. It keeps the data in
+a library that stays yours.
 
 ![Using Bookpile: a Telegram conversation, and the seven steps each message passes through](docs/images/how-it-works.png)
 
 Every reply in that transcript is real output from the reference implementation.
 
-## Bookpile is not an app you install
+## Why this exists
 
-It is a specification, a conformance suite and a fixed safety core, so a coding
-agent can inspect the setup you already have, build a reading companion shaped
-to it, and **prove the result correct against portable test vectors**.
+Reading apps want your library to live inside them. Bookpile does the opposite:
+it agrees on a **shape** for your reading data and leaves the storage to you — a
+folder of notes, a database file, a spreadsheet, whatever you already use.
 
-Two people can run builds that share no code at all — one on Markdown and
-Telegram, one on a spreadsheet and a command line — and still hand each other a
+Two people can run builds that share no code at all and still hand each other a
 library without losing anything, because both honour the same record contract.
 
 > The test of success is an export and re-import, not a resemblance.
+
+Underneath, Bookpile is a specification, a conformance suite and a fixed safety
+core, so a coding agent can inspect the setup you already have, build something
+shaped to it, and **prove the result correct against portable test vectors**.
 
 ## Try it in thirty seconds
 
 ```bash
 git clone https://github.com/madeforaworld/bookpile
 cd bookpile
-./scripts/check.sh                       # privacy gate + 43 tests + 51 vectors
+./scripts/check.sh                       # privacy gate + 43 tests + 58 vectors
 python3 -c "
 import sys; sys.path[:0] = ['.', 'reference']
 from bookpile.adapters import SQLiteRepository
@@ -41,8 +42,8 @@ for line in ['add The Tin Almanac by Marguerite Sowande',
 "
 ```
 
-No credentials, no network, no AI key. Open `site/index.html` in a browser for
-the live dashboard.
+No credentials, no network, no AI key. Open `site/index.html` for the live
+dashboard.
 
 ## How a message becomes a record
 
@@ -66,48 +67,65 @@ flowchart LR
 Natural language is untrusted input. Model output is an untrusted proposal.
 **Only validated named operations may mutate storage.**
 
-## The chart no other tracker can draw
+## The widgets fit what you read
 
-Bookpile stores publication time and narrative time as **two separate clocks**,
-so it can plot when a book was written against when its story is set. The
-diagonal is the present tense; below it is historical, above it is speculative,
+You do not get whatever charts we happened to build. A novel reader and a
+history reader want genuinely different things, and both get the basics.
+
+### The basics — everyone
+
+Nine widgets that work for any library, however little you record. Answer
+nothing during setup and this is what you get.
+
+![Completions per year, shelf time, status, ownership, shelves, field completeness](docs/images/dashboard.png)
+
+### If you read fiction
+
+Stories happen somewhere in time. Because Bookpile keeps *when a story is set*
+separately from *when the book was published*, it can show you the shape of your
+reading across the centuries.
+
+![Column chart of how many novels are set in each century](docs/images/fiction-pack.png)
+
+And the chart nothing else can draw — publication year against setting year. The
+diagonal is the present tense, below it is historical, above it is speculative,
 and distance from the line is how far the author was reaching.
 
-![Scatter plot of publication year against the year each story is set](docs/images/three-clocks.png)
+![Scatter of publication year against the year each story is set](docs/images/three-clocks.png)
 
 Books set in invented worlds have no real-world year, so they are **excluded and
 counted**, never plotted at zero.
 
-## A menu, not a dashboard
+### If you read non-fiction
 
-What you record decides what can be shown. The build asks what you want to know
-and builds only those charts — a library with nothing but titles and statuses
-gets four tiles and a status bar.
+Different questions entirely. Not *when is this set* but *what is it about*, and
+*how old is what I am learning from*.
 
-![Dashboard: completions per year, shelf time, status breakdown, ownership, field completeness](docs/images/dashboard.png)
+![Subject spread and publication-age histogram for non-fiction](docs/images/nonfiction-pack.png)
 
-All demo data is a synthetic 30-book fixture. No real reading history appears
-anywhere in this repository.
+A twenty-year-old novel is not a problem. A twenty-year-old book on a moving
+subject might be — which is why that widget is offered for non-fiction only.
 
 ## Where your library lives
 
-| Adapter | Notes |
+**Examples, not a menu.** Anything that can hold a record and pass the
+conformance vectors qualifies.
+
+| | |
 |---|---|
 | **Markdown** | One note per book. Readable, greppable, git-friendly. Shipped. |
 | **SQLite** | A single file. Easy to back up and query. Shipped. |
-| **Google Sheets** | Cannot hold full re-read history, so it **declares** that limit rather than dropping data. Specified. |
-| **Yours** | A generated adapter passes exactly the same vectors. No exemptions. |
+| **Google Sheets** | Cannot hold full re-read history, so it *declares* that limit rather than quietly dropping data. Specified. |
+| **Notion, Airtable, a folder of text files…** | Anything else. A generated adapter passes exactly the same vectors — no exemptions for being bespoke. |
 
 ## Status
-
-Phases 0–3 built and verified.
 
 ```
 ./scripts/check.sh
   privacy gate     clean
   safety tests     27 passed
   reference tests  16 passed
-  vectors          51/51 passed   (sqlite and markdown)
+  vectors          58/58 passed   (sqlite and markdown)
 ```
 
 **Not verified:** the Telegram network path. Its policy layer — allowlist,
@@ -122,14 +140,17 @@ API, because that needs a real bot token. The source says so.
 | | |
 |---|---|
 | `spec/` | Schema, nine numbered invariants, intents, storage port, API contract. Normative. |
-| `conformance/` | 51 vectors in language-agnostic JSON, plus the runner. **The real contract.** |
+| `conformance/` | 58 vectors in language-agnostic JSON, plus the runner. **The real contract.** |
 | `safety/` | Allowlist, validation, idempotency, redaction. Fixed code, never generated. |
 | `onboarding/` | What to inspect, what to default, the two questions worth asking. |
 | `reference/` | Domain, service, adapters, intake, projection. Evidence the spec is buildable. |
-| `docs/METRICS.md` | 25-entry metrics catalogue with acceptance tests. |
+| `docs/METRICS.md` | 29-entry metrics catalogue with acceptance tests and widget packs. |
 | `site/` | The demo dashboard. No backend. |
 
-## Onboarding asks almost nothing
+All demo data is a synthetic 42-book fixture. No real reading history appears
+anywhere in this repository.
+
+## Setup asks almost nothing
 
 An earlier draft specified nine setup questions. That was wrong — most are
 answerable by inspection, and interrogating someone is the lazy route to

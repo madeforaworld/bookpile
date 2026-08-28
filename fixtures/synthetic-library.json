@@ -1,5 +1,5 @@
 {
-  "_banner": "DEMO DATA — SYNTHETIC LIBRARY. Every title, author, date and rating in this file is invented. No real person's reading history appears here.",
+  "_banner": "DEMO DATA \u2014 SYNTHETIC LIBRARY. Every title, author, date and rating in this file is invented. No real person's reading history appears here.",
   "schema_version": 1,
   "books": [
     {
@@ -52,7 +52,8 @@
         "kind": "historical"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "salt-in-the-wiring",
@@ -98,7 +99,8 @@
         "kind": "speculative"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "nine-hours-trelleborg",
@@ -143,7 +145,8 @@
         "kind": "contemporary"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "grammar-falling-objects",
@@ -195,7 +198,8 @@
         "kind": "contemporary"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "tin-almanac",
@@ -240,7 +244,8 @@
         "kind": "historical"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "winterbourne-signal",
@@ -285,7 +290,8 @@
         "kind": "speculative"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "cartographers-complaint",
@@ -331,7 +337,8 @@
         "kind": "historical"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "mould-ash-bloom",
@@ -376,7 +383,8 @@
         "kind": "fictional"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "every-door-kestrel",
@@ -421,7 +429,8 @@
         "kind": "contemporary"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "long-recension",
@@ -441,7 +450,8 @@
         "Reference"
       ],
       "subjects": [
-        "Textual criticism"
+        "History",
+        "Language"
       ],
       "page_count": 720,
       "first_published": 2011,
@@ -459,7 +469,8 @@
         "kind": null
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "nonfiction"
     },
     {
       "book_id": "ledger-small-waters",
@@ -504,7 +515,8 @@
         "kind": "historical"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "concrete-orchard",
@@ -549,7 +561,8 @@
         "kind": "speculative"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "ten-fathoms-blue-wire",
@@ -594,7 +607,8 @@
         "kind": "speculative"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "gantry-wives",
@@ -646,7 +660,8 @@
         "kind": "historical"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "notes-drowned-city",
@@ -691,7 +706,8 @@
         "kind": "fictional"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "auditor-small-hours",
@@ -736,7 +752,8 @@
         "kind": "contemporary"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "brass-sunday",
@@ -781,7 +798,8 @@
         "kind": "historical"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "unquiet-register",
@@ -826,7 +844,8 @@
         "kind": "speculative"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "what-lighthouse-owed",
@@ -878,7 +897,8 @@
         "kind": "historical"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "sieve-and-sea",
@@ -916,7 +936,8 @@
         "kind": "fictional"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "ordinary-machines",
@@ -961,7 +982,8 @@
         "kind": "contemporary"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "feathered-ledger",
@@ -1006,7 +1028,8 @@
         "kind": "historical"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "field-guide-absent-rivers",
@@ -1026,7 +1049,8 @@
         "Reference"
       ],
       "subjects": [
-        "Hydrology"
+        "Nature",
+        "Science"
       ],
       "page_count": null,
       "first_published": 2021,
@@ -1044,7 +1068,8 @@
         "kind": null
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "nonfiction"
     },
     {
       "book_id": "glasshouse-interval",
@@ -1089,7 +1114,8 @@
         "kind": "speculative"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "hollow-bell-hollow-year",
@@ -1140,7 +1166,8 @@
         "kind": "historical"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "persistence-of-tuesdays",
@@ -1185,7 +1212,8 @@
         "kind": "contemporary"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "quarry-light",
@@ -1230,7 +1258,8 @@
         "kind": "historical"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "instrument-of-tides",
@@ -1268,7 +1297,8 @@
         "kind": "speculative"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "eighth-of-never",
@@ -1306,7 +1336,8 @@
         "kind": "contemporary"
       },
       "sessions": null,
-      "metadata_updated_at": null
+      "metadata_updated_at": null,
+      "form": "fiction"
     },
     {
       "book_id": "wintering-house",
@@ -1342,6 +1373,571 @@
       "setting": {
         "anchor_year": 1913,
         "kind": "historical"
+      },
+      "sessions": null,
+      "metadata_updated_at": null,
+      "form": "fiction"
+    },
+    {
+      "book_id": "salt-roads-anatolia",
+      "title": "The Salt Roads of Anatolia",
+      "authors": [
+        "Hedda Marchetti"
+      ],
+      "status": "finished",
+      "owned": true,
+      "form": "nonfiction",
+      "added_at": "2025-06-01",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-06-20",
+          "finished_at": "2025-07-18",
+          "outcome": "finished",
+          "rating": 4
+        }
+      ],
+      "started_at": "2025-06-20",
+      "finished_at": "2025-07-18",
+      "rating": 4,
+      "categories": [
+        "History"
+      ],
+      "subjects": [
+        "History",
+        "Trade"
+      ],
+      "page_count": 430,
+      "first_published": 2015,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "period": null,
+        "anchor_year": null,
+        "kind": null
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "instrument-makers",
+      "title": "Instrument Makers",
+      "authors": [
+        "Cyril Obuya"
+      ],
+      "status": "finished",
+      "owned": true,
+      "form": "nonfiction",
+      "added_at": "2025-06-01",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-08-01",
+          "finished_at": "2025-08-29",
+          "outcome": "finished",
+          "rating": 5
+        }
+      ],
+      "started_at": "2025-08-01",
+      "finished_at": "2025-08-29",
+      "rating": 5,
+      "categories": [
+        "History of science"
+      ],
+      "subjects": [
+        "History",
+        "Science",
+        "Craft"
+      ],
+      "page_count": 388,
+      "first_published": 1998,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "period": null,
+        "anchor_year": null,
+        "kind": null
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "short-account-tides",
+      "title": "A Short Account of Tides",
+      "authors": [
+        "Wilhelmina Frost"
+      ],
+      "status": "finished",
+      "owned": false,
+      "form": "nonfiction",
+      "added_at": "2025-06-01",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-09-15",
+          "finished_at": "2025-09-30",
+          "outcome": "finished",
+          "rating": 4
+        }
+      ],
+      "started_at": "2025-09-15",
+      "finished_at": "2025-09-30",
+      "rating": 4,
+      "categories": [
+        "Science"
+      ],
+      "subjects": [
+        "Science",
+        "Nature"
+      ],
+      "page_count": 264,
+      "first_published": 2021,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "period": null,
+        "anchor_year": null,
+        "kind": null
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "bureaucrats-garden",
+      "title": "The Bureaucrat's Garden",
+      "authors": [
+        "Tomas Iwu"
+      ],
+      "status": "abandoned",
+      "owned": true,
+      "form": "nonfiction",
+      "added_at": "2025-06-01",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-10-02",
+          "finished_at": null,
+          "outcome": "in_progress",
+          "rating": 2
+        }
+      ],
+      "started_at": "2025-10-02",
+      "finished_at": null,
+      "rating": 2,
+      "categories": [
+        "Politics"
+      ],
+      "subjects": [
+        "Politics",
+        "History"
+      ],
+      "page_count": 352,
+      "first_published": 2019,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "period": null,
+        "anchor_year": null,
+        "kind": null
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "frozen-ground",
+      "title": "Reading the Frozen Ground",
+      "authors": [
+        "Anneke Sorensen"
+      ],
+      "status": "finished",
+      "owned": true,
+      "form": "nonfiction",
+      "added_at": "2025-06-01",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-11-05",
+          "finished_at": "2025-12-02",
+          "outcome": "finished",
+          "rating": 4
+        }
+      ],
+      "started_at": "2025-11-05",
+      "finished_at": "2025-12-02",
+      "rating": 4,
+      "categories": [
+        "Archaeology"
+      ],
+      "subjects": [
+        "History",
+        "Science"
+      ],
+      "page_count": 412,
+      "first_published": 2008,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "period": null,
+        "anchor_year": null,
+        "kind": null
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "counting-sparrows",
+      "title": "Counting Sparrows",
+      "authors": [
+        "Rafael Nkemdirim"
+      ],
+      "status": "finished",
+      "owned": true,
+      "form": "nonfiction",
+      "added_at": "2025-06-01",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2026-01-08",
+          "finished_at": "2026-01-27",
+          "outcome": "finished",
+          "rating": 5
+        }
+      ],
+      "started_at": "2026-01-08",
+      "finished_at": "2026-01-27",
+      "rating": 5,
+      "categories": [
+        "Science"
+      ],
+      "subjects": [
+        "Nature",
+        "Science"
+      ],
+      "page_count": 298,
+      "first_published": 2023,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "period": null,
+        "anchor_year": null,
+        "kind": null
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "copper-question",
+      "title": "The Copper Question",
+      "authors": [
+        "Marta Lindholm"
+      ],
+      "status": "to_read",
+      "owned": true,
+      "form": "nonfiction",
+      "added_at": "2025-06-01",
+      "added_at_source": "manual",
+      "readings": [],
+      "started_at": null,
+      "finished_at": null,
+      "rating": null,
+      "categories": [
+        "Economics"
+      ],
+      "subjects": [
+        "Economics",
+        "Trade"
+      ],
+      "page_count": 506,
+      "first_published": 1987,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "period": null,
+        "anchor_year": null,
+        "kind": null
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "notes-on-silence",
+      "title": "Notes on Silence",
+      "authors": [
+        "Beatriz Achterberg"
+      ],
+      "status": "finished",
+      "owned": false,
+      "form": "nonfiction",
+      "added_at": "2025-06-01",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2026-02-14",
+          "finished_at": "2026-02-25",
+          "outcome": "finished",
+          "rating": 3
+        }
+      ],
+      "started_at": "2026-02-14",
+      "finished_at": "2026-02-25",
+      "rating": 3,
+      "categories": [
+        "Music"
+      ],
+      "subjects": [
+        "Music",
+        "Craft"
+      ],
+      "page_count": 222,
+      "first_published": 2016,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "period": null,
+        "anchor_year": null,
+        "kind": null
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "weather-and-state",
+      "title": "Weather and the State",
+      "authors": [
+        "Piotr Vasquez"
+      ],
+      "status": "reading",
+      "owned": true,
+      "form": "nonfiction",
+      "added_at": "2025-06-01",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2026-08-05",
+          "finished_at": null,
+          "outcome": "in_progress",
+          "rating": null
+        }
+      ],
+      "started_at": "2026-08-05",
+      "finished_at": null,
+      "rating": null,
+      "categories": [
+        "Politics"
+      ],
+      "subjects": [
+        "Politics",
+        "Nature",
+        "Science"
+      ],
+      "page_count": 378,
+      "first_published": 2024,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "period": null,
+        "anchor_year": null,
+        "kind": null
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "anatomy-of-bridges",
+      "title": "The Anatomy of Bridges",
+      "authors": [
+        "Sunniva Okoro"
+      ],
+      "status": "finished",
+      "owned": true,
+      "form": "nonfiction",
+      "added_at": "2025-06-01",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2026-03-10",
+          "finished_at": "2026-04-06",
+          "outcome": "finished",
+          "rating": 4
+        }
+      ],
+      "started_at": "2026-03-10",
+      "finished_at": "2026-04-06",
+      "rating": 4,
+      "categories": [
+        "Engineering"
+      ],
+      "subjects": [
+        "Craft",
+        "Science"
+      ],
+      "page_count": 466,
+      "first_published": 2011,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "period": null,
+        "anchor_year": null,
+        "kind": null
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "kitchens-interior",
+      "title": "Kitchens of the Interior",
+      "authors": [
+        "Delphine Aguda"
+      ],
+      "status": "finished",
+      "owned": null,
+      "form": "nonfiction",
+      "added_at": "2025-06-01",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2026-05-04",
+          "finished_at": "2026-05-22",
+          "outcome": "finished",
+          "rating": 4
+        }
+      ],
+      "started_at": "2026-05-04",
+      "finished_at": "2026-05-22",
+      "rating": 4,
+      "categories": [
+        "Food history"
+      ],
+      "subjects": [
+        "History",
+        "Food"
+      ],
+      "page_count": 340,
+      "first_published": 2006,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "period": null,
+        "anchor_year": null,
+        "kind": null
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "being-wrong-precisely",
+      "title": "On Being Wrong Precisely",
+      "authors": [
+        "Halldor Mbeki"
+      ],
+      "status": "to_read",
+      "owned": null,
+      "form": "nonfiction",
+      "added_at": "2025-06-01",
+      "added_at_source": "manual",
+      "readings": [],
+      "started_at": null,
+      "finished_at": null,
+      "rating": null,
+      "categories": [
+        "Philosophy"
+      ],
+      "subjects": [
+        "Science",
+        "Philosophy"
+      ],
+      "page_count": 290,
+      "first_published": 2020,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "period": null,
+        "anchor_year": null,
+        "kind": null
       },
       "sessions": null,
       "metadata_updated_at": null

@@ -8,6 +8,23 @@ Bookpile does not ship one fixed set of charts. Selection happens in three layer
 2. **The default set — what you get for answering nothing.** M01–M04, M06, M10, M30. Seven things, buildable from title, author, status and dates.
 3. **Progressive disclosure — the real selection.** Once a dashboard exists, the build offers what the data would unlock: *"400 books, no setting recorded — that would give you this."* Concrete, and answerable, in a way the same question is not during setup.
 
+### Widget packs
+
+Tier gating asks *what have you recorded*. Packs ask a blunter question: **what
+do you actually read?**
+
+| Pack | Offered when | Widgets |
+|---|---|---|
+| **Standard** | Always | M01–M04, M06, M08, M10, M11, M30 |
+| **Fiction** | Any book with `form: fiction` | M26, M27, **M28** |
+| **Non-fiction** | Any book with `form: nonfiction` | **M33**, **M34** |
+
+A novel reader and a history reader want genuinely different things. *"Which
+centuries do my stories live in"* is meaningless for a shelf of biographies;
+*"how out of date are my sources"* is meaningless for fiction. A library
+containing both gets both packs; a library where `form` is unknown gets the
+standard pack only, and is offered the others once the field is populated.
+
 This catalogue is written for the **agent**, not the user. Nobody is asked whether they would like a horizontal bar chart; they are asked what they want to know, and at most once.
 
 This file is normative for two audiences: the agent building a dashboard, and anyone implementing the projection API. **It is written before `spec/API_CONTRACT.md`**, because the metrics determine what the API must expose, not the other way round.
@@ -36,7 +53,8 @@ An install only offers metrics its data can support. Advertising a chart that re
 | **T1 — Dates** | + `added_at`, `readings[]` dates | M03, M06, M07, M08, M09, M20 |
 | **T2 — Judgement** | + `rating`, `owned` | M05, M12, M22, M31 |
 | **T3 — Bibliographic** | + `page_count`, `first_published` | M21, M23, M24, M25 |
-| **T4 — Setting** | + `setting.anchor_year`, `setting.kind` | **M26**, M27 |
+| **T4 — Setting** | + `setting.anchor_year`, `setting.kind` | **M26**, M27, **M28** |
+| **Form** | `form` on any record | M35, and pack eligibility above |
 
 M07b sits outside the ladder: it needs `sessions[]`, which is an optional extension rather than a tier.
 
@@ -197,6 +215,24 @@ The x-axis is publication year; the y-axis is the year the story is set. The dia
 **Answers** Has my taste in eras drifted? · **Requires** `setting.kind`, `finished_at` · **Form** Small multiples, one panel per kind · **Colour** Sequential within panel · **Tier** T4
 **Acceptance** Faceted rather than a four-series stack, because four categorical series exceed the safe cap for this form.
 
+### M28 · Setting timeline
+**Answers** Which centuries do my novels live in? · **Requires** `form: fiction`, `setting.anchor_year` · **Form** Column chart, one band per century · **Colour** Sequential · **Tier** T4 · **Pack** Fiction
+**Acceptance** Bands are **contiguous** from the earliest to the latest century — an empty century in the middle renders as a visible zero band, not a gap, because the gap is the finding. Non-fiction is excluded even when it carries an anchor year. Invented worlds are excluded and counted separately.
+
+*The companion to M26. Where the scatter shows how far each author reached, this shows the shape of a collection: whether someone lives in one century or ranges across six.*
+
+### M33 · Subjects
+**Answers** What is my non-fiction actually about? · **Requires** `form: nonfiction`, `subjects` · **Form** Horizontal bar · **Colour** Sequential · **Pack** Non-fiction
+**Acceptance** Counts **non-fiction only** — a novel tagged with an imported subject must not appear. Reports distinct-subject count alongside the top N so a long tail is visible rather than hidden by truncation. Never merges `subjects` with `categories` (I2).
+
+### M34 · Source recency
+**Answers** How old is what I am learning from? · **Requires** `form: nonfiction`, `first_published` · **Form** Column histogram by age · **Colour** Sequential · **Pack** Non-fiction
+**Acceptance** Offered for non-fiction only. A twenty-year-old novel is not a defect; a twenty-year-old book on a moving subject may be, and the metric would be actively misleading applied to fiction. Books with no publication year are excluded and counted.
+
+### M35 · Fiction and non-fiction
+**Answers** What is the shape of my library? · **Requires** `form` · **Form** Three-segment stacked bar · **Colour** Categorical (3)
+**Acceptance** **Three segments, always: fiction, non-fiction, unknown.** Same rule as M12 — inferring `form` from a shelf name is a spec violation. Unknown is a real answer.
+
 ---
 
 ## Data quality
@@ -225,7 +261,9 @@ Each selected metric obliges the projection API to expose its inputs. `spec/API_
 | `GET /catalogue` | M10–M13, M30–M31 | full records with explicit nulls preserved |
 | `GET /chronology` | M06–M09, M20–M21, M27 | **per-reading** date records, period-bucketed, each carrying its book id and outcome |
 | `GET /distributions` | M22–M23, M25, M32 | pre-bucketed histograms with bucket edges |
-| `GET /setting` | M26–M27 | publication year, anchor year, kind, exclusion count |
+| `GET /setting` | M26–M28 | publication year, anchor year, kind, century bands, exclusion counts |
+| `GET /subjects` | M33 | non-fiction subject counts, distinct total, exclusions |
+| `GET /recency` | M34 | non-fiction age buckets with edges, median age |
 | `GET /quality` | M30–M32 | per-field non-null counts and denominators |
 
 **Three contract rules.** Nulls must survive serialization as `null` — never as `0`, `""` or an omitted key, or the "missing is not zero" invariant dies at the API boundary. Every endpoint that excludes records must return the exclusion count alongside the data, so the UI can caption it truthfully. And `/summary` must report the store's declared `capabilities`, so the dashboard knows which metrics to gate off rather than rendering a partial history as though it were complete.

@@ -12,6 +12,7 @@ title: "Example Book"
 authors: ["Example Author"]   # ordered; may be empty, never null
 status: "to_read"             # to_read | reading | finished | paused | abandoned | reference
 owned: null                   # true | false | null (unknown)
+form: null                    # fiction | nonfiction | null (unknown)
 
 added_at: "2026-08-28"        # set once on first write; NEVER updated
 added_at_source: "manual"     # manual | import
@@ -57,6 +58,13 @@ finished twice is `finished` with two readings. A book being re-read is
 `reading` whose last reading is `in_progress`.
 
 **`owned`** is three-valued. `null` means nobody has said. It is not `false`.
+
+**`form`** is the most basic division in a library and decides which widgets a
+dashboard is even offered: a fiction reader wants to know which centuries their
+novels live in; a non-fiction reader wants to know which subjects dominate and
+how out of date their sources are. Three-valued like `owned` — `null` means
+unknown, and an unknown-form library simply gets the widgets that apply to
+both.
 
 **`added_at`** is immutable. Set on the first write and never touched again.
 Shelf time is measured from it. `added_at_source: "import"` marks a date that

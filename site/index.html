@@ -534,6 +534,41 @@
     .stores { grid-template-columns: 1fr; }
   }
 
+  /* ---------- widget packs ---------- */
+
+  .pack-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin: 0 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .pack-head h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+  }
+  .pack-head .who {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--structure);
+    text-transform: uppercase;
+  }
+  .pack-head p {
+    margin: 0;
+    flex: 1 1 320px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    min-width: 240px;
+  }
+  .pack { margin-bottom: 38px; }
+  .pack:last-child { margin-bottom: 0; }
+
   /* ---------- tooltip ---------- */
 
   #tip {
@@ -591,7 +626,7 @@
   <header class="masthead">
     <div class="masthead-inner">
       <div>
-        <p class="eyebrow">Executable specification · v0.1.0-draft</p>
+        <p class="eyebrow">For readers who want the data &middot; v0.1.0</p>
         <h1>Bookpile</h1>
         <p class="standfirst">
           A specification, a conformance suite and a safety core for a personal reading
@@ -615,17 +650,17 @@
   <!-- ============ HOW IT WORKS ============ -->
   <section>
     <div class="lede">
-      <h2>You text it. It writes the record.</h2>
+      <h2>Tell it what you finished.</h2>
       <p>
-        Bookpile sits in whatever messaging app you already have open. You tell it
-        what you are reading in ordinary language, and it turns that into a
-        structured, validated record in a library <strong>you own</strong> — a
-        folder of Markdown notes, a database file, a spreadsheet, whatever you
-        picked.
+        Bookpile lives in whatever messaging app you already have open. Say what
+        you are reading the way you would tell a friend, and it becomes a proper
+        record in a library <strong>you own</strong> — a folder of notes, a
+        database file, a spreadsheet, whichever you picked.
       </p>
       <p>
-        No app to open. No form to fill in. The dashboard further down is built
-        from exactly these messages.
+        No app to open, no form to fill in, nothing to remember at the end of a
+        book. Everything further down this page was built from messages like
+        these.
       </p>
     </div>
 
@@ -709,8 +744,8 @@
       </p>
       <p>
         <strong>You do not get whatever charts we happened to build.</strong> What
-        you record decides what can be shown, and the build asks what you want to
-        know. This is one possible dashboard, not the dashboard.
+        you read decides what you are shown — a novel reader and a history reader
+        get different dashboards, and both get the basics.
       </p>
     </div>
   </section>
@@ -785,7 +820,12 @@
 
   <!-- ============ CHART GRID ============ -->
   <section>
-    <p class="eyebrow">M06 – M30 · Selected from the menu</p>
+    <div class="pack">
+      <div class="pack-head">
+        <h3>The basics</h3>
+        <span class="who">Everyone</span>
+        <p>Nine widgets that work for any library, however little you record. If you answer nothing during setup, this is what you get.</p>
+      </div>
     <div class="chart-grid">
 
       <div class="card">
@@ -831,6 +871,17 @@
         </div>
       </div>
 
+      <div class="card">
+        <div class="card-head">
+          <span class="card-id">M11 · Shelves</span>
+          <span class="card-q">What kind of reader am I?</span>
+        </div>
+        <div class="card-body">
+          <figure><svg id="c-genre" viewBox="0 0 520 260" role="img" aria-label="Horizontal bar chart of books per shelf."></svg></figure>
+          <p class="card-note" id="genre-note"></p>
+        </div>
+      </div>
+
       <div class="card span2">
         <div class="card-head">
           <span class="card-id">M30 · Field completeness</span>
@@ -842,17 +893,74 @@
       </div>
 
     </div>
+    </div>
+
+    <!-- fiction pack -->
+    <div class="pack">
+      <div class="pack-head">
+        <h3>If you read fiction</h3>
+        <span class="who">28 novels here</span>
+        <p>Stories happen somewhere in time. Because Bookpile keeps that separately from when a book was published, it can show you the shape of your reading across the centuries.</p>
+      </div>
+      <div class="chart-grid">
+        <div class="card span2">
+          <div class="card-head">
+            <span class="card-id">M28 · Setting timeline</span>
+            <span class="card-q">Which centuries do my novels live in?</span>
+          </div>
+          <div class="card-body">
+            <figure><svg id="c-timeline" viewBox="0 0 520 300" role="img" aria-label="Column chart of how many novels are set in each century."></svg></figure>
+            <p class="card-note" id="timeline-note"></p>
+          </div>
+        </div>
+      </div>
+      <p class="card-note" style="border:0;padding-top:14px">
+        The written-against-set scatter at the top of this page is the other half of this pack.
+      </p>
+    </div>
+
+    <!-- non-fiction pack -->
+    <div class="pack">
+      <div class="pack-head">
+        <h3>If you read non-fiction</h3>
+        <span class="who">14 books here</span>
+        <p>Different questions entirely. Not <em>when is this set</em> but <em>what is it about</em>, and <em>how old is what I am learning from</em>.</p>
+      </div>
+      <div class="chart-grid">
+        <div class="card">
+          <div class="card-head">
+            <span class="card-id">M33 · Subjects</span>
+            <span class="card-q">What is my non-fiction actually about?</span>
+          </div>
+          <div class="card-body">
+            <figure><svg id="c-subjects" viewBox="0 0 520 300" role="img" aria-label="Horizontal bar chart of the most common non-fiction subjects."></svg></figure>
+            <p class="card-note" id="subjects-note"></p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <span class="card-id">M34 · How current is it?</span>
+            <span class="card-q">Am I learning from old books?</span>
+          </div>
+          <div class="card-body">
+            <figure><svg id="c-recency" viewBox="0 0 520 300" role="img" aria-label="Column chart of non-fiction by age since publication."></svg></figure>
+            <p class="card-note" id="recency-note"></p>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
 
   <!-- ============ STORAGE ============ -->
   <section>
     <div class="lede">
-      <h2>Your library outlives the tool.</h2>
+      <h2>Your library lives wherever you already keep things.</h2>
       <p>
-        Bookpile does not own your data — it agrees on a shape for it. Two people
-        running completely different builds can still hand each other a library
-        without losing anything, because both honour the same record contract.
+        Bookpile does not own your data — it agrees on a shape for it. These are
+        <strong>examples, not a menu</strong>. Anything that can hold a record and
+        pass the conformance vectors qualifies, including whatever you are already
+        using.
       </p>
       <p>
         <strong>The test of success is an export and re-import, not a
@@ -873,13 +981,13 @@
       </div>
       <div class="card store">
         <h4>Google Sheets</h4>
-        <p>A familiar table. Cannot hold full re-read history, so it declares that limit rather than dropping data.</p>
+        <p>A familiar table. Cannot hold full re-read history, so it <em>declares</em> that limit rather than quietly dropping data.</p>
         <span class="tag">Specified</span>
       </div>
       <div class="card store">
-        <h4>Whatever you use</h4>
-        <p>An adapter generated for your existing system passes exactly the same conformance vectors. No exemptions.</p>
-        <span class="tag">Bring your own</span>
+        <h4>Notion, Airtable, a folder of text files&hellip;</h4>
+        <p>Anything else. An adapter generated for your system passes exactly the same vectors as the ones above — no exemptions for being bespoke.</p>
+        <span class="tag">The actual point</span>
       </div>
     </div>
   </section>
@@ -949,36 +1057,48 @@
   "use strict";
 
   const BOOKS = [
-    {"t":"The Lacquer Cabinet","a":"Ines Verhoeven","s":"finished","o":true,"add":"2023-11-19","rd":[["2025-01-04","2025-01-19","finished",4],["2026-02-20","2026-03-06","finished",5]],"r":5,"p":388,"pub":2019,"set":1687,"k":"historical"},
-    {"t":"Salt in the Wiring","a":"Odalys Ferrer","s":"finished","o":true,"add":"2025-01-24","rd":[["2025-02-02","2025-02-11","finished",5]],"r":5,"p":302,"pub":2021,"set":2088,"k":"speculative"},
-    {"t":"Nine Hours from Trelleborg","a":"Kaspar Lindqvist","s":"finished","o":false,"add":"2024-12-19","rd":[["2025-02-20","2025-03-14","finished",3]],"r":3,"p":244,"pub":2015,"set":2014,"k":"contemporary"},
-    {"t":"A Grammar of Falling Objects","a":"Petra Oyelaran","s":"finished","o":true,"add":"2025-03-16","rd":[["2025-03-18","2025-04-02","finished",5],["2026-06-02","2026-06-11","finished",5]],"r":5,"p":210,"pub":2023,"set":2022,"k":"contemporary"},
-    {"t":"The Tin Almanac","a":"Marguerite Sowande","s":"finished","o":true,"add":"2024-08-23","rd":[["2025-04-08","2025-05-06","finished",4]],"r":4,"p":512,"pub":1934,"set":1871,"k":"historical"},
-    {"t":"Winterbourne Signal","a":"Ada Ruhle","s":"reading","o":true,"add":"2026-07-01","rd":[["2026-08-11",null,"in_progress",null]],"r":null,"p":466,"pub":2024,"set":2140,"k":"speculative"},
-    {"t":"The Cartographer's Complaint","a":"Bertil Wass","s":"finished","o":false,"add":"2025-04-27","rd":[["2025-05-12","2025-06-01","finished",4]],"r":4,"p":431,"pub":2008,"set":1543,"k":"historical"},
-    {"t":"Mould, Ash, Bloom","a":"Junia Delacroix-Amara","s":"finished","o":true,"add":"2023-08-03","rd":[["2025-06-04","2025-06-22","finished",5]],"r":5,"p":594,"pub":2020,"set":null,"k":"fictional"},
-    {"t":"Every Door in Kestrel House","a":"Fenella Achebe","s":"finished","o":false,"add":"2025-06-27","rd":[["2025-07-01","2025-07-09","finished",3]],"r":3,"p":268,"pub":2018,"set":2017,"k":"contemporary"},
-    {"t":"The Long Recension","a":"Tomas Bergqvist","s":"reference","o":true,"add":"2025-07-22","rd":[],"r":null,"p":720,"pub":2011,"set":null,"k":null},
-    {"t":"Ledger of Small Waters","a":"Ilya Mbeki","s":"finished","o":true,"add":"2025-04-09","rd":[["2025-07-14","2025-08-03","finished",4]],"r":4,"p":355,"pub":1998,"set":1919,"k":"historical"},
-    {"t":"The Concrete Orchard","a":"Solveig Nakamura","s":"reading","o":true,"add":"2026-08-18","rd":[["2026-08-19",null,"in_progress",null]],"r":null,"p":340,"pub":2026,"set":2061,"k":"speculative"},
-    {"t":"Ten Fathoms of Blue Wire","a":"Rasmus Achterberg","s":"abandoned","o":false,"add":"2024-11-01","rd":[["2025-09-02",null,"abandoned",2]],"r":2,"p":611,"pub":2013,"set":2199,"k":"speculative"},
-    {"t":"The Gantry Wives","a":"Hester Nwankwo","s":"reading","o":true,"add":"2025-08-14","rd":[["2025-09-10","2025-09-28","finished",5],["2026-08-02",null,"in_progress",null]],"r":5,"p":402,"pub":2022,"set":1948,"k":"historical"},
-    {"t":"Notes Toward a Drowned City","a":"Anselm Prieto","s":"paused","o":true,"add":"2025-05-20","rd":[["2025-10-05",null,"in_progress",null]],"r":null,"p":288,"pub":2014,"set":null,"k":"fictional"},
-    {"t":"The Auditor of Small Hours","a":"Vivienne Okonkwo","s":"finished","o":false,"add":"2025-10-06","rd":[["2025-10-12","2025-10-21","finished",4]],"r":4,"p":232,"pub":2025,"set":2024,"k":"contemporary"},
-    {"t":"Brass Sunday","a":"Milo Ferreira","s":"finished","o":true,"add":"2024-05-31","rd":[["2025-11-01","2025-11-26","finished",3]],"r":3,"p":478,"pub":1961,"set":1902,"k":"historical"},
-    {"t":"The Unquiet Register","a":"Dagny Solheim","s":"finished","o":true,"add":"2025-10-30","rd":[["2025-12-03","2025-12-15","finished",4]],"r":4,"p":326,"pub":2017,"set":2035,"k":"speculative"},
-    {"t":"What the Lighthouse Owed","a":"Cormac Baptiste","s":"finished","o":true,"add":"2025-10-27","rd":[["2026-01-06","2026-01-24","finished",5],["2026-07-02","2026-07-15","finished",5]],"r":5,"p":364,"pub":2012,"set":1826,"k":"historical"},
-    {"t":"The Sieve and the Sea","a":"Perpetua Lindgren","s":"to_read","o":true,"add":"2025-12-31","rd":[],"r":null,"p":null,"pub":2023,"set":null,"k":"fictional"},
-    {"t":"Ordinary Machines","a":"Yusuf Halvorsen","s":"finished","o":false,"add":"2026-01-22","rd":[["2026-02-02","2026-02-13","finished",3]],"r":3,"p":254,"pub":2020,"set":2019,"k":"contemporary"},
-    {"t":"The Feathered Ledger","a":"Ottoline Marek","s":"finished","o":true,"add":"2023-11-09","rd":[["2026-03-01","2026-03-30","finished",4]],"r":4,"p":545,"pub":1889,"set":1789,"k":"historical"},
-    {"t":"A Field Guide to Absent Rivers","a":"Saskia Boateng","s":"reference","o":true,"add":"2026-03-26","rd":[],"r":null,"p":null,"pub":2021,"set":null,"k":null},
-    {"t":"The Glasshouse Interval","a":"Runa Castellanos","s":"finished","o":true,"add":"2026-04-02","rd":[["2026-04-05","2026-04-18","finished",5]],"r":5,"p":298,"pub":2023,"set":2077,"k":"speculative"},
-    {"t":"Hollow Bell, Hollow Year","a":"Emeka Lindqvist","s":"finished","o":false,"add":"2025-02-08","rd":[["2025-08-14",null,"abandoned",null],["2026-05-02","2026-05-29","finished",4]],"r":4,"p":490,"pub":2005,"set":1666,"k":"historical"},
-    {"t":"The Persistence of Tuesdays","a":"Bea Alvarado","s":"finished","o":true,"add":"2026-05-17","rd":[["2026-06-08","2026-06-17","finished",3]],"r":3,"p":221,"pub":2016,"set":2015,"k":"contemporary"},
-    {"t":"Quarry Light","a":"Ingrid Sowande","s":"finished","o":true,"add":"2026-05-07","rd":[["2026-07-04","2026-07-21","finished",4]],"r":4,"p":377,"pub":2010,"set":1854,"k":"historical"},
-    {"t":"An Instrument of Tides","a":"Halvard Nakamura","s":"to_read","o":false,"add":"2026-05-24","rd":[],"r":null,"p":412,"pub":2024,"set":2104,"k":"speculative"},
-    {"t":"The Eighth of Never","a":"Corisande Achebe","s":"to_read","o":null,"add":"2026-07-28","rd":[],"r":null,"p":275,"pub":2022,"set":2021,"k":"contemporary"},
-    {"t":"The Wintering House","a":"Marit Okonkwo","s":"to_read","o":null,"add":"2025-01-17","rd":[],"r":null,"p":null,"pub":null,"set":1913,"k":"historical"}
+    {"t":"The Lacquer Cabinet","a":"Ines Verhoeven","s":"finished","o":true,"f":"fiction","add":"2023-11-19","rd":[["2025-01-04","2025-01-19","finished",4],["2026-02-20","2026-03-06","finished",5]],"r":5,"p":388,"pub":2019,"set":1687,"k":"historical","cat":["Historical"],"subj":["Trade","Family"]},
+    {"t":"Salt in the Wiring","a":"Odalys Ferrer","s":"finished","o":true,"f":"fiction","add":"2025-01-24","rd":[["2025-02-02","2025-02-11","finished",5]],"r":5,"p":302,"pub":2021,"set":2088,"k":"speculative","cat":["Speculative"],"subj":["Climate","Labour"]},
+    {"t":"Nine Hours from Trelleborg","a":"Kaspar Lindqvist","s":"finished","o":false,"f":"fiction","add":"2024-12-19","rd":[["2025-02-20","2025-03-14","finished",3]],"r":3,"p":244,"pub":2015,"set":2014,"k":"contemporary","cat":["Contemporary"],"subj":["Travel"]},
+    {"t":"A Grammar of Falling Objects","a":"Petra Oyelaran","s":"finished","o":true,"f":"fiction","add":"2025-03-16","rd":[["2025-03-18","2025-04-02","finished",5],["2026-06-02","2026-06-11","finished",5]],"r":5,"p":210,"pub":2023,"set":2022,"k":"contemporary","cat":["Contemporary","Essays"],"subj":["Language"]},
+    {"t":"The Tin Almanac","a":"Marguerite Sowande","s":"finished","o":true,"f":"fiction","add":"2024-08-23","rd":[["2025-04-08","2025-05-06","finished",4]],"r":4,"p":512,"pub":1934,"set":1871,"k":"historical","cat":["Historical"],"subj":["Agriculture"]},
+    {"t":"Winterbourne Signal","a":"Ada Ruhle","s":"reading","o":true,"f":"fiction","add":"2026-07-01","rd":[["2026-08-11",null,"in_progress",null]],"r":null,"p":466,"pub":2024,"set":2140,"k":"speculative","cat":["Speculative"],"subj":["Signals"]},
+    {"t":"The Cartographer's Complaint","a":"Bertil Wass","s":"finished","o":false,"f":"fiction","add":"2025-04-27","rd":[["2025-05-12","2025-06-01","finished",4]],"r":4,"p":431,"pub":2008,"set":1543,"k":"historical","cat":["Historical"],"subj":["Maps","Empire"]},
+    {"t":"Mould, Ash, Bloom","a":"Junia Delacroix-Amara","s":"finished","o":true,"f":"fiction","add":"2023-08-03","rd":[["2025-06-04","2025-06-22","finished",5]],"r":5,"p":594,"pub":2020,"set":null,"k":"fictional","cat":["Speculative"],"subj":["Invented world"]},
+    {"t":"Every Door in Kestrel House","a":"Fenella Achebe","s":"finished","o":false,"f":"fiction","add":"2025-06-27","rd":[["2025-07-01","2025-07-09","finished",3]],"r":3,"p":268,"pub":2018,"set":2017,"k":"contemporary","cat":["Contemporary"],"subj":["Family"]},
+    {"t":"The Long Recension","a":"Tomas Bergqvist","s":"reference","o":true,"f":"nonfiction","add":"2025-07-22","rd":[],"r":null,"p":720,"pub":2011,"set":null,"k":null,"cat":["Reference"],"subj":["History","Language"]},
+    {"t":"Ledger of Small Waters","a":"Ilya Mbeki","s":"finished","o":true,"f":"fiction","add":"2025-04-09","rd":[["2025-07-14","2025-08-03","finished",4]],"r":4,"p":355,"pub":1998,"set":1919,"k":"historical","cat":["Historical"],"subj":["Rivers"]},
+    {"t":"The Concrete Orchard","a":"Solveig Nakamura","s":"reading","o":true,"f":"fiction","add":"2026-08-18","rd":[["2026-08-19",null,"in_progress",null]],"r":null,"p":340,"pub":2026,"set":2061,"k":"speculative","cat":["Speculative"],"subj":["Cities"]},
+    {"t":"Ten Fathoms of Blue Wire","a":"Rasmus Achterberg","s":"abandoned","o":false,"f":"fiction","add":"2024-11-01","rd":[["2025-09-02",null,"abandoned",2]],"r":2,"p":611,"pub":2013,"set":2199,"k":"speculative","cat":["Speculative"],"subj":["Deep sea"]},
+    {"t":"The Gantry Wives","a":"Hester Nwankwo","s":"reading","o":true,"f":"fiction","add":"2025-08-14","rd":[["2025-09-10","2025-09-28","finished",5],["2026-08-02",null,"in_progress",null]],"r":5,"p":402,"pub":2022,"set":1948,"k":"historical","cat":["Historical"],"subj":["Shipbuilding","Labour"]},
+    {"t":"Notes Toward a Drowned City","a":"Anselm Prieto","s":"paused","o":true,"f":"fiction","add":"2025-05-20","rd":[["2025-10-05",null,"in_progress",null]],"r":null,"p":288,"pub":2014,"set":null,"k":"fictional","cat":["Speculative"],"subj":["Invented world"]},
+    {"t":"The Auditor of Small Hours","a":"Vivienne Okonkwo","s":"finished","o":false,"f":"fiction","add":"2025-10-06","rd":[["2025-10-12","2025-10-21","finished",4]],"r":4,"p":232,"pub":2025,"set":2024,"k":"contemporary","cat":["Contemporary"],"subj":["Work"]},
+    {"t":"Brass Sunday","a":"Milo Ferreira","s":"finished","o":true,"f":"fiction","add":"2024-05-31","rd":[["2025-11-01","2025-11-26","finished",3]],"r":3,"p":478,"pub":1961,"set":1902,"k":"historical","cat":["Historical"],"subj":["Music"]},
+    {"t":"The Unquiet Register","a":"Dagny Solheim","s":"finished","o":true,"f":"fiction","add":"2025-10-30","rd":[["2025-12-03","2025-12-15","finished",4]],"r":4,"p":326,"pub":2017,"set":2035,"k":"speculative","cat":["Speculative"],"subj":["Bureaucracy"]},
+    {"t":"What the Lighthouse Owed","a":"Cormac Baptiste","s":"finished","o":true,"f":"fiction","add":"2025-10-27","rd":[["2026-01-06","2026-01-24","finished",5],["2026-07-02","2026-07-15","finished",5]],"r":5,"p":364,"pub":2012,"set":1826,"k":"historical","cat":["Historical"],"subj":["Sea","Debt"]},
+    {"t":"The Sieve and the Sea","a":"Perpetua Lindgren","s":"to_read","o":true,"f":"fiction","add":"2025-12-31","rd":[],"r":null,"p":null,"pub":2023,"set":null,"k":"fictional","cat":["Speculative"],"subj":["Invented world"]},
+    {"t":"Ordinary Machines","a":"Yusuf Halvorsen","s":"finished","o":false,"f":"fiction","add":"2026-01-22","rd":[["2026-02-02","2026-02-13","finished",3]],"r":3,"p":254,"pub":2020,"set":2019,"k":"contemporary","cat":["Contemporary"],"subj":["Technology"]},
+    {"t":"The Feathered Ledger","a":"Ottoline Marek","s":"finished","o":true,"f":"fiction","add":"2023-11-09","rd":[["2026-03-01","2026-03-30","finished",4]],"r":4,"p":545,"pub":1889,"set":1789,"k":"historical","cat":["Historical"],"subj":["Ornithology"]},
+    {"t":"A Field Guide to Absent Rivers","a":"Saskia Boateng","s":"reference","o":true,"f":"nonfiction","add":"2026-03-26","rd":[],"r":null,"p":null,"pub":2021,"set":null,"k":null,"cat":["Reference"],"subj":["Nature","Science"]},
+    {"t":"The Glasshouse Interval","a":"Runa Castellanos","s":"finished","o":true,"f":"fiction","add":"2026-04-02","rd":[["2026-04-05","2026-04-18","finished",5]],"r":5,"p":298,"pub":2023,"set":2077,"k":"speculative","cat":["Speculative"],"subj":["Botany"]},
+    {"t":"Hollow Bell, Hollow Year","a":"Emeka Lindqvist","s":"finished","o":false,"f":"fiction","add":"2025-02-08","rd":[["2025-08-14",null,"abandoned",null],["2026-05-02","2026-05-29","finished",4]],"r":4,"p":490,"pub":2005,"set":1666,"k":"historical","cat":["Historical"],"subj":["Plague"]},
+    {"t":"The Persistence of Tuesdays","a":"Bea Alvarado","s":"finished","o":true,"f":"fiction","add":"2026-05-17","rd":[["2026-06-08","2026-06-17","finished",3]],"r":3,"p":221,"pub":2016,"set":2015,"k":"contemporary","cat":["Contemporary"],"subj":["Routine"]},
+    {"t":"Quarry Light","a":"Ingrid Sowande","s":"finished","o":true,"f":"fiction","add":"2026-05-07","rd":[["2026-07-04","2026-07-21","finished",4]],"r":4,"p":377,"pub":2010,"set":1854,"k":"historical","cat":["Historical"],"subj":["Stone"]},
+    {"t":"An Instrument of Tides","a":"Halvard Nakamura","s":"to_read","o":false,"f":"fiction","add":"2026-05-24","rd":[],"r":null,"p":412,"pub":2024,"set":2104,"k":"speculative","cat":["Speculative"],"subj":["Oceans"]},
+    {"t":"The Eighth of Never","a":"Corisande Achebe","s":"to_read","o":null,"f":"fiction","add":"2026-07-28","rd":[],"r":null,"p":275,"pub":2022,"set":2021,"k":"contemporary","cat":["Contemporary"],"subj":["Memory"]},
+    {"t":"The Wintering House","a":"Marit Okonkwo","s":"to_read","o":null,"f":"fiction","add":"2025-01-17","rd":[],"r":null,"p":null,"pub":null,"set":1913,"k":"historical","cat":["Historical"],"subj":["Winter"]},
+    {"t":"The Salt Roads of Anatolia","a":"Hedda Marchetti","s":"finished","o":true,"f":"nonfiction","add":"2025-06-01","rd":[["2025-06-20","2025-07-18","finished",4]],"r":4,"p":430,"pub":2015,"set":null,"k":null,"cat":["History"],"subj":["History","Trade"]},
+    {"t":"Instrument Makers","a":"Cyril Obuya","s":"finished","o":true,"f":"nonfiction","add":"2025-06-01","rd":[["2025-08-01","2025-08-29","finished",5]],"r":5,"p":388,"pub":1998,"set":null,"k":null,"cat":["History of science"],"subj":["History","Science","Craft"]},
+    {"t":"A Short Account of Tides","a":"Wilhelmina Frost","s":"finished","o":false,"f":"nonfiction","add":"2025-06-01","rd":[["2025-09-15","2025-09-30","finished",4]],"r":4,"p":264,"pub":2021,"set":null,"k":null,"cat":["Science"],"subj":["Science","Nature"]},
+    {"t":"The Bureaucrat's Garden","a":"Tomas Iwu","s":"abandoned","o":true,"f":"nonfiction","add":"2025-06-01","rd":[["2025-10-02",null,"in_progress",2]],"r":2,"p":352,"pub":2019,"set":null,"k":null,"cat":["Politics"],"subj":["Politics","History"]},
+    {"t":"Reading the Frozen Ground","a":"Anneke Sorensen","s":"finished","o":true,"f":"nonfiction","add":"2025-06-01","rd":[["2025-11-05","2025-12-02","finished",4]],"r":4,"p":412,"pub":2008,"set":null,"k":null,"cat":["Archaeology"],"subj":["History","Science"]},
+    {"t":"Counting Sparrows","a":"Rafael Nkemdirim","s":"finished","o":true,"f":"nonfiction","add":"2025-06-01","rd":[["2026-01-08","2026-01-27","finished",5]],"r":5,"p":298,"pub":2023,"set":null,"k":null,"cat":["Science"],"subj":["Nature","Science"]},
+    {"t":"The Copper Question","a":"Marta Lindholm","s":"to_read","o":true,"f":"nonfiction","add":"2025-06-01","rd":[],"r":null,"p":506,"pub":1987,"set":null,"k":null,"cat":["Economics"],"subj":["Economics","Trade"]},
+    {"t":"Notes on Silence","a":"Beatriz Achterberg","s":"finished","o":false,"f":"nonfiction","add":"2025-06-01","rd":[["2026-02-14","2026-02-25","finished",3]],"r":3,"p":222,"pub":2016,"set":null,"k":null,"cat":["Music"],"subj":["Music","Craft"]},
+    {"t":"Weather and the State","a":"Piotr Vasquez","s":"reading","o":true,"f":"nonfiction","add":"2025-06-01","rd":[["2026-08-05",null,"in_progress",null]],"r":null,"p":378,"pub":2024,"set":null,"k":null,"cat":["Politics"],"subj":["Politics","Nature","Science"]},
+    {"t":"The Anatomy of Bridges","a":"Sunniva Okoro","s":"finished","o":true,"f":"nonfiction","add":"2025-06-01","rd":[["2026-03-10","2026-04-06","finished",4]],"r":4,"p":466,"pub":2011,"set":null,"k":null,"cat":["Engineering"],"subj":["Craft","Science"]},
+    {"t":"Kitchens of the Interior","a":"Delphine Aguda","s":"finished","o":null,"f":"nonfiction","add":"2025-06-01","rd":[["2026-05-04","2026-05-22","finished",4]],"r":4,"p":340,"pub":2006,"set":null,"k":null,"cat":["Food history"],"subj":["History","Food"]},
+    {"t":"On Being Wrong Precisely","a":"Halldor Mbeki","s":"to_read","o":null,"f":"nonfiction","add":"2025-06-01","rd":[],"r":null,"p":290,"pub":2020,"set":null,"k":null,"cat":["Philosophy"],"subj":["Science","Philosophy"]}
   ];
 
   const NS = "http://www.w3.org/2000/svg";
@@ -1418,10 +1538,140 @@
       "no shelf time yet is not a shelf time of nothing.";
   }
 
+
+  /* =======================================================
+     M11 — shelves · M28 — setting timeline
+     M33 — subjects · M34 — how current
+     ======================================================= */
+
+  function hbars(svgId, rows, opts) {
+    const svg = document.getElementById(svgId);
+    clear(svg);
+    const H = opts.height || 260;
+    const W = fit(svg, H);
+    const m = { t: 10, r: 42, b: 26, l: opts.left || 104 };
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+    if (!rows.length) return;
+    const max = Math.max(...rows.map(r => r.n), 1);
+    const rh = ih / rows.length;
+    rows.forEach((row, i) => {
+      const y = m.t + i * rh + rh * 0.2, h = Math.min(rh * 0.6, 26);
+      el("text", { x: m.l - 12, y: y + h / 2 + 4, class: "cat-label", "text-anchor": "end" }, svg)
+        .textContent = row.label;
+      const w = (row.n / max) * iw;
+      const bar = el("path", {
+        d: roundedRight(m.l, y, Math.max(w, 3), h, 4),
+        fill: css(opts.hue || "--seq-450"), class: "mark"
+      }, svg);
+      bindTip(bar, "<b>" + row.n + (row.n === 1 ? " book" : " books") + "</b><span>" +
+        row.label + (opts.tipSuffix || "") + "</span>");
+      el("text", { x: m.l + w + 9, y: y + h / 2 + 4, class: "val-label" }, svg).textContent = row.n;
+    });
+    el("line", { x1: m.l, x2: m.l, y1: m.t, y2: m.t + ih, class: "axis-line" }, svg);
+  }
+
+  function columns(svgId, rows, opts) {
+    const svg = document.getElementById(svgId);
+    clear(svg);
+    const H = opts.height || 300;
+    const W = fit(svg, H);
+    const m = { t: 20, r: 12, b: 52, l: 34 };
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const max = Math.max(...rows.map(r => r.n), 1);
+    [0, 0.5, 1].forEach(f => {
+      const y = m.t + ih - f * ih;
+      el("line", { x1: m.l, x2: m.l + iw, y1: y, y2: y, class: "grid-line" }, svg);
+      el("text", { x: m.l - 8, y: y + 3.5, class: "ax-label", "text-anchor": "end" }, svg)
+        .textContent = Math.round(f * max);
+    });
+    const bw = iw / rows.length;
+    rows.forEach((row, i) => {
+      const h = (row.n / max) * ih;
+      const x = m.l + i * bw + bw * 0.18, w = bw * 0.64;
+      if (row.n === 0) {
+        el("rect", { x, y: m.t + ih - 3, width: w, height: 3, fill: css("--axis"), rx: 1.5 }, svg);
+      } else {
+        const bar = el("path", { d: roundedTop(x, m.t + ih - h, w, h, 4),
+                                 fill: css(opts.hue || "--seq-450"), class: "mark" }, svg);
+        bindTip(bar, "<b>" + row.n + (row.n === 1 ? " book" : " books") + "</b><span>" +
+          (row.tip || row.label) + "</span>");
+        el("text", { x: x + w / 2, y: m.t + ih - h - 8, class: "val-label", "text-anchor": "middle" }, svg)
+          .textContent = row.n;
+      }
+      el("text", { x: x + w / 2, y: m.t + ih + 19, class: "ax-label", "text-anchor": "middle" }, svg)
+        .textContent = row.label;
+    });
+    el("line", { x1: m.l, x2: m.l + iw, y1: m.t + ih, y2: m.t + ih, class: "axis-line" }, svg);
+    if (opts.caption)
+      el("text", { x: m.l, y: H - 8, class: "ax-title" }, svg).textContent = opts.caption;
+  }
+
+  function drawGenre() {
+    const counts = {};
+    BOOKS.forEach(b => (b.cat || []).forEach(c => { counts[c] = (counts[c] || 0) + 1; }));
+    const rows = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 7)
+      .map(([label, n]) => ({ label, n }));
+    hbars("c-genre", rows, { tipSuffix: " shelf" });
+    const placements = Object.values(counts).reduce((a, b) => a + b, 0);
+    document.getElementById("genre-note").textContent =
+      Object.keys(counts).length + " shelves across " + BOOKS.length + " books. A book on two " +
+      "shelves counts on both, so placements (" + placements + ") exceed the library size.";
+  }
+
+  function drawTimeline() {
+    const fiction = BOOKS.filter(b => b.f === "fiction");
+    const invented = fiction.filter(b => b.k === "fictional").length;
+    const dated = fiction.filter(b => b.k !== "fictional" && b.set != null);
+    const years = dated.map(b => b.set);
+    const lo = Math.floor(Math.min(...years) / 100) * 100;
+    const hi = Math.floor(Math.max(...years) / 100) * 100;
+    const rows = [];
+    for (let start = lo; start <= hi; start += 100) {
+      const members = dated.filter(b => b.set >= start && b.set < start + 100);
+      rows.push({ label: start + "s", n: members.length,
+                  tip: members.slice(0, 3).map(b => b.t).join(", ") || "nothing set here" });
+    }
+    columns("c-timeline", rows, { height: 300, caption: "One column per century your stories are set in" });
+    document.getElementById("timeline-note").textContent =
+      dated.length + " novels span " + Math.min(...years) + " to " + Math.max(...years) + ". " +
+      invented + " are set in invented worlds and have no century to sit in — excluded rather " +
+      "than dropped at zero.";
+  }
+
+  function drawSubjects() {
+    const nonfic = BOOKS.filter(b => b.f === "nonfiction");
+    const counts = {};
+    nonfic.forEach(b => (b.subj || []).forEach(x => { counts[x] = (counts[x] || 0) + 1; }));
+    const rows = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 8)
+      .map(([label, n]) => ({ label, n }));
+    hbars("c-subjects", rows, { height: 300, left: 92, tipSuffix: "" });
+    document.getElementById("subjects-note").textContent =
+      Object.keys(counts).length + " distinct subjects across " + nonfic.length +
+      " non-fiction books. Subjects come from metadata; shelves are yours. They are never merged.";
+  }
+
+  function drawRecency() {
+    const NOW = 2026;
+    const nonfic = BOOKS.filter(b => b.f === "nonfiction");
+    const dated = nonfic.filter(b => b.pub != null);
+    const edges = [[0, 5, "0-5 yrs"], [6, 10, "6-10 yrs"], [11, 25, "11-25 yrs"], [26, 999, "25+ yrs"]];
+    const rows = edges.map(([lo, hi, label]) => ({
+      label, n: dated.filter(b => (NOW - b.pub) >= lo && (NOW - b.pub) <= hi).length,
+      tip: "published " + label.replace(" yrs", " years") + " ago"
+    }));
+    columns("c-recency", rows, { height: 300, caption: "Years since first publication" });
+    const ages = dated.map(b => NOW - b.pub).sort((a, b) => a - b);
+    document.getElementById("recency-note").textContent =
+      "Median age " + ages[Math.floor(ages.length / 2)] + " years. A twenty-year-old novel is " +
+      "not a problem; a twenty-year-old book on a moving subject might be, which is why this " +
+      "widget is offered for non-fiction only.";
+  }
+
   /* ---------- render + theme reactivity ---------- */
   function renderAll() {
     drawClocks(); drawKpis(); drawPerYear(); drawShelfTime();
-    drawStatus(); drawOwned(); drawQuality();
+    drawStatus(); drawOwned(); drawGenre(); drawQuality();
+    drawTimeline(); drawSubjects(); drawRecency();
   }
 
   if (document.fonts && document.fonts.ready) {

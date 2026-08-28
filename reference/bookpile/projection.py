@@ -145,6 +145,86 @@ def quality(books: list[BookRecord]) -> dict:
         for name, fn in fields.items()]}
 
 
+def form_split(books: list[BookRecord]) -> dict:
+    """M35. Fiction / non-fiction / unknown — three-valued like ownership."""
+    return {"fiction": sum(1 for b in books if b.form == "fiction"),
+            "nonfiction": sum(1 for b in books if b.form == "nonfiction"),
+            "unknown": sum(1 for b in books if b.form is None)}
+
+
+def genre_breakdown(books: list[BookRecord], *, form: str | None = None) -> dict:
+    """M11. Shelves by volume. A book on two shelves counts once on each."""
+    pool = [b for b in books if form is None or b.form == form]
+    counts = Counter(c for b in pool for c in b.categories)
+    uncategorised = sum(1 for b in pool if not b.categories)
+    return {"categories": [{"category": c, "count": n}
+                           for c, n in counts.most_common()],
+            "books": len(pool),
+            "placements": sum(counts.values()),
+            "excluded": {"uncategorised": uncategorised}}
+
+
+def setting_timeline(books: list[BookRecord]) -> dict:
+    """M28. Which centuries your stories live in.
+
+    Fiction only, and only where a real-world anchor year exists — an invented
+    world has no century to sit in.
+    """
+    fiction = [b for b in books if b.form == "fiction"]
+    invented = sum(1 for b in fiction if b.setting.kind == "fictional")
+    dated = [b for b in fiction
+             if b.setting.kind != "fictional" and b.setting.anchor_year is not None]
+    no_year = len(fiction) - invented - len(dated)
+
+    if not dated:
+        return {"bands": [], "span": None,
+                "excluded": {"invented_world": invented, "no_setting_year": no_year}}
+
+    years = [b.setting.anchor_year for b in dated]
+    lo = (min(years) // 100) * 100
+    hi = (max(years) // 100) * 100
+    bands = []
+    for start in range(lo, hi + 100, 100):
+        members = [b for b in dated if start <= b.setting.anchor_year < start + 100]
+        bands.append({"start": start, "label": f"{start}s", "count": len(members),
+                      "titles": [b.title for b in members[:4]]})
+    return {"bands": bands, "span": {"earliest": min(years), "latest": max(years)},
+            "excluded": {"invented_world": invented, "no_setting_year": no_year}}
+
+
+def subject_spread(books: list[BookRecord], *, limit: int = 8) -> dict:
+    """M33. What your non-fiction is actually about."""
+    pool = [b for b in books if b.form == "nonfiction"]
+    counts = Counter(s for b in pool for s in b.subjects)
+    top = counts.most_common(limit)
+    return {"subjects": [{"subject": s, "count": n} for s, n in top],
+            "books": len(pool),
+            "distinct_subjects": len(counts),
+            "excluded": {"no_subjects": sum(1 for b in pool if not b.subjects)}}
+
+
+def source_recency(books: list[BookRecord], *, now: int | None = None) -> dict:
+    """M34. How current your non-fiction is.
+
+    A twenty-year-old book on a fast-moving subject is not the same purchase as
+    a twenty-year-old novel, which is why this is a non-fiction widget.
+    """
+    now = now or date.today().year
+    pool = [b for b in books if b.form == "nonfiction" and b.first_published is not None]
+    edges = [(0, 5, "0-5 yrs"), (6, 10, "6-10 yrs"), (11, 25, "11-25 yrs"), (26, None, "25+ yrs")]
+    buckets = []
+    for lo, hi, label in edges:
+        n = sum(1 for b in pool
+                if lo <= (now - b.first_published) and (hi is None or (now - b.first_published) <= hi))
+        buckets.append({"label": label, "count": n})
+    ages = sorted(now - b.first_published for b in pool)
+    return {"buckets": buckets,
+            "median_age": ages[len(ages) // 2] if ages else None,
+            "excluded": {"no_publication_year":
+                         sum(1 for b in books if b.form == "nonfiction"
+                             and b.first_published is None)}}
+
+
 def available_metrics(books: list[BookRecord]) -> list[str]:
     """Tier gating: never offer a metric the data cannot fill."""
     have_dates = any(r.started_at or r.finished_at for b in books for r in b.readings)
@@ -152,6 +232,9 @@ def available_metrics(books: list[BookRecord]) -> list[str]:
     have_judgement = any(b.rating is not None or b.owned is not None for b in books)
     have_biblio = any(b.page_count is not None or b.first_published is not None for b in books)
     have_setting = any(b.setting.anchor_year is not None for b in books)
+    have_fiction = any(b.form == "fiction" for b in books)
+    have_nonfiction = any(b.form == "nonfiction" for b in books)
+    have_subjects = any(b.subjects for b in books if b.form == "nonfiction")
 
     out = ["M01", "M02", "M04", "M10", "M11", "M13", "M30", "M32"]
     if have_dates:
@@ -162,6 +245,33 @@ def available_metrics(books: list[BookRecord]) -> list[str]:
         out += ["M05", "M12", "M22", "M31"]
     if have_biblio:
         out += ["M21", "M23", "M24", "M25"]
-    if have_setting:
-        out += ["M26", "M27"]
+    if any(b.form is not None for b in books):
+        out.append("M35")
+    if have_setting and have_fiction:
+        out += ["M26", "M27", "M28"]
+    if have_nonfiction and have_subjects:
+        out.append("M33")
+    if have_nonfiction and have_biblio:
+        out.append("M34")
     return sorted(set(out))
+
+
+# Widget sets: what a reader is offered depends on WHAT they read, not just on
+# which fields they happen to have filled in.
+WIDGET_SETS = {
+    "standard": ["M01", "M02", "M03", "M04", "M06", "M08", "M10", "M11", "M30"],
+    "fiction": ["M26", "M27", "M28"],
+    "nonfiction": ["M33", "M34"],
+}
+
+
+def widget_set_for(books: list[BookRecord]) -> dict:
+    """Which widget packs this library qualifies for."""
+    available = set(available_metrics(books))
+    split = form_split(books)
+    packs = {"standard": [m for m in WIDGET_SETS["standard"] if m in available]}
+    if split["fiction"]:
+        packs["fiction"] = [m for m in WIDGET_SETS["fiction"] if m in available]
+    if split["nonfiction"]:
+        packs["nonfiction"] = [m for m in WIDGET_SETS["nonfiction"] if m in available]
+    return {"packs": packs, "split": split}

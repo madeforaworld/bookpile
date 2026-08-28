@@ -12,6 +12,7 @@ from datetime import date
 
 SCHEMA_VERSION = 1
 STATUSES = ("to_read", "reading", "finished", "paused", "abandoned", "reference")
+FORMS = ("fiction", "nonfiction")
 OUTCOMES = ("in_progress", "finished", "abandoned")
 SETTING_KINDS = ("historical", "contemporary", "speculative", "fictional")
 
@@ -80,6 +81,7 @@ class BookRecord:
     authors: tuple[str, ...] = ()
     status: str = "to_read"
     owned: bool | None = None
+    form: str | None = None          # fiction | nonfiction | None (unknown)
     added_at: str | None = None
     added_at_source: str = "manual"
     readings: tuple[Reading, ...] = ()
@@ -100,6 +102,8 @@ class BookRecord:
     def __post_init__(self):
         if self.status not in STATUSES:
             raise ValueError(f"status must be one of {STATUSES}, got {self.status!r}")
+        if self.form is not None and self.form not in FORMS:
+            raise ValueError(f"form must be one of {FORMS} or None, got {self.form!r}")
 
     # ---- derived view of readings (I4) ----
 
@@ -145,6 +149,7 @@ class BookRecord:
             "authors": list(self.authors),
             "status": self.status,
             "owned": self.owned,
+            "form": self.form,
             "added_at": self.added_at,
             "added_at_source": self.added_at_source,
             "readings": [r.to_dict() for r in self.readings],
@@ -178,6 +183,7 @@ class BookRecord:
             authors=tuple(d.get("authors") or ()),
             status=d.get("status", "to_read"),
             owned=d.get("owned"),
+            form=d.get("form"),
             added_at=d.get("added_at"),
             added_at_source=d.get("added_at_source", "manual"),
             readings=tuple(Reading.from_dict(r) for r in (d.get("readings") or ())),

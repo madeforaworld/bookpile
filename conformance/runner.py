@@ -51,10 +51,12 @@ def make_record(spec: dict) -> BookRecord:
     return BookRecord(
         book_id=slugify(title, authors[0] if authors else ""),
         title=title, authors=authors, status=status,
-        owned=spec.get("owned"),
+        owned=spec.get("owned"), form=spec.get("form"),
         added_at=spec.get("added_at", "2025-01-01"),
         added_at_source=spec.get("added_at_source", "manual"),
         readings=readings,
+        subjects=tuple(spec.get("subjects", ())),
+        categories=tuple(spec.get("categories", ())),
         page_count=spec.get("page_count"),
         first_published=spec.get("first_published"),
         isbn13=spec.get("isbn13"),
@@ -121,6 +123,18 @@ def assert_projection(result, then: dict) -> None:
     if "status_keys" in then:
         got = [s["status"] for s in result["statuses"]]
         check(got == then["status_keys"], f"statuses: expected {then['status_keys']}, got {got}")
+    if "band_total" in then:
+        got = sum(b["count"] for b in result["bands"])
+        check(got == then["band_total"], f"band total: expected {then['band_total']}, got {got}")
+    if "band_labels" in then:
+        got = [b["label"] for b in result["bands"]]
+        check(got == then["band_labels"], f"bands: expected {then['band_labels']}, got {got}")
+    if "packs_present" in then:
+        for k in then["packs_present"]:
+            check(k in result["packs"], f"missing widget pack {k!r}")
+    if "packs_absent" in then:
+        for k in then["packs_absent"]:
+            check(k not in result["packs"], f"widget pack {k!r} should not be offered")
     if "excludes_metrics" in then:
         for m in then["excludes_metrics"]:
             check(m not in result, f"{m} should not be offered for this data")
@@ -188,6 +202,10 @@ def run_vector(vec: dict, adapter: str) -> None:
                                                 year=when.get("year", "2026"))
                 elif name == "available_metrics":
                     result = projection.available_metrics(books)
+                elif name == "source_recency":
+                    result = projection.source_recency(books, now=when.get("now", 2026))
+                elif name == "genre_breakdown":
+                    result = projection.genre_breakdown(books, form=when.get("form"))
                 else:
                     result = getattr(projection, name)(books)
                 assert_projection(result, then)
