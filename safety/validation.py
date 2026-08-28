@@ -8,14 +8,15 @@ import re
 from dataclasses import dataclass, field
 from datetime import date
 
-INTENTS = {"add_book", "set_reading_status", "set_owned", "rate_book", "search_library"}
+INTENTS = {"add_book", "set_reading_status", "set_owned", "rate_book",
+           "search_library", "recommend", "discover"}
 STATUSES = {"to_read", "reading", "finished", "paused", "abandoned", "reference"}
 OUTCOMES = {"in_progress", "finished", "abandoned"}
 
 _ISO = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 _ALLOWED_KEYS = {
     "intent", "book_ref", "title", "authors", "categories", "status", "date",
-    "rating", "owned", "query", "confidence", "needs_confirmation",
+    "rating", "owned", "query", "vibe", "confidence", "needs_confirmation",
 }
 
 
@@ -36,6 +37,7 @@ class Intent:
     owned: bool | None = None
     owned_present: bool = False   # distinguishes "set to null" from "not mentioned"
     query: str | None = None
+    vibe: str | None = None
     needs_confirmation: bool = False
 
 
@@ -93,6 +95,16 @@ def validate_intent(raw: object) -> Intent:
         kw["title"] = _text(raw.get("title"), "title")
         kw["authors"] = _str_list(raw.get("authors"), "authors")
         kw["categories"] = _str_list(raw.get("categories"), "categories")
+        if "owned" in raw:
+            owned = raw["owned"]
+            if owned is not None and not isinstance(owned, bool):
+                raise ValidationError(f"owned must be true, false or null, got {owned!r}")
+            kw["owned"] = owned
+            kw["owned_present"] = True
+    elif name in ("recommend", "discover"):
+        # neither names a book: one picks from your shelf, one from outside it
+        if raw.get("vibe") is not None:
+            kw["vibe"] = _text(raw["vibe"], "vibe", limit=200)
     elif name == "search_library":
         kw["query"] = _text(raw.get("query"), "query")
     else:

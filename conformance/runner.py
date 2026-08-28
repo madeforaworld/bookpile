@@ -244,7 +244,8 @@ def run_vector(vec: dict, adapter: str) -> None:
 
 def dispatch(service: LibraryService, intent) -> None:
     if intent.intent == "add_book":
-        service.add_book(intent.title, intent.authors, intent.categories)
+        service.add_book(intent.title, intent.authors, intent.categories,
+                         owned=intent.owned if intent.owned_present else None)
     elif intent.intent == "set_reading_status":
         service.set_reading_status(intent.book_ref, intent.status, intent.date)
         if intent.rating is not None:
@@ -255,6 +256,10 @@ def dispatch(service: LibraryService, intent) -> None:
         service.rate_book(intent.book_ref, intent.rating)
     elif intent.intent == "search_library":
         service.search_library(intent.query)
+    elif intent.intent == "recommend":
+        service.recommend(intent.vibe)
+    elif intent.intent == "discover":
+        service.discover()
 
 
 # ---------- driver ----------

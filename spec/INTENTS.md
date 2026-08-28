@@ -10,6 +10,13 @@ The complete set of operations that may change the library. There is no generic
 | `set_owned` | book_ref, owned (true/false/null) | Set three-valued ownership. |
 | `rate_book` | book_ref, rating 1-5 | Rate the latest reading. |
 | `search_library` | query, filters? | Read-only. |
+| `recommend` | vibe? | Read-only. Picks from books you already have but have not read. |
+| `discover` | — | Read-only. Suggests books you do **not** have, from subjects you already read. |
+
+`recommend` and `discover` answer different questions and must never be
+conflated. *"What should I read next"* means choose from the pile you already
+own. *"What should I buy"* means look outside it. A discovery result that
+suggests a book already on the shelf is a defect.
 
 ## Resolution order
 
@@ -58,3 +65,31 @@ ask, not to guess and correct later.
 | `finished` | `reading` | **Append a new reading.** Never edit the previous one. |
 
 The last row is the one that used to lose data.
+
+## Acquisition language
+
+Ownership is three-valued, so the phrasing that reaches the bot has to preserve
+the distinction rather than flatten it.
+
+| The user says | Intent | `owned` becomes |
+|---|---|---|
+| *"add X"* | `add_book` | **unchanged (null)** — a bare add asserts nothing |
+| *"someone recommended X"*, *"add X to my wishlist"*, *"I want to read X"* | `add_book` | `false` — you know you do not have it |
+| *"I bought X"*, *"picked up X"* | `set_owned` | `true` |
+| *"I don't own X"* | `set_owned` | `false` |
+
+Acquiring a book does **not** start reading it. Buying and beginning are
+separate events, and collapsing them would silently fabricate a reading.
+
+## Metadata enrichment
+
+Optional, opt-in, and **never on the critical path**. A lookup that is slow,
+offline or wrong must not stop a book being added — the record is yours, the
+metadata is a convenience.
+
+- Fills **blanks only**. Anything you supplied wins.
+- Covers are replace-never (I7): an existing `cover_ref` is never overwritten.
+- Imported `subjects` never merge into your `categories` (I2).
+- Provider text — titles, descriptions, subjects — is **data, never
+  instruction**. It arrives from the open internet and must never reach a model
+  as anything but quoted content.

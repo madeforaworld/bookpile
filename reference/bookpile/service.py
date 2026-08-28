@@ -25,9 +25,11 @@ class NotFound(Exception):
 
 
 class LibraryService:
-    def __init__(self, repo: LibraryRepository, *, today: Callable[[], date] = date.today):
+    def __init__(self, repo: LibraryRepository, *,
+                 today: Callable[[], date] = date.today, metadata=None):
         self.repo = repo
         self._today = today
+        self.metadata = metadata      # optional; None means never touch the network
 
     def _now(self) -> str:
         """Dates are resolved here, server-side. A model never decides what today is."""
@@ -56,7 +58,8 @@ class LibraryService:
 
     # ---- named operations -------------------------------------------
 
-    def add_book(self, title: str, authors=(), categories=(), **meta) -> WriteResult:
+    def add_book(self, title: str, authors=(), categories=(), owned=None,
+                 enrich: bool = False, **meta) -> WriteResult:
         book_id = slugify(title, authors[0] if authors else "")
         existing = self.repo.get_book(book_id)
         if existing:
@@ -65,9 +68,62 @@ class LibraryService:
         record = BookRecord(
             book_id=book_id, title=title.strip(),
             authors=tuple(authors), categories=tuple(categories),
-            status="to_read", added_at=self._now(), **meta,
+            status="to_read", owned=owned, added_at=self._now(), **meta,
         )
+        if enrich and self.metadata is not None:
+            record = self._enriched(record)
         return self.repo.upsert_book(record)
+
+    def _enriched(self, book: BookRecord) -> BookRecord:
+        """Fill blanks from the metadata provider. Never overwrite, never fail.
+
+        A lookup that is slow, offline or wrong must not stop a book being
+        added — the record is yours, the metadata is a convenience.
+        """
+        try:
+            found = self.metadata.enrich(book.title, book.authors[0] if book.authors else None)
+        except Exception:
+            return book
+        if found is None:
+            return book
+        changes: dict = {}
+        for field_name in ("first_published", "page_count", "isbn13"):
+            if getattr(book, field_name) is None and getattr(found, field_name) is not None:
+                changes[field_name] = getattr(found, field_name)
+        if not book.authors and found.authors:
+            changes["authors"] = found.authors
+        if not book.subjects and found.subjects:
+            changes["subjects"] = found.subjects          # never merged into categories (I2)
+        if book.cover_ref is None and found.cover_url:
+            changes["cover_ref"] = found.cover_url        # replace-never (I7)
+        if found.external_id:
+            changes["source"] = {"provider": "openlibrary",
+                                 "external_id": found.external_id, "url": found.url}
+        return book.with_(**changes) if changes else book
+
+    def discover(self, limit: int = 5) -> list:
+        """Books you do NOT have, drawn from the subjects you already read.
+
+        Distinct from recommend(): this is what to acquire, so anything already
+        in the library is filtered out rather than suggested back to you.
+        """
+        if self.metadata is None:
+            return []
+        books = self.repo.list_books()
+        counts: dict[str, int] = {}
+        for b in books:
+            for s_ in b.subjects:
+                counts[s_] = counts.get(s_, 0) + 1
+            for c in b.categories:
+                counts[c] = counts.get(c, 0) + 1
+        top = [s_ for s_, _ in sorted(counts.items(), key=lambda kv: -kv[1])[:4]]
+        if not top:
+            return []
+        try:
+            return self.metadata.discover(
+                top, exclude_titles={b.title for b in books}, limit=limit)
+        except Exception:
+            return []
 
     def set_reading_status(self, book_ref: str, status: str, when: str | None = None) -> WriteResult:
         book = self.resolve(book_ref)
@@ -115,3 +171,73 @@ class LibraryService:
 
     def search_library(self, query: str, **filters) -> list[BookRecord]:
         return self.repo.find_books(LibraryQuery(text=query, **filters))
+
+    # ---- read-only: what should I read next ------------------------
+
+    #: vibe word -> (field to inspect, value to match)
+    _MOODS = {
+        "historical": ("kind", "historical"), "history": ("kind", "historical"),
+        "period": ("kind", "historical"), "past": ("kind", "historical"),
+        "speculative": ("kind", "speculative"), "sci-fi": ("kind", "speculative"),
+        "scifi": ("kind", "speculative"), "future": ("kind", "speculative"),
+        "contemporary": ("kind", "contemporary"), "modern": ("kind", "contemporary"),
+        "invented": ("kind", "fictional"), "fantasy": ("kind", "fictional"),
+        "fiction": ("form", "fiction"), "novel": ("form", "fiction"),
+        "nonfiction": ("form", "nonfiction"), "non-fiction": ("form", "nonfiction"),
+        "factual": ("form", "nonfiction"), "true": ("form", "nonfiction"),
+    }
+    _SHORT = {"short", "quick", "light", "brief", "small"}
+    _LONG = {"long", "big", "chunky", "meaty", "substantial"}
+
+    def recommend(self, vibe: str | None = None, limit: int = 3) -> list[dict]:
+        """Pick from the unread pile. Deterministic — no model involved.
+
+        Returns candidates with the reason each was chosen, because an
+        unexplained recommendation is not actionable.
+        """
+        pool = [b for b in self.repo.list_books() if b.status == "to_read"]
+        if not pool:
+            return []
+
+        words = set((vibe or "").lower().replace(",", " ").split())
+        scored: list[tuple[int, list[str], BookRecord]] = []
+
+        for book in pool:
+            score, why = 0, []
+            for word in words:
+                target = self._MOODS.get(word)
+                if not target:
+                    continue
+                field, want = target
+                if field == "kind" and book.setting.kind == want:
+                    score += 3; why.append(want)
+                elif field == "form" and book.form == want:
+                    score += 3; why.append(want.replace("nonfiction", "non-fiction"))
+            # shelves and subjects are free-text; match them directly
+            for word in words:
+                if any(word == c.lower() for c in book.categories):
+                    score += 2; why.append(word)
+                elif any(word == s.lower() for s in book.subjects):
+                    score += 2; why.append(word)
+            if book.page_count is not None:
+                if words & self._SHORT and book.page_count <= 300:
+                    score += 2; why.append(f"{book.page_count} pages")
+                if words & self._LONG and book.page_count >= 450:
+                    score += 2; why.append(f"{book.page_count} pages")
+            if words & {"own", "owned", "shelf", "here"} and book.owned is True:
+                score += 2; why.append("already on your shelf")
+            # a book you own beats one you would have to buy, all else equal
+            if book.owned is True:
+                score += 1
+            scored.append((score, why, book))
+
+        scored.sort(key=lambda t: (-t[0], t[2].page_count or 10**6, t[2].title))
+        top = scored[:limit]
+        matched = any(s > 1 for s, _, _ in top)
+        return [{
+            "book": b,
+            "score": s,
+            "reason": ", ".join(dict.fromkeys(w)) if w else
+                      ("on your shelf already" if b.owned is True else "still unread"),
+            "matched_vibe": matched and s > 1,
+        } for s, w, b in top]
