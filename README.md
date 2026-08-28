@@ -174,6 +174,22 @@ Different questions entirely. Not *when is this set* but *what is it about*, and
 A twenty-year-old novel is not a problem. A twenty-year-old book on a moving
 subject might be — which is why that widget is offered for non-fiction only.
 
+## Make it look like yours
+
+The dashboard is **yours to restyle.** Every colour, typeface, radius and
+spacing value comes from a design token — there is not one hard-coded colour in
+the markup — so you change the look by editing a single block, or by asking an
+AI to do it with the prompt in `docs/THEME.md`.
+
+Warm and papery, stark monochrome, high-contrast, whatever you want. It re-themes
+the charts, the chat bubbles, the stat tiles and the tables together, and all
+three theme states — light, dark, and the system default — keep working.
+
+What you should not change is listed too, and it is short: the **chart form**
+for a given metric, **empty states** (no data must never render as zero), and
+the **direct labels and table views** that keep low-contrast series readable.
+Those are correctness, not taste. → `docs/THEME.md`
+
 ## Where your library lives
 
 **Examples, not a menu.** Anything that can hold a record and pass the
@@ -225,21 +241,17 @@ which is written to be honest about this rather than to advertise.
 | `onboarding/` | What to inspect, what to default, the two questions worth asking. |
 | `reference/` | Domain, service, adapters, intake, metadata, projection. Evidence the spec is buildable. |
 | `docs/METRICS.md` | 29-entry metrics catalogue with acceptance tests and widget packs. |
+| `docs/THEME.md` | The design tokens, what you may restyle, and what is correctness rather than taste. |
 | `site/` | The demo dashboard. No backend. |
 
 All demo data is a synthetic 42-book fixture. No real reading history appears
 anywhere in this repository.
 
-## Setup asks almost nothing
+## Easy onboarding
 
-An earlier draft specified nine setup questions. That was wrong — most are
-answerable by inspection, and interrogating someone is the lazy route to
-customization. Two questions survive, plus one optional, and **a zero-question
-path must produce a working build**.
-
-Safety decisions are never inferred toward permissive. Write authority,
-allowlist membership and dashboard exposure take the safe default or are asked
-outright — never resolved by confidence.
+Point a coding agent at `AGENTS.md`. It inspects what you already have rather
+than interrogating you — two questions, plus one optional, and a zero-question
+path that just builds you something working.
 
 ## Licence
 
