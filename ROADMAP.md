@@ -56,8 +56,9 @@ reply routing, redaction — but nothing has opened a socket to
 
 ## Decisions still open
 
-- **Licence.** `LICENSE.md` is a placeholder; the project is not yet licensed
-  for reuse. Apache-2.0 intended, pending a dependency and provenance review.
+- ~~**Licence.**~~ **Settled: Apache-2.0.** The dependency review it was waiting
+  on is done and trivial — there are no dependencies. Pure standard library,
+  nothing vendored.
 - **Visibility.** Private. Going public publishes the history permanently, and
   GitHub Pages needs a public repo on a free plan.
 - **Vector format.** Bespoke JSON today. Worth checking whether an existing

@@ -255,5 +255,11 @@ path that just builds you something working.
 
 ## Licence
 
-Not yet licensed for reuse — see `LICENSE.md`. Intended Apache-2.0, pending a
-dependency and provenance review.
+[Apache-2.0](LICENSE). Use it, change it, build commercial things on it — just
+keep the notice and state what you changed. The patent grant means contributors
+cannot later sue users over patents in code they contributed.
+
+**No dependencies.** The reference implementation is pure Python standard
+library, nothing vendored, nothing to install. Book metadata is fetched from the
+Open Library API at runtime and never redistributed here; cover images are
+referenced by URL, never copied in.
