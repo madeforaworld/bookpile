@@ -1,0 +1,1162 @@
+<title>Bookpile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap">
+
+<style>
+  :root {
+    color-scheme: light;
+    --ground:      #f2f2ef;
+    --card:        #fcfcfb;
+    --ink:         #0b0b0b;
+    --ink-2:       #52514e;
+    --ink-3:       #898781;
+    --rule:        #e1e0d9;
+    --axis:        #c3c2b7;
+    --structure:   #1c2f4a;
+    --structure-2: rgba(28,47,74,0.09);
+    --ring:        rgba(11,11,11,0.10);
+
+    --s1: #2a78d6;
+    --s2: #eb6834;
+    --s3: #1baf7a;
+
+    --seq-100: #cde2fb;
+    --seq-250: #86b6ef;
+    --seq-400: #3987e5;
+    --seq-450: #2a78d6;
+    --seq-550: #1c5cab;
+    --seq-650: #104281;
+
+    --font-display: "IBM Plex Serif", Georgia, "Times New Roman", serif;
+    --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    --wrap: 1140px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --ground:      #0d0d0d;
+      --card:        #1a1a19;
+      --ink:         #ffffff;
+      --ink-2:       #c3c2b7;
+      --ink-3:       #898781;
+      --rule:        #2c2c2a;
+      --axis:        #383835;
+      --structure:   #93aecd;
+      --structure-2: rgba(147,174,205,0.13);
+      --ring:        rgba(255,255,255,0.10);
+
+      --s1: #3987e5;
+      --s2: #d95926;
+      --s3: #199e70;
+
+      --seq-100: #104281;
+      --seq-250: #184f95;
+      --seq-400: #256abf;
+      --seq-450: #2a78d6;
+      --seq-550: #5598e7;
+      --seq-650: #9ec5f4;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --ground:      #0d0d0d;
+    --card:        #1a1a19;
+    --ink:         #ffffff;
+    --ink-2:       #c3c2b7;
+    --ink-3:       #898781;
+    --rule:        #2c2c2a;
+    --axis:        #383835;
+    --structure:   #93aecd;
+    --structure-2: rgba(147,174,205,0.13);
+    --ring:        rgba(255,255,255,0.10);
+
+    --s1: #3987e5;
+    --s2: #d95926;
+    --s3: #199e70;
+
+    --seq-100: #104281;
+    --seq-250: #184f95;
+    --seq-400: #256abf;
+    --seq-450: #2a78d6;
+    --seq-550: #5598e7;
+    --seq-650: #9ec5f4;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- masthead ---------- */
+
+  .masthead {
+    border-bottom: 1px solid var(--rule);
+    padding: 48px 0 34px;
+  }
+
+  .masthead-inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 18px;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(44px, 7vw, 72px);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin: 0 0 18px;
+    text-wrap: balance;
+  }
+
+  .standfirst {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 2.1vw, 21px);
+    line-height: 1.5;
+    color: var(--ink-2);
+    max-width: 34em;
+    margin: 0 0 22px;
+  }
+
+  .standfirst em { font-style: italic; color: var(--ink); }
+
+  .masthead-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+  .masthead-meta b { color: var(--ink-2); font-weight: 500; }
+
+  /* the demo stamp — the one flourish */
+  .stamp {
+    justify-self: end;
+    border: 2px solid var(--structure);
+    color: var(--structure);
+    padding: 12px 16px;
+    transform: rotate(-3.5deg);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    line-height: 1.5;
+    text-align: center;
+    text-transform: uppercase;
+    opacity: 0.85;
+    max-width: 190px;
+  }
+  .stamp span { display: block; font-size: 9px; font-weight: 400; letter-spacing: 0.1em; margin-top: 5px; opacity: 0.8; }
+
+  /* ---------- cards ---------- */
+
+  section { padding: 44px 0; border-bottom: 1px solid var(--rule); }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--ring);
+    border-radius: 3px;
+  }
+
+  .card-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 13px 20px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--structure-2);
+  }
+
+  .card-id {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.13em;
+    color: var(--structure);
+    text-transform: uppercase;
+  }
+
+  .card-q {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--ink-2);
+  }
+
+  .card-body { padding: 20px; }
+
+  .card-note {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    line-height: 1.65;
+    color: var(--ink-3);
+    margin: 14px 0 0;
+    padding-top: 12px;
+    border-top: 1px dashed var(--rule);
+  }
+
+  /* ---------- hero chart ---------- */
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 268px;
+    gap: 0;
+  }
+  .hero-aside {
+    border-left: 1px solid var(--rule);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .hero-aside h3 {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.3;
+  }
+  .hero-aside p { margin: 0; font-size: 13.5px; line-height: 1.62; color: var(--ink-2); }
+
+  .readkey { display: flex; flex-direction: column; gap: 9px; margin: 2px 0; }
+  .readkey div {
+    display: grid;
+    grid-template-columns: 12px 1fr;
+    gap: 10px;
+    align-items: start;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    line-height: 1.45;
+  }
+  .readkey i {
+    width: 10px; height: 10px; border-radius: 50%;
+    margin-top: 4px;
+    font-style: normal;
+    box-shadow: 0 0 0 2px var(--card);
+  }
+  .readkey b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- KPI row ---------- */
+
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .kpi { padding: 18px 20px 20px; }
+  .kpi-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 10px;
+  }
+  .kpi-value {
+    font-family: var(--font-body);
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .kpi-value small { font-size: 17px; font-weight: 500; color: var(--ink-3); margin-left: 2px; }
+  .kpi-sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    margin: 9px 0 0;
+    line-height: 1.5;
+  }
+
+  /* ---------- chart grid ---------- */
+
+  .chart-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .chart-grid .span2 { grid-column: 1 / -1; }
+
+  figure { margin: 0; }
+  svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+  .ax-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--ink-3);
+    letter-spacing: 0.04em;
+  }
+  .ax-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    fill: var(--ink-3);
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+  .val-label {
+    font-family: var(--font-body);
+    font-size: 11.5px;
+    font-weight: 600;
+    fill: var(--ink-2);
+    font-variant-numeric: tabular-nums;
+  }
+  .cat-label {
+    font-family: var(--font-body);
+    font-size: 12px;
+    fill: var(--ink-2);
+  }
+  .series-label {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .grid-line { stroke: var(--rule); stroke-width: 1; }
+  .axis-line { stroke: var(--axis); stroke-width: 1; }
+  .mark { transition: opacity .12s ease; }
+  @media (prefers-reduced-motion: reduce) { .mark { transition: none; } }
+
+  /* ---------- prose ---------- */
+
+  .prose-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 44px;
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    margin: 0 0 16px;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+  .prose p { font-size: 15.5px; line-height: 1.68; color: var(--ink-2); margin: 0 0 15px; max-width: 60ch; }
+  .prose p strong { color: var(--ink); font-weight: 600; }
+  .prose p:last-child { margin-bottom: 0; }
+
+  .tierlist { display: flex; flex-direction: column; gap: 1px; background: var(--rule); border: 1px solid var(--ring); border-radius: 3px; overflow: hidden; }
+  .tier { background: var(--card); padding: 13px 16px; display: grid; grid-template-columns: 58px 1fr; gap: 14px; align-items: baseline; }
+  .tier code { font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--structure); letter-spacing: 0.06em; }
+  .tier div { font-size: 13.5px; line-height: 1.5; color: var(--ink-2); }
+  .tier div b { color: var(--ink); font-weight: 600; }
+  .tier.t4 { background: var(--structure-2); }
+
+  /* ---------- table view ---------- */
+
+  details {
+    margin-top: 16px;
+    border-top: 1px dashed var(--rule);
+    padding-top: 14px;
+  }
+  summary {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--structure);
+    cursor: pointer;
+    padding: 3px 0;
+  }
+  summary:focus-visible { outline: 2px solid var(--structure); outline-offset: 3px; }
+  .table-scroll { overflow-x: auto; margin-top: 14px; }
+  table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+  th, td {
+    text-align: left;
+    padding: 7px 14px 7px 0;
+    border-bottom: 1px solid var(--rule);
+    white-space: nowrap;
+  }
+  th {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 500;
+  }
+  td { color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  td.t { color: var(--ink); font-family: var(--font-display); }
+
+  /* ---------- tooltip ---------- */
+
+  #tip {
+    position: fixed;
+    pointer-events: none;
+    z-index: 50;
+    background: var(--card);
+    border: 1px solid var(--ring);
+    box-shadow: 0 6px 22px rgba(0,0,0,0.16);
+    border-radius: 3px;
+    padding: 9px 12px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--ink-2);
+    max-width: 240px;
+    opacity: 0;
+    transition: opacity .1s ease;
+  }
+  #tip.on { opacity: 1; }
+  #tip b { display: block; color: var(--ink); font-family: var(--font-display); font-size: 13.5px; font-weight: 600; margin-bottom: 2px; }
+  #tip span { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); }
+
+  /* ---------- footer ---------- */
+
+  footer { padding: 44px 0 64px; }
+  .foot-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .foot-col h4 {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 12px;
+    font-weight: 500;
+  }
+  .foot-col p { margin: 0 0 9px; font-size: 13.5px; line-height: 1.6; color: var(--ink-2); }
+  .foot-col code { font-family: var(--font-mono); font-size: 12px; color: var(--structure); }
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-aside { border-left: 0; border-top: 1px solid var(--rule); }
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .chart-grid { grid-template-columns: 1fr; }
+    .prose-grid { grid-template-columns: 1fr; gap: 32px; }
+    .foot-grid { grid-template-columns: 1fr; gap: 26px; }
+    .masthead-inner { grid-template-columns: 1fr; }
+    .stamp { justify-self: start; }
+  }
+  @media (max-width: 560px) {
+    .kpi-row { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div>
+        <p class="eyebrow">Executable specification · v0.1.0-draft</p>
+        <h1>Bookpile</h1>
+        <p class="standfirst">
+          A specification, a conformance suite and a safety core for a personal reading
+          system — so an agent can build one shaped to <em>your</em> setup, and the test
+          vectors prove it came out right.
+        </p>
+        <div class="masthead-meta">
+          <div><b>Intake</b> Telegram · Discord · CLI · email</div>
+          <div><b>Storage</b> Markdown · SQLite · Sheets · yours</div>
+          <div><b>Licence</b> Apache-2.0</div>
+        </div>
+      </div>
+      <div class="stamp">
+        Demo data<br>Synthetic library
+        <span>30 invented titles · no real reading history</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HERO: M26 ============ -->
+  <section>
+    <div class="card">
+      <div class="card-head">
+        <span class="card-id">M26 · Three clocks — written against set</span>
+        <span class="card-q">When were these books written, and when are they set?</span>
+      </div>
+      <div class="hero-grid">
+        <div class="card-body">
+          <figure>
+            <svg id="c-clocks" viewBox="0 0 720 430" role="img"
+                 aria-label="Scatter plot of publication year against the year each story is set, with a diagonal marking the present tense."></svg>
+          </figure>
+          <details>
+            <summary>Table view</summary>
+            <div class="table-scroll">
+              <table id="clocks-table">
+                <thead><tr><th>Title</th><th>Written</th><th>Set</th><th>Reach</th><th>Kind</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </details>
+        </div>
+        <aside class="hero-aside">
+          <h3>The chart no other tracker can draw</h3>
+          <p>
+            Bookpile stores publication time and narrative time as two separate clocks.
+            That one schema decision makes this plot possible — and it is the reason the
+            schema is shaped the way it is.
+          </p>
+          <div class="readkey">
+            <div><i style="background:var(--s2)"></i><span><b>On the line</b> — written about its own moment.</span></div>
+            <div><i style="background:var(--s1)"></i><span><b>Below</b> — the author looking back.</span></div>
+            <div><i style="background:var(--s3)"></i><span><b>Above</b> — the author looking forward.</span></div>
+          </div>
+          <p id="clocks-excl" class="card-note" style="margin-top:auto"></p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ KPI ROW ============ -->
+  <section>
+    <p class="eyebrow">M01 – M05 · Headline numbers</p>
+    <div class="kpi-row">
+      <div class="card kpi">
+        <p class="kpi-label">Library size</p>
+        <div class="kpi-value" id="k-total">—</div>
+        <p class="kpi-sub" id="k-total-sub"></p>
+      </div>
+      <div class="card kpi">
+        <p class="kpi-label">Finished in 2026</p>
+        <div class="kpi-value" id="k-year">—</div>
+        <p class="kpi-sub" id="k-year-sub"></p>
+      </div>
+      <div class="card kpi">
+        <p class="kpi-label">Mean rating</p>
+        <div class="kpi-value" id="k-rating">—</div>
+        <p class="kpi-sub" id="k-rating-sub"></p>
+      </div>
+      <div class="card kpi">
+        <p class="kpi-label">Abandonment rate</p>
+        <div class="kpi-value" id="k-abandon">—</div>
+        <p class="kpi-sub" id="k-abandon-sub"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CHART GRID ============ -->
+  <section>
+    <p class="eyebrow">M06 – M30 · Selected from the menu</p>
+    <div class="chart-grid">
+
+      <div class="card">
+        <div class="card-head">
+          <span class="card-id">M06 · Finished per year</span>
+          <span class="card-q">Am I reading more than I was?</span>
+        </div>
+        <div class="card-body">
+          <figure><svg id="c-peryear" viewBox="0 0 520 260" role="img" aria-label="Bar chart of books finished per year."></svg></figure>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <span class="card-id">M08 · Shelf time</span>
+          <span class="card-q">How long do books wait before I start them?</span>
+        </div>
+        <div class="card-body">
+          <figure><svg id="c-shelf" viewBox="0 0 520 260" role="img" aria-label="Histogram of how long books waited between being added and being started."></svg></figure>
+          <p class="card-note" id="shelf-note"></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <span class="card-id">M10 · Status breakdown</span>
+          <span class="card-q">Where is everything?</span>
+        </div>
+        <div class="card-body">
+          <figure><svg id="c-status" viewBox="0 0 520 260" role="img" aria-label="Horizontal bar chart of books by reading status."></svg></figure>
+          <p class="card-note">All six statuses render even at zero, so you can see what you are not using.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <span class="card-id">M12 · Ownership</span>
+          <span class="card-q">What do I actually own?</span>
+        </div>
+        <div class="card-body">
+          <figure><svg id="c-owned" viewBox="0 0 520 150" role="img" aria-label="Stacked bar of owned, not owned, and unknown ownership."></svg></figure>
+          <p class="card-note">Three segments, always. Folding <b>unknown</b> into <b>not owned</b> is a spec violation — the conformance vector fails any build that does it.</p>
+        </div>
+      </div>
+
+      <div class="card span2">
+        <div class="card-head">
+          <span class="card-id">M30 · Field completeness</span>
+          <span class="card-q">What does my library not know about itself?</span>
+        </div>
+        <div class="card-body">
+          <figure><svg id="c-quality" viewBox="0 0 520 260" role="img" aria-label="Horizontal bars showing the share of records carrying each field."></svg></figure>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ PROSE ============ -->
+  <section>
+    <div class="prose-grid">
+      <div class="prose">
+        <h2>A menu, not a dashboard</h2>
+        <p>
+          Every other self-hosted tracker hands you the charts its authors happened to build.
+          Bookpile ships a catalogue of metrics, each with its data requirements, its chart
+          form and its acceptance test — and the interview asks which ones you want.
+        </p>
+        <p>
+          <strong>What you record determines what you can be shown.</strong> A library with
+          nothing but titles and statuses supports four tiles and a status bar. Add dates and
+          the time series unlock. Record where a story is <em>set</em>, and you reach a tier
+          nothing else on the shelf can offer.
+        </p>
+        <p>
+          A build never advertises a chart its data cannot fill. An empty chart is worse than
+          an absent one.
+        </p>
+      </div>
+      <div class="tierlist">
+        <div class="tier"><code>T0</code><div><b>Presence</b> — title, author, status. Library size, status breakdown, shelves, completeness.</div></div>
+        <div class="tier"><code>T1</code><div><b>Dates</b> — started and finished. Per-year bars, calendar, days-to-finish, shelf time.</div></div>
+        <div class="tier"><code>T2</code><div><b>Judgement</b> — rating and ownership. Rating distribution, the three-way ownership split.</div></div>
+        <div class="tier"><code>T3</code><div><b>Bibliographic</b> — pages and publication year. Pages per period, length, era.</div></div>
+        <div class="tier t4"><code>T4</code><div><b>Setting</b> — where the story actually happens in time. <b>The three-clocks scatter.</b></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="foot-grid">
+      <div class="foot-col">
+        <h4>This page</h4>
+        <p>Static build, no backend. Every chart above is computed in the browser from
+        <code>fixtures/synthetic-library.json</code> — the same fixture the test suite uses.</p>
+        <p>A release gate asserts the built bundle contains no string from the maintainer's
+        local denylist.</p>
+      </div>
+      <div class="foot-col">
+        <h4>How correctness is defined</h4>
+        <p>Bespoke builds are proven by portable given/when/then vectors, not by inspection.
+        Each metric carries at least three: happy path, empty, and null-handling.</p>
+        <p><code>conformance/vectors/</code></p>
+      </div>
+      <div class="foot-col">
+        <h4>What is never generated</h4>
+        <p>The allowlist, intent validation, idempotency and the privacy scanner ship as fixed,
+        tested code.</p>
+        <p>The more of a project an agent generates, the more rigidly fixed its safety layer
+        has to be.</p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<div id="tip" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  const BOOKS = [
+    {"t":"The Lacquer Cabinet","a":"Ines Verhoeven","s":"finished","o":true,"add":"2023-11-19","rd":[["2025-01-04","2025-01-19","finished",4],["2026-02-20","2026-03-06","finished",5]],"r":5,"p":388,"pub":2019,"set":1687,"k":"historical"},
+    {"t":"Salt in the Wiring","a":"Odalys Ferrer","s":"finished","o":true,"add":"2025-01-24","rd":[["2025-02-02","2025-02-11","finished",5]],"r":5,"p":302,"pub":2021,"set":2088,"k":"speculative"},
+    {"t":"Nine Hours from Trelleborg","a":"Kaspar Lindqvist","s":"finished","o":false,"add":"2024-12-19","rd":[["2025-02-20","2025-03-14","finished",3]],"r":3,"p":244,"pub":2015,"set":2014,"k":"contemporary"},
+    {"t":"A Grammar of Falling Objects","a":"Petra Oyelaran","s":"finished","o":true,"add":"2025-03-16","rd":[["2025-03-18","2025-04-02","finished",5],["2026-06-02","2026-06-11","finished",5]],"r":5,"p":210,"pub":2023,"set":2022,"k":"contemporary"},
+    {"t":"The Tin Almanac","a":"Marguerite Sowande","s":"finished","o":true,"add":"2024-08-23","rd":[["2025-04-08","2025-05-06","finished",4]],"r":4,"p":512,"pub":1934,"set":1871,"k":"historical"},
+    {"t":"Winterbourne Signal","a":"Ada Ruhle","s":"reading","o":true,"add":"2026-07-01","rd":[["2026-08-11",null,"in_progress",null]],"r":null,"p":466,"pub":2024,"set":2140,"k":"speculative"},
+    {"t":"The Cartographer's Complaint","a":"Bertil Wass","s":"finished","o":false,"add":"2025-04-27","rd":[["2025-05-12","2025-06-01","finished",4]],"r":4,"p":431,"pub":2008,"set":1543,"k":"historical"},
+    {"t":"Mould, Ash, Bloom","a":"Junia Delacroix-Amara","s":"finished","o":true,"add":"2023-08-03","rd":[["2025-06-04","2025-06-22","finished",5]],"r":5,"p":594,"pub":2020,"set":null,"k":"fictional"},
+    {"t":"Every Door in Kestrel House","a":"Fenella Achebe","s":"finished","o":false,"add":"2025-06-27","rd":[["2025-07-01","2025-07-09","finished",3]],"r":3,"p":268,"pub":2018,"set":2017,"k":"contemporary"},
+    {"t":"The Long Recension","a":"Tomas Bergqvist","s":"reference","o":true,"add":"2025-07-22","rd":[],"r":null,"p":720,"pub":2011,"set":null,"k":null},
+    {"t":"Ledger of Small Waters","a":"Ilya Mbeki","s":"finished","o":true,"add":"2025-04-09","rd":[["2025-07-14","2025-08-03","finished",4]],"r":4,"p":355,"pub":1998,"set":1919,"k":"historical"},
+    {"t":"The Concrete Orchard","a":"Solveig Nakamura","s":"reading","o":true,"add":"2026-08-18","rd":[["2026-08-19",null,"in_progress",null]],"r":null,"p":340,"pub":2026,"set":2061,"k":"speculative"},
+    {"t":"Ten Fathoms of Blue Wire","a":"Rasmus Achterberg","s":"abandoned","o":false,"add":"2024-11-01","rd":[["2025-09-02",null,"abandoned",2]],"r":2,"p":611,"pub":2013,"set":2199,"k":"speculative"},
+    {"t":"The Gantry Wives","a":"Hester Nwankwo","s":"reading","o":true,"add":"2025-08-14","rd":[["2025-09-10","2025-09-28","finished",5],["2026-08-02",null,"in_progress",null]],"r":5,"p":402,"pub":2022,"set":1948,"k":"historical"},
+    {"t":"Notes Toward a Drowned City","a":"Anselm Prieto","s":"paused","o":true,"add":"2025-05-20","rd":[["2025-10-05",null,"in_progress",null]],"r":null,"p":288,"pub":2014,"set":null,"k":"fictional"},
+    {"t":"The Auditor of Small Hours","a":"Vivienne Okonkwo","s":"finished","o":false,"add":"2025-10-06","rd":[["2025-10-12","2025-10-21","finished",4]],"r":4,"p":232,"pub":2025,"set":2024,"k":"contemporary"},
+    {"t":"Brass Sunday","a":"Milo Ferreira","s":"finished","o":true,"add":"2024-05-31","rd":[["2025-11-01","2025-11-26","finished",3]],"r":3,"p":478,"pub":1961,"set":1902,"k":"historical"},
+    {"t":"The Unquiet Register","a":"Dagny Solheim","s":"finished","o":true,"add":"2025-10-30","rd":[["2025-12-03","2025-12-15","finished",4]],"r":4,"p":326,"pub":2017,"set":2035,"k":"speculative"},
+    {"t":"What the Lighthouse Owed","a":"Cormac Baptiste","s":"finished","o":true,"add":"2025-10-27","rd":[["2026-01-06","2026-01-24","finished",5],["2026-07-02","2026-07-15","finished",5]],"r":5,"p":364,"pub":2012,"set":1826,"k":"historical"},
+    {"t":"The Sieve and the Sea","a":"Perpetua Lindgren","s":"to_read","o":true,"add":"2025-12-31","rd":[],"r":null,"p":null,"pub":2023,"set":null,"k":"fictional"},
+    {"t":"Ordinary Machines","a":"Yusuf Halvorsen","s":"finished","o":false,"add":"2026-01-22","rd":[["2026-02-02","2026-02-13","finished",3]],"r":3,"p":254,"pub":2020,"set":2019,"k":"contemporary"},
+    {"t":"The Feathered Ledger","a":"Ottoline Marek","s":"finished","o":true,"add":"2023-11-09","rd":[["2026-03-01","2026-03-30","finished",4]],"r":4,"p":545,"pub":1889,"set":1789,"k":"historical"},
+    {"t":"A Field Guide to Absent Rivers","a":"Saskia Boateng","s":"reference","o":true,"add":"2026-03-26","rd":[],"r":null,"p":null,"pub":2021,"set":null,"k":null},
+    {"t":"The Glasshouse Interval","a":"Runa Castellanos","s":"finished","o":true,"add":"2026-04-02","rd":[["2026-04-05","2026-04-18","finished",5]],"r":5,"p":298,"pub":2023,"set":2077,"k":"speculative"},
+    {"t":"Hollow Bell, Hollow Year","a":"Emeka Lindqvist","s":"finished","o":false,"add":"2025-02-08","rd":[["2025-08-14",null,"abandoned",null],["2026-05-02","2026-05-29","finished",4]],"r":4,"p":490,"pub":2005,"set":1666,"k":"historical"},
+    {"t":"The Persistence of Tuesdays","a":"Bea Alvarado","s":"finished","o":true,"add":"2026-05-17","rd":[["2026-06-08","2026-06-17","finished",3]],"r":3,"p":221,"pub":2016,"set":2015,"k":"contemporary"},
+    {"t":"Quarry Light","a":"Ingrid Sowande","s":"finished","o":true,"add":"2026-05-07","rd":[["2026-07-04","2026-07-21","finished",4]],"r":4,"p":377,"pub":2010,"set":1854,"k":"historical"},
+    {"t":"An Instrument of Tides","a":"Halvard Nakamura","s":"to_read","o":false,"add":"2026-05-24","rd":[],"r":null,"p":412,"pub":2024,"set":2104,"k":"speculative"},
+    {"t":"The Eighth of Never","a":"Corisande Achebe","s":"to_read","o":null,"add":"2026-07-28","rd":[],"r":null,"p":275,"pub":2022,"set":2021,"k":"contemporary"},
+    {"t":"The Wintering House","a":"Marit Okonkwo","s":"to_read","o":null,"add":"2025-01-17","rd":[],"r":null,"p":null,"pub":null,"set":1913,"k":"historical"}
+  ];
+
+  const NS = "http://www.w3.org/2000/svg";
+  const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+  function el(tag, attrs, parent) {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  }
+  function clear(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
+
+  /* ---------- tooltip ---------- */
+  const tip = document.getElementById("tip");
+  function showTip(e, html) {
+    tip.innerHTML = html;
+    tip.classList.add("on");
+    moveTip(e);
+  }
+  function moveTip(e) {
+    const pad = 14;
+    let x = e.clientX + pad, y = e.clientY + pad;
+    const r = tip.getBoundingClientRect();
+    if (x + r.width > window.innerWidth - 8) x = e.clientX - r.width - pad;
+    if (y + r.height > window.innerHeight - 8) y = e.clientY - r.height - pad;
+    tip.style.left = x + "px";
+    tip.style.top = y + "px";
+  }
+  function hideTip() { tip.classList.remove("on"); }
+  function bindTip(node, html) {
+    node.addEventListener("mouseenter", (e) => showTip(e, html));
+    node.addEventListener("mousemove", moveTip);
+    node.addEventListener("mouseleave", hideTip);
+  }
+
+  /* =======================================================
+     M26 — three clocks
+     ======================================================= */
+  const KIND = {
+    historical:   { label: "Historical",   color: "--s1" },
+    contemporary: { label: "Contemporary", color: "--s2" },
+    speculative:  { label: "Speculative",  color: "--s3" }
+  };
+
+  function drawClocks() {
+    const svg = document.getElementById("c-clocks");
+    clear(svg);
+    const W = 720, H = 430;
+    const m = { t: 18, r: 104, b: 46, l: 52 };
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+
+    const plotted = BOOKS.filter(b => b.k in KIND && b.pub != null && b.set != null);
+    const fictional = BOOKS.filter(b => b.k === "fictional").length;
+    const incomplete = BOOKS.length - plotted.length - fictional;
+
+    const xd = [1875, 2035], yd = [1500, 2230];
+    const X = (v) => m.l + ((v - xd[0]) / (xd[1] - xd[0])) * iw;
+    const Y = (v) => m.t + ih - ((v - yd[0]) / (yd[1] - yd[0])) * ih;
+
+    // gridlines + y ticks
+    for (let y = 1600; y <= 2200; y += 100) {
+      el("line", { x1: m.l, x2: m.l + iw, y1: Y(y), y2: Y(y), class: "grid-line" }, svg);
+      el("text", { x: m.l - 9, y: Y(y) + 3.5, class: "ax-label", "text-anchor": "end" }, svg).textContent = y;
+    }
+    // x ticks
+    for (let x = 1900; x <= 2000; x += 50) {
+      el("text", { x: X(x), y: m.t + ih + 18, class: "ax-label", "text-anchor": "middle" }, svg).textContent = x;
+    }
+    el("text", { x: X(2025), y: m.t + ih + 18, class: "ax-label", "text-anchor": "middle" }, svg).textContent = "2025";
+
+    el("line", { x1: m.l, x2: m.l + iw, y1: m.t + ih, y2: m.t + ih, class: "axis-line" }, svg);
+
+    // the diagonal: written == set
+    const d0 = Math.max(xd[0], yd[0]), d1 = Math.min(xd[1], yd[1]);
+    el("line", {
+      x1: X(d0), y1: Y(d0), x2: X(d1), y2: Y(d1),
+      stroke: css("--axis"), "stroke-width": 1.5, "stroke-dasharray": "5 4"
+    }, svg);
+    const lx = X(2032), ly = Y(2032);
+    const dl = el("text", { x: lx - 6, y: ly - 9, class: "ax-title", "text-anchor": "end" }, svg);
+    dl.textContent = "written = set";
+
+    // axis titles
+    el("text", { x: m.l, y: H - 6, class: "ax-title" }, svg).textContent = "Publication year →";
+    const yt = el("text", { x: 0, y: 0, class: "ax-title", transform: "translate(13," + (m.t + ih) + ") rotate(-90)" }, svg);
+    yt.textContent = "Year the story is set →";
+
+    // marks
+    plotted.forEach(b => {
+      const c = css(KIND[b.k].color);
+      const g = el("circle", {
+        cx: X(b.pub), cy: Y(b.set), r: 5.5,
+        fill: c, stroke: css("--card"), "stroke-width": 2, class: "mark"
+      }, svg);
+      const reach = b.set - b.pub;
+      const reachTxt = reach === 0 ? "its own year"
+        : reach > 0 ? reach + " years forward" : Math.abs(reach) + " years back";
+      bindTip(g, "<b>" + b.t + "</b><span>" + b.a + " · written " + b.pub +
+        " · set " + b.set + "<br>" + KIND[b.k].label + " — " + reachTxt + "</span>");
+    });
+
+    // direct series labels (relief rule)
+    const anchors = {
+      historical:   { x: X(1905), y: Y(1600) },
+      contemporary: { x: X(2028), y: Y(2012) },
+      speculative:  { x: X(1990), y: Y(2205) }
+    };
+    Object.keys(anchors).forEach(k => {
+      const t = el("text", {
+        x: anchors[k].x, y: anchors[k].y,
+        class: "series-label", fill: css(KIND[k].color),
+        "text-anchor": k === "contemporary" ? "start" : "middle"
+      }, svg);
+      t.textContent = KIND[k].label;
+    });
+
+    document.getElementById("clocks-excl").innerHTML =
+      plotted.length + " of " + BOOKS.length + " plotted. Excluded: " + fictional +
+      " set in invented worlds (no real-world year to plot), " + incomplete +
+      " missing a publication or setting year.";
+
+    // table view
+    const tb = document.querySelector("#clocks-table tbody");
+    tb.innerHTML = "";
+    plotted.slice().sort((a, b) => a.pub - b.pub).forEach(b => {
+      const reach = b.set - b.pub;
+      const tr = document.createElement("tr");
+      tr.innerHTML = "<td class='t'>" + b.t + "</td><td>" + b.pub + "</td><td>" + b.set +
+        "</td><td>" + (reach > 0 ? "+" : "") + reach + "</td><td>" + KIND[b.k].label + "</td>";
+      tb.appendChild(tr);
+    });
+  }
+
+  /* =======================================================
+     KPI tiles
+     ======================================================= */
+  function drawKpis() {
+    const total = BOOKS.length;
+    const readings = BOOKS.flatMap(b => b.rd);
+    const finished = readings.filter(r => r[2] === "finished");
+    const abandoned = readings.filter(r => r[2] === "abandoned");
+
+    const done26 = (b) => b.rd.filter(r => r[2] === "finished" && r[1] && r[1].startsWith("2026"));
+    const comp26 = BOOKS.reduce((s, b) => s + done26(b).length, 0);
+    const books26 = BOOKS.filter(b => done26(b).length > 0).length;
+    let pages26 = 0;
+    BOOKS.forEach(b => { pages26 += done26(b).length * (b.p || 0); });
+
+    const rated = BOOKS.filter(b => b.r != null);
+    const mean = rated.reduce((s, b) => s + b.r, 0) / rated.length;
+    const rate = abandoned.length / (finished.length + abandoned.length);
+
+    document.getElementById("k-total").textContent = total;
+    document.getElementById("k-total-sub").textContent =
+      BOOKS.filter(b => b.s === "finished").length + " read · " +
+      BOOKS.filter(b => b.s === "to_read").length + " waiting";
+
+    document.getElementById("k-year").textContent = comp26;
+    document.getElementById("k-year-sub").textContent =
+      (comp26 === books26 ? "across " + books26 + " books"
+                          : "across " + books26 + " books — one read twice") +
+      " · " + pages26.toLocaleString() + " pages";
+
+    document.getElementById("k-rating").innerHTML = mean.toFixed(1) + "<small>/5</small>";
+    document.getElementById("k-rating-sub").textContent =
+      (total - rated.length) + " unrated, excluded from the mean";
+
+    document.getElementById("k-abandon").innerHTML = (rate * 100).toFixed(1) + "<small>%</small>";
+    document.getElementById("k-abandon-sub").textContent =
+      abandoned.length + " of " + (finished.length + abandoned.length) + " readings concluded";
+  }
+
+  /* =======================================================
+     M06 — finished per year
+     ======================================================= */
+  function drawPerYear() {
+    const svg = document.getElementById("c-peryear");
+    clear(svg);
+    const W = 520, H = 260, m = { t: 16, r: 12, b: 44, l: 34 };
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+
+    const years = ["2024", "2025", "2026"];
+    const counts = years.map(y => BOOKS.reduce((n, b) =>
+      n + b.rd.filter(r => r[2] === "finished" && r[1] && r[1].startsWith(y)).length, 0));
+    const max = Math.max(...counts, 1);
+
+    [0, 0.5, 1].forEach(f => {
+      const y = m.t + ih - f * ih;
+      el("line", { x1: m.l, x2: m.l + iw, y1: y, y2: y, class: "grid-line" }, svg);
+      el("text", { x: m.l - 8, y: y + 3.5, class: "ax-label", "text-anchor": "end" }, svg)
+        .textContent = Math.round(f * max);
+    });
+
+    const bw = iw / years.length;
+    years.forEach((y, i) => {
+      const h = (counts[i] / max) * ih;
+      const x = m.l + i * bw + bw * 0.22, w = bw * 0.56;
+      const isZero = counts[i] === 0;
+
+      if (isZero) {
+        el("rect", { x, y: m.t + ih - 3, width: w, height: 3, fill: css("--axis"), rx: 1.5 }, svg);
+      } else {
+        const r = el("path", {
+          d: roundedTop(x, m.t + ih - h, w, h, 4),
+          fill: css("--seq-450"), class: "mark"
+        }, svg);
+        bindTip(r, "<b>" + counts[i] + " completions</b><span>" + y +
+          (y === "2026" ? " · year to date" : "") + "</span>");
+        el("text", { x: x + w / 2, y: m.t + ih - h - 8, class: "val-label", "text-anchor": "middle" }, svg)
+          .textContent = counts[i];
+      }
+      el("text", { x: x + w / 2, y: m.t + ih + 19, class: "ax-label", "text-anchor": "middle" }, svg)
+        .textContent = y;
+    });
+
+    el("line", { x1: m.l, x2: m.l + iw, y1: m.t + ih, y2: m.t + ih, class: "axis-line" }, svg);
+    el("text", { x: m.l, y: H - 6, class: "ax-title" }, svg).textContent =
+      "Completions, not books — a re-read counts again";
+  }
+
+  function roundedTop(x, y, w, h, r) {
+    r = Math.min(r, h, w / 2);
+    return "M" + x + "," + (y + h) + "V" + (y + r) +
+      "a" + r + "," + r + " 0 0 1 " + r + "," + -r +
+      "h" + (w - 2 * r) +
+      "a" + r + "," + r + " 0 0 1 " + r + "," + r +
+      "V" + (y + h) + "Z";
+  }
+  function roundedRight(x, y, w, h, r) {
+    r = Math.min(r, w, h / 2);
+    return "M" + x + "," + y + "h" + (w - r) +
+      "a" + r + "," + r + " 0 0 1 " + r + "," + r +
+      "v" + (h - 2 * r) +
+      "a" + r + "," + r + " 0 0 1 " + -r + "," + r +
+      "H" + x + "Z";
+  }
+
+  /* =======================================================
+     M10 — status breakdown
+     ======================================================= */
+  function drawStatus() {
+    const svg = document.getElementById("c-status");
+    clear(svg);
+    const W = 520, H = 260, m = { t: 10, r: 40, b: 26, l: 104 };
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+
+    const labels = {
+      finished: "Finished", to_read: "To read", reading: "Reading",
+      reference: "Reference", paused: "Paused", abandoned: "Abandoned"
+    };
+    const rows = Object.keys(labels).map(k => ({
+      k, label: labels[k], n: BOOKS.filter(b => b.s === k).length
+    })).sort((a, b) => b.n - a.n);
+
+    const max = Math.max(...rows.map(r => r.n), 1);
+    const rh = ih / rows.length;
+
+    rows.forEach((r, i) => {
+      const y = m.t + i * rh + rh * 0.18, h = rh * 0.64;
+      const w = (r.n / max) * iw;
+
+      el("text", { x: m.l - 12, y: y + h / 2 + 4, class: "cat-label", "text-anchor": "end" }, svg)
+        .textContent = r.label;
+
+      if (r.n === 0) {
+        el("rect", { x: m.l, y, width: 3, height: h, fill: css("--axis"), rx: 1.5 }, svg);
+        el("text", { x: m.l + 12, y: y + h / 2 + 4, class: "ax-label" }, svg).textContent = "none";
+      } else {
+        const bar = el("path", {
+          d: roundedRight(m.l, y, w, h, 4), fill: css("--seq-450"), class: "mark"
+        }, svg);
+        bindTip(bar, "<b>" + r.n + " " + r.label.toLowerCase() + "</b><span>" +
+          Math.round(r.n / BOOKS.length * 100) + "% of the library</span>");
+        el("text", { x: m.l + w + 9, y: y + h / 2 + 4, class: "val-label" }, svg).textContent = r.n;
+      }
+    });
+
+    el("line", { x1: m.l, x2: m.l, y1: m.t, y2: m.t + ih, class: "axis-line" }, svg);
+  }
+
+  /* =======================================================
+     M12 — ownership, three segments always
+     ======================================================= */
+  function drawOwned() {
+    const svg = document.getElementById("c-owned");
+    clear(svg);
+    const W = 520, H = 150, m = { t: 34, r: 12, b: 44, l: 12 };
+    const iw = W - m.l - m.r;
+    const barH = 40;
+
+    const segs = [
+      { label: "Owned", n: BOOKS.filter(b => b.o === true).length, c: "--s1" },
+      { label: "Not owned", n: BOOKS.filter(b => b.o === false).length, c: "--s2" },
+      { label: "Unknown", n: BOOKS.filter(b => b.o == null).length, c: "--s3" }
+    ];
+    const total = segs.reduce((s, x) => s + x.n, 0);
+
+    let x = m.l;
+    segs.forEach((s) => {
+      const w = (s.n / total) * iw;
+      const r = el("rect", {
+        x, y: m.t, width: Math.max(w - 2, 1), height: barH,
+        fill: css(s.c), rx: 2, class: "mark"
+      }, svg);
+      bindTip(r, "<b>" + s.n + " " + s.label.toLowerCase() + "</b><span>" +
+        Math.round(s.n / total * 100) + "% of " + total + " records</span>");
+
+      if (w > 54) {
+        el("text", { x: x + w / 2 - 1, y: m.t - 10, class: "series-label", fill: css(s.c), "text-anchor": "middle" }, svg)
+          .textContent = s.label;
+        el("text", { x: x + w / 2 - 1, y: m.t + barH + 18, class: "val-label", "text-anchor": "middle" }, svg)
+          .textContent = s.n;
+      } else {
+        el("text", { x: x + w / 2 - 1, y: m.t + barH + 18, class: "val-label", "text-anchor": "middle" }, svg)
+          .textContent = s.n;
+        el("text", { x: x + w / 2 - 1, y: m.t - 10, class: "series-label", fill: css(s.c), "text-anchor": "middle" }, svg)
+          .textContent = s.label;
+      }
+      x += w;
+    });
+
+    el("text", { x: m.l, y: H - 8, class: "ax-title" }, svg)
+      .textContent = "Unknown is its own segment — never folded into “not owned”";
+  }
+
+  /* =======================================================
+     M30 — field completeness
+     ======================================================= */
+  function drawQuality() {
+    const svg = document.getElementById("c-quality");
+    clear(svg);
+    const W = 520, H = 260, m = { t: 10, r: 46, b: 26, l: 116 };
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+
+    const fields = [
+      { label: "Publication yr", has: b => b.pub != null },
+      { label: "Page count", has: b => b.p != null },
+      { label: "Setting year", has: b => b.set != null },
+      { label: "Rating", has: b => b.r != null },
+      { label: "Ownership", has: b => b.o != null }
+    ].map(f => ({ label: f.label, pct: BOOKS.filter(f.has).length / BOOKS.length, n: BOOKS.filter(f.has).length }))
+      .sort((a, b) => b.pct - a.pct);
+
+    const rh = ih / fields.length;
+    const steps = ["--seq-650", "--seq-550", "--seq-450", "--seq-250", "--seq-100"];
+
+    fields.forEach((f, i) => {
+      const y = m.t + i * rh + rh * 0.2, h = rh * 0.6;
+
+      el("text", { x: m.l - 12, y: y + h / 2 + 4, class: "cat-label", "text-anchor": "end" }, svg)
+        .textContent = f.label;
+      el("rect", { x: m.l, y, width: iw, height: h, fill: css("--rule"), rx: 3 }, svg);
+
+      const w = f.pct * iw;
+      const bar = el("path", {
+        d: roundedRight(m.l, y, Math.max(w, 3), h, 3),
+        fill: css(steps[Math.min(i, steps.length - 1)]), class: "mark"
+      }, svg);
+      bindTip(bar, "<b>" + Math.round(f.pct * 100) + "% complete</b><span>" + f.n +
+        " of " + BOOKS.length + " records carry a value</span>");
+
+      el("text", { x: m.l + iw + 8, y: y + h / 2 + 4, class: "val-label" }, svg)
+        .textContent = Math.round(f.pct * 100) + "%";
+    });
+
+    el("text", { x: m.l, y: H - 6, class: "ax-title" }, svg)
+      .textContent = "Null is never counted as a value";
+  }
+
+
+  /* =======================================================
+     M08 — shelf time
+     ======================================================= */
+  function drawShelfTime() {
+    const svg = document.getElementById("c-shelf");
+    clear(svg);
+    const W = 520, H = 260, m = { t: 16, r: 12, b: 52, l: 34 };
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+
+    const started = BOOKS.filter(b => b.rd.length);
+    const waiting = BOOKS.length - started.length;
+    const days = started.map(b =>
+      Math.round((new Date(b.rd[0][0]) - new Date(b.add)) / 864e5));
+
+    const buckets = [
+      { label: "\u2264 1 wk", lo: 0,   hi: 7 },
+      { label: "1\u20134 wks", lo: 8,   hi: 30 },
+      { label: "1\u20133 mo",  lo: 31,  hi: 90 },
+      { label: "3\u201312 mo", lo: 91,  hi: 365 },
+      { label: "1 yr +",   lo: 366, hi: Infinity }
+    ].map(b => Object.assign(b, { n: days.filter(d => d >= b.lo && d <= b.hi).length }));
+
+    const max = Math.max(...buckets.map(b => b.n), 1);
+    [0, 0.5, 1].forEach(f => {
+      const y = m.t + ih - f * ih;
+      el("line", { x1: m.l, x2: m.l + iw, y1: y, y2: y, class: "grid-line" }, svg);
+      el("text", { x: m.l - 8, y: y + 3.5, class: "ax-label", "text-anchor": "end" }, svg)
+        .textContent = Math.round(f * max);
+    });
+
+    const bw = iw / buckets.length;
+    buckets.forEach((b, i) => {
+      const h = (b.n / max) * ih;
+      const x = m.l + i * bw + bw * 0.18, w = bw * 0.64;
+      if (b.n === 0) {
+        el("rect", { x, y: m.t + ih - 3, width: w, height: 3, fill: css("--axis"), rx: 1.5 }, svg);
+      } else {
+        const r = el("path", { d: roundedTop(x, m.t + ih - h, w, h, 4), fill: css("--seq-450"), class: "mark" }, svg);
+        bindTip(r, "<b>" + b.n + (b.n === 1 ? " book" : " books") + "</b><span>waited " +
+          b.label.replace("\u2264 ", "up to ").replace(" +", " or more") + " before being started</span>");
+        el("text", { x: x + w / 2, y: m.t + ih - h - 8, class: "val-label", "text-anchor": "middle" }, svg)
+          .textContent = b.n;
+      }
+      el("text", { x: x + w / 2, y: m.t + ih + 19, class: "ax-label", "text-anchor": "middle" }, svg)
+        .textContent = b.label;
+    });
+
+    el("line", { x1: m.l, x2: m.l + iw, y1: m.t + ih, y2: m.t + ih, class: "axis-line" }, svg);
+    el("text", { x: m.l, y: H - 8, class: "ax-title" }, svg)
+      .textContent = "Measured to the first reading \u2014 a re-read does not reset it";
+
+    document.getElementById("shelf-note").textContent =
+      waiting + " books have never been started. They are excluded rather than plotted at zero — " +
+      "no shelf time yet is not a shelf time of nothing.";
+  }
+
+  /* ---------- render + theme reactivity ---------- */
+  function renderAll() {
+    drawClocks(); drawKpis(); drawPerYear(); drawShelfTime();
+    drawStatus(); drawOwned(); drawQuality();
+  }
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(renderAll);
+  }
+  renderAll();
+
+  const mq = window.matchMedia("(prefers-color-scheme: dark)");
+  if (mq.addEventListener) mq.addEventListener("change", renderAll);
+  new MutationObserver(renderAll).observe(document.documentElement, {
+    attributes: true, attributeFilter: ["data-theme"]
+  });
+  window.addEventListener("resize", hideTip);
+})();
+</script>

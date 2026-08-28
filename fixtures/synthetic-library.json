@@ -1,0 +1,1350 @@
+{
+  "_banner": "DEMO DATA — SYNTHETIC LIBRARY. Every title, author, date and rating in this file is invented. No real person's reading history appears here.",
+  "schema_version": 1,
+  "books": [
+    {
+      "book_id": "lacquer-cabinet",
+      "title": "The Lacquer Cabinet",
+      "authors": [
+        "Ines Verhoeven"
+      ],
+      "status": "finished",
+      "owned": true,
+      "added_at": "2023-11-19",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-01-04",
+          "finished_at": "2025-01-19",
+          "outcome": "finished",
+          "rating": 4
+        },
+        {
+          "started_at": "2026-02-20",
+          "finished_at": "2026-03-06",
+          "outcome": "finished",
+          "rating": 5
+        }
+      ],
+      "started_at": "2026-02-20",
+      "finished_at": "2026-03-06",
+      "rating": 5,
+      "categories": [
+        "Historical"
+      ],
+      "subjects": [
+        "Trade",
+        "Family"
+      ],
+      "page_count": 388,
+      "first_published": 2019,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 1687,
+        "kind": "historical"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "salt-in-the-wiring",
+      "title": "Salt in the Wiring",
+      "authors": [
+        "Odalys Ferrer"
+      ],
+      "status": "finished",
+      "owned": true,
+      "added_at": "2025-01-24",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-02-02",
+          "finished_at": "2025-02-11",
+          "outcome": "finished",
+          "rating": 5
+        }
+      ],
+      "started_at": "2025-02-02",
+      "finished_at": "2025-02-11",
+      "rating": 5,
+      "categories": [
+        "Speculative"
+      ],
+      "subjects": [
+        "Climate",
+        "Labour"
+      ],
+      "page_count": 302,
+      "first_published": 2021,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 2088,
+        "kind": "speculative"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "nine-hours-trelleborg",
+      "title": "Nine Hours from Trelleborg",
+      "authors": [
+        "Kaspar Lindqvist"
+      ],
+      "status": "finished",
+      "owned": false,
+      "added_at": "2024-12-19",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-02-20",
+          "finished_at": "2025-03-14",
+          "outcome": "finished",
+          "rating": 3
+        }
+      ],
+      "started_at": "2025-02-20",
+      "finished_at": "2025-03-14",
+      "rating": 3,
+      "categories": [
+        "Contemporary"
+      ],
+      "subjects": [
+        "Travel"
+      ],
+      "page_count": 244,
+      "first_published": 2015,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 2014,
+        "kind": "contemporary"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "grammar-falling-objects",
+      "title": "A Grammar of Falling Objects",
+      "authors": [
+        "Petra Oyelaran"
+      ],
+      "status": "finished",
+      "owned": true,
+      "added_at": "2025-03-16",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-03-18",
+          "finished_at": "2025-04-02",
+          "outcome": "finished",
+          "rating": 5
+        },
+        {
+          "started_at": "2026-06-02",
+          "finished_at": "2026-06-11",
+          "outcome": "finished",
+          "rating": 5
+        }
+      ],
+      "started_at": "2026-06-02",
+      "finished_at": "2026-06-11",
+      "rating": 5,
+      "categories": [
+        "Contemporary",
+        "Essays"
+      ],
+      "subjects": [
+        "Language"
+      ],
+      "page_count": 210,
+      "first_published": 2023,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 2022,
+        "kind": "contemporary"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "tin-almanac",
+      "title": "The Tin Almanac",
+      "authors": [
+        "Marguerite Sowande"
+      ],
+      "status": "finished",
+      "owned": true,
+      "added_at": "2024-08-23",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-04-08",
+          "finished_at": "2025-05-06",
+          "outcome": "finished",
+          "rating": 4
+        }
+      ],
+      "started_at": "2025-04-08",
+      "finished_at": "2025-05-06",
+      "rating": 4,
+      "categories": [
+        "Historical"
+      ],
+      "subjects": [
+        "Agriculture"
+      ],
+      "page_count": 512,
+      "first_published": 1934,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 1871,
+        "kind": "historical"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "winterbourne-signal",
+      "title": "Winterbourne Signal",
+      "authors": [
+        "Ada Ruhle"
+      ],
+      "status": "reading",
+      "owned": true,
+      "added_at": "2026-07-01",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2026-08-11",
+          "finished_at": null,
+          "outcome": "in_progress",
+          "rating": null
+        }
+      ],
+      "started_at": "2026-08-11",
+      "finished_at": null,
+      "rating": null,
+      "categories": [
+        "Speculative"
+      ],
+      "subjects": [
+        "Signals"
+      ],
+      "page_count": 466,
+      "first_published": 2024,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 2140,
+        "kind": "speculative"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "cartographers-complaint",
+      "title": "The Cartographer's Complaint",
+      "authors": [
+        "Bertil Wass"
+      ],
+      "status": "finished",
+      "owned": false,
+      "added_at": "2025-04-27",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-05-12",
+          "finished_at": "2025-06-01",
+          "outcome": "finished",
+          "rating": 4
+        }
+      ],
+      "started_at": "2025-05-12",
+      "finished_at": "2025-06-01",
+      "rating": 4,
+      "categories": [
+        "Historical"
+      ],
+      "subjects": [
+        "Maps",
+        "Empire"
+      ],
+      "page_count": 431,
+      "first_published": 2008,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 1543,
+        "kind": "historical"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "mould-ash-bloom",
+      "title": "Mould, Ash, Bloom",
+      "authors": [
+        "Junia Delacroix-Amara"
+      ],
+      "status": "finished",
+      "owned": true,
+      "added_at": "2023-08-03",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-06-04",
+          "finished_at": "2025-06-22",
+          "outcome": "finished",
+          "rating": 5
+        }
+      ],
+      "started_at": "2025-06-04",
+      "finished_at": "2025-06-22",
+      "rating": 5,
+      "categories": [
+        "Speculative"
+      ],
+      "subjects": [
+        "Invented world"
+      ],
+      "page_count": 594,
+      "first_published": 2020,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": null,
+        "kind": "fictional"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "every-door-kestrel",
+      "title": "Every Door in Kestrel House",
+      "authors": [
+        "Fenella Achebe"
+      ],
+      "status": "finished",
+      "owned": false,
+      "added_at": "2025-06-27",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-07-01",
+          "finished_at": "2025-07-09",
+          "outcome": "finished",
+          "rating": 3
+        }
+      ],
+      "started_at": "2025-07-01",
+      "finished_at": "2025-07-09",
+      "rating": 3,
+      "categories": [
+        "Contemporary"
+      ],
+      "subjects": [
+        "Family"
+      ],
+      "page_count": 268,
+      "first_published": 2018,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 2017,
+        "kind": "contemporary"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "long-recension",
+      "title": "The Long Recension",
+      "authors": [
+        "Tomas Bergqvist"
+      ],
+      "status": "reference",
+      "owned": true,
+      "added_at": "2025-07-22",
+      "added_at_source": "manual",
+      "readings": [],
+      "started_at": null,
+      "finished_at": null,
+      "rating": null,
+      "categories": [
+        "Reference"
+      ],
+      "subjects": [
+        "Textual criticism"
+      ],
+      "page_count": 720,
+      "first_published": 2011,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": null,
+        "kind": null
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "ledger-small-waters",
+      "title": "Ledger of Small Waters",
+      "authors": [
+        "Ilya Mbeki"
+      ],
+      "status": "finished",
+      "owned": true,
+      "added_at": "2025-04-09",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-07-14",
+          "finished_at": "2025-08-03",
+          "outcome": "finished",
+          "rating": 4
+        }
+      ],
+      "started_at": "2025-07-14",
+      "finished_at": "2025-08-03",
+      "rating": 4,
+      "categories": [
+        "Historical"
+      ],
+      "subjects": [
+        "Rivers"
+      ],
+      "page_count": 355,
+      "first_published": 1998,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 1919,
+        "kind": "historical"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "concrete-orchard",
+      "title": "The Concrete Orchard",
+      "authors": [
+        "Solveig Nakamura"
+      ],
+      "status": "reading",
+      "owned": true,
+      "added_at": "2026-08-18",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2026-08-19",
+          "finished_at": null,
+          "outcome": "in_progress",
+          "rating": null
+        }
+      ],
+      "started_at": "2026-08-19",
+      "finished_at": null,
+      "rating": null,
+      "categories": [
+        "Speculative"
+      ],
+      "subjects": [
+        "Cities"
+      ],
+      "page_count": 340,
+      "first_published": 2026,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 2061,
+        "kind": "speculative"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "ten-fathoms-blue-wire",
+      "title": "Ten Fathoms of Blue Wire",
+      "authors": [
+        "Rasmus Achterberg"
+      ],
+      "status": "abandoned",
+      "owned": false,
+      "added_at": "2024-11-01",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-09-02",
+          "finished_at": null,
+          "outcome": "abandoned",
+          "rating": 2
+        }
+      ],
+      "started_at": "2025-09-02",
+      "finished_at": null,
+      "rating": 2,
+      "categories": [
+        "Speculative"
+      ],
+      "subjects": [
+        "Deep sea"
+      ],
+      "page_count": 611,
+      "first_published": 2013,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 2199,
+        "kind": "speculative"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "gantry-wives",
+      "title": "The Gantry Wives",
+      "authors": [
+        "Hester Nwankwo"
+      ],
+      "status": "reading",
+      "owned": true,
+      "added_at": "2025-08-14",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-09-10",
+          "finished_at": "2025-09-28",
+          "outcome": "finished",
+          "rating": 5
+        },
+        {
+          "started_at": "2026-08-02",
+          "finished_at": null,
+          "outcome": "in_progress",
+          "rating": null
+        }
+      ],
+      "started_at": "2026-08-02",
+      "finished_at": null,
+      "rating": 5,
+      "categories": [
+        "Historical"
+      ],
+      "subjects": [
+        "Shipbuilding",
+        "Labour"
+      ],
+      "page_count": 402,
+      "first_published": 2022,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 1948,
+        "kind": "historical"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "notes-drowned-city",
+      "title": "Notes Toward a Drowned City",
+      "authors": [
+        "Anselm Prieto"
+      ],
+      "status": "paused",
+      "owned": true,
+      "added_at": "2025-05-20",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-10-05",
+          "finished_at": null,
+          "outcome": "in_progress",
+          "rating": null
+        }
+      ],
+      "started_at": "2025-10-05",
+      "finished_at": null,
+      "rating": null,
+      "categories": [
+        "Speculative"
+      ],
+      "subjects": [
+        "Invented world"
+      ],
+      "page_count": 288,
+      "first_published": 2014,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": null,
+        "kind": "fictional"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "auditor-small-hours",
+      "title": "The Auditor of Small Hours",
+      "authors": [
+        "Vivienne Okonkwo"
+      ],
+      "status": "finished",
+      "owned": false,
+      "added_at": "2025-10-06",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-10-12",
+          "finished_at": "2025-10-21",
+          "outcome": "finished",
+          "rating": 4
+        }
+      ],
+      "started_at": "2025-10-12",
+      "finished_at": "2025-10-21",
+      "rating": 4,
+      "categories": [
+        "Contemporary"
+      ],
+      "subjects": [
+        "Work"
+      ],
+      "page_count": 232,
+      "first_published": 2025,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 2024,
+        "kind": "contemporary"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "brass-sunday",
+      "title": "Brass Sunday",
+      "authors": [
+        "Milo Ferreira"
+      ],
+      "status": "finished",
+      "owned": true,
+      "added_at": "2024-05-31",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-11-01",
+          "finished_at": "2025-11-26",
+          "outcome": "finished",
+          "rating": 3
+        }
+      ],
+      "started_at": "2025-11-01",
+      "finished_at": "2025-11-26",
+      "rating": 3,
+      "categories": [
+        "Historical"
+      ],
+      "subjects": [
+        "Music"
+      ],
+      "page_count": 478,
+      "first_published": 1961,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 1902,
+        "kind": "historical"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "unquiet-register",
+      "title": "The Unquiet Register",
+      "authors": [
+        "Dagny Solheim"
+      ],
+      "status": "finished",
+      "owned": true,
+      "added_at": "2025-10-30",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-12-03",
+          "finished_at": "2025-12-15",
+          "outcome": "finished",
+          "rating": 4
+        }
+      ],
+      "started_at": "2025-12-03",
+      "finished_at": "2025-12-15",
+      "rating": 4,
+      "categories": [
+        "Speculative"
+      ],
+      "subjects": [
+        "Bureaucracy"
+      ],
+      "page_count": 326,
+      "first_published": 2017,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 2035,
+        "kind": "speculative"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "what-lighthouse-owed",
+      "title": "What the Lighthouse Owed",
+      "authors": [
+        "Cormac Baptiste"
+      ],
+      "status": "finished",
+      "owned": true,
+      "added_at": "2025-10-27",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2026-01-06",
+          "finished_at": "2026-01-24",
+          "outcome": "finished",
+          "rating": 5
+        },
+        {
+          "started_at": "2026-07-02",
+          "finished_at": "2026-07-15",
+          "outcome": "finished",
+          "rating": 5
+        }
+      ],
+      "started_at": "2026-07-02",
+      "finished_at": "2026-07-15",
+      "rating": 5,
+      "categories": [
+        "Historical"
+      ],
+      "subjects": [
+        "Sea",
+        "Debt"
+      ],
+      "page_count": 364,
+      "first_published": 2012,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 1826,
+        "kind": "historical"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "sieve-and-sea",
+      "title": "The Sieve and the Sea",
+      "authors": [
+        "Perpetua Lindgren"
+      ],
+      "status": "to_read",
+      "owned": true,
+      "added_at": "2025-12-31",
+      "added_at_source": "manual",
+      "readings": [],
+      "started_at": null,
+      "finished_at": null,
+      "rating": null,
+      "categories": [
+        "Speculative"
+      ],
+      "subjects": [
+        "Invented world"
+      ],
+      "page_count": null,
+      "first_published": 2023,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": null,
+        "kind": "fictional"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "ordinary-machines",
+      "title": "Ordinary Machines",
+      "authors": [
+        "Yusuf Halvorsen"
+      ],
+      "status": "finished",
+      "owned": false,
+      "added_at": "2026-01-22",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2026-02-02",
+          "finished_at": "2026-02-13",
+          "outcome": "finished",
+          "rating": 3
+        }
+      ],
+      "started_at": "2026-02-02",
+      "finished_at": "2026-02-13",
+      "rating": 3,
+      "categories": [
+        "Contemporary"
+      ],
+      "subjects": [
+        "Technology"
+      ],
+      "page_count": 254,
+      "first_published": 2020,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 2019,
+        "kind": "contemporary"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "feathered-ledger",
+      "title": "The Feathered Ledger",
+      "authors": [
+        "Ottoline Marek"
+      ],
+      "status": "finished",
+      "owned": true,
+      "added_at": "2023-11-09",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2026-03-01",
+          "finished_at": "2026-03-30",
+          "outcome": "finished",
+          "rating": 4
+        }
+      ],
+      "started_at": "2026-03-01",
+      "finished_at": "2026-03-30",
+      "rating": 4,
+      "categories": [
+        "Historical"
+      ],
+      "subjects": [
+        "Ornithology"
+      ],
+      "page_count": 545,
+      "first_published": 1889,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 1789,
+        "kind": "historical"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "field-guide-absent-rivers",
+      "title": "A Field Guide to Absent Rivers",
+      "authors": [
+        "Saskia Boateng"
+      ],
+      "status": "reference",
+      "owned": true,
+      "added_at": "2026-03-26",
+      "added_at_source": "manual",
+      "readings": [],
+      "started_at": null,
+      "finished_at": null,
+      "rating": null,
+      "categories": [
+        "Reference"
+      ],
+      "subjects": [
+        "Hydrology"
+      ],
+      "page_count": null,
+      "first_published": 2021,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": null,
+        "kind": null
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "glasshouse-interval",
+      "title": "The Glasshouse Interval",
+      "authors": [
+        "Runa Castellanos"
+      ],
+      "status": "finished",
+      "owned": true,
+      "added_at": "2026-04-02",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2026-04-05",
+          "finished_at": "2026-04-18",
+          "outcome": "finished",
+          "rating": 5
+        }
+      ],
+      "started_at": "2026-04-05",
+      "finished_at": "2026-04-18",
+      "rating": 5,
+      "categories": [
+        "Speculative"
+      ],
+      "subjects": [
+        "Botany"
+      ],
+      "page_count": 298,
+      "first_published": 2023,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 2077,
+        "kind": "speculative"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "hollow-bell-hollow-year",
+      "title": "Hollow Bell, Hollow Year",
+      "authors": [
+        "Emeka Lindqvist"
+      ],
+      "status": "finished",
+      "owned": false,
+      "added_at": "2025-02-08",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2025-08-14",
+          "finished_at": null,
+          "outcome": "abandoned",
+          "rating": null
+        },
+        {
+          "started_at": "2026-05-02",
+          "finished_at": "2026-05-29",
+          "outcome": "finished",
+          "rating": 4
+        }
+      ],
+      "started_at": "2026-05-02",
+      "finished_at": "2026-05-29",
+      "rating": 4,
+      "categories": [
+        "Historical"
+      ],
+      "subjects": [
+        "Plague"
+      ],
+      "page_count": 490,
+      "first_published": 2005,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 1666,
+        "kind": "historical"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "persistence-of-tuesdays",
+      "title": "The Persistence of Tuesdays",
+      "authors": [
+        "Bea Alvarado"
+      ],
+      "status": "finished",
+      "owned": true,
+      "added_at": "2026-05-17",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2026-06-08",
+          "finished_at": "2026-06-17",
+          "outcome": "finished",
+          "rating": 3
+        }
+      ],
+      "started_at": "2026-06-08",
+      "finished_at": "2026-06-17",
+      "rating": 3,
+      "categories": [
+        "Contemporary"
+      ],
+      "subjects": [
+        "Routine"
+      ],
+      "page_count": 221,
+      "first_published": 2016,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 2015,
+        "kind": "contemporary"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "quarry-light",
+      "title": "Quarry Light",
+      "authors": [
+        "Ingrid Sowande"
+      ],
+      "status": "finished",
+      "owned": true,
+      "added_at": "2026-05-07",
+      "added_at_source": "manual",
+      "readings": [
+        {
+          "started_at": "2026-07-04",
+          "finished_at": "2026-07-21",
+          "outcome": "finished",
+          "rating": 4
+        }
+      ],
+      "started_at": "2026-07-04",
+      "finished_at": "2026-07-21",
+      "rating": 4,
+      "categories": [
+        "Historical"
+      ],
+      "subjects": [
+        "Stone"
+      ],
+      "page_count": 377,
+      "first_published": 2010,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 1854,
+        "kind": "historical"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "instrument-of-tides",
+      "title": "An Instrument of Tides",
+      "authors": [
+        "Halvard Nakamura"
+      ],
+      "status": "to_read",
+      "owned": false,
+      "added_at": "2026-05-24",
+      "added_at_source": "manual",
+      "readings": [],
+      "started_at": null,
+      "finished_at": null,
+      "rating": null,
+      "categories": [
+        "Speculative"
+      ],
+      "subjects": [
+        "Oceans"
+      ],
+      "page_count": 412,
+      "first_published": 2024,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 2104,
+        "kind": "speculative"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "eighth-of-never",
+      "title": "The Eighth of Never",
+      "authors": [
+        "Corisande Achebe"
+      ],
+      "status": "to_read",
+      "owned": null,
+      "added_at": "2026-07-28",
+      "added_at_source": "manual",
+      "readings": [],
+      "started_at": null,
+      "finished_at": null,
+      "rating": null,
+      "categories": [
+        "Contemporary"
+      ],
+      "subjects": [
+        "Memory"
+      ],
+      "page_count": 275,
+      "first_published": 2022,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 2021,
+        "kind": "contemporary"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    },
+    {
+      "book_id": "wintering-house",
+      "title": "The Wintering House",
+      "authors": [
+        "Marit Okonkwo"
+      ],
+      "status": "to_read",
+      "owned": null,
+      "added_at": "2025-01-17",
+      "added_at_source": "manual",
+      "readings": [],
+      "started_at": null,
+      "finished_at": null,
+      "rating": null,
+      "categories": [
+        "Historical"
+      ],
+      "subjects": [
+        "Winter"
+      ],
+      "page_count": null,
+      "first_published": null,
+      "edition_published": null,
+      "isbn10": null,
+      "isbn13": null,
+      "cover_ref": null,
+      "source": {
+        "provider": "example",
+        "external_id": null,
+        "url": null
+      },
+      "setting": {
+        "anchor_year": 1913,
+        "kind": "historical"
+      },
+      "sessions": null,
+      "metadata_updated_at": null
+    }
+  ]
+}

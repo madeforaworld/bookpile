@@ -1,0 +1,36 @@
+# secrets — never tracked
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+service-account*.json
+
+# the maintainer's local denylist of real identifiers — never committed
+.privacy-denylist.local
+
+# data and derived state
+*.db
+*.sqlite
+*.sqlite3
+data/
+projection/
+*.log
+logs/
+
+# dependencies and build output
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+dist/
+build/
+.pytest_cache/
+
+# editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
