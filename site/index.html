@@ -727,6 +727,16 @@
   }
   function clear(svg) { while (svg.firstChild) svg.removeChild(svg.firstChild); }
 
+  // Size the chart to its container in real pixels, so 1 SVG unit == 1 CSS px
+  // and label text never scales up in a wide card or down on a phone.
+  function fit(svg, h) {
+    const w = Math.max(260, Math.round(svg.parentElement.getBoundingClientRect().width));
+    svg.setAttribute("viewBox", "0 0 " + w + " " + h);
+    svg.setAttribute("preserveAspectRatio", "xMinYMin meet");
+    svg.style.height = h + "px";
+    return w;
+  }
+
   /* ---------- tooltip ---------- */
   const tip = document.getElementById("tip");
   function showTip(e, html) {
@@ -762,8 +772,9 @@
   function drawClocks() {
     const svg = document.getElementById("c-clocks");
     clear(svg);
-    const W = 720, H = 430;
-    const m = { t: 18, r: 104, b: 46, l: 52 };
+    const H = window.innerWidth < 620 ? 360 : 430;
+    const W = fit(svg, H);
+    const m = { t: 18, r: W < 520 ? 24 : 104, b: 46, l: 64 };
     const iw = W - m.l - m.r, ih = H - m.t - m.b;
 
     const plotted = BOOKS.filter(b => b.k in KIND && b.pub != null && b.set != null);
@@ -793,13 +804,14 @@
       x1: X(d0), y1: Y(d0), x2: X(d1), y2: Y(d1),
       stroke: css("--axis"), "stroke-width": 1.5, "stroke-dasharray": "5 4"
     }, svg);
-    const lx = X(2032), ly = Y(2032);
-    const dl = el("text", { x: lx - 6, y: ly - 9, class: "ax-title", "text-anchor": "end" }, svg);
+    // label the diagonal on its empty lower stretch, well clear of the
+    // contemporary cluster that sits on its upper end
+    const dl = el("text", { x: X(1952), y: Y(1952) - 9, class: "ax-title", "text-anchor": "middle" }, svg);
     dl.textContent = "written = set";
 
     // axis titles
     el("text", { x: m.l, y: H - 6, class: "ax-title" }, svg).textContent = "Publication year →";
-    const yt = el("text", { x: 0, y: 0, class: "ax-title", transform: "translate(13," + (m.t + ih) + ") rotate(-90)" }, svg);
+    const yt = el("text", { x: 0, y: 0, class: "ax-title", transform: "translate(14," + (m.t + ih) + ") rotate(-90)" }, svg);
     yt.textContent = "Year the story is set →";
 
     // marks
@@ -818,15 +830,15 @@
 
     // direct series labels (relief rule)
     const anchors = {
-      historical:   { x: X(1905), y: Y(1600) },
-      contemporary: { x: X(2028), y: Y(2012) },
-      speculative:  { x: X(1990), y: Y(2205) }
+      historical:   { x: X(1912), y: Y(1585) },
+      contemporary: { x: X(2033), y: Y(1972) },
+      speculative:  { x: X(1985), y: Y(2215) }
     };
     Object.keys(anchors).forEach(k => {
       const t = el("text", {
         x: anchors[k].x, y: anchors[k].y,
         class: "series-label", fill: css(KIND[k].color),
-        "text-anchor": k === "contemporary" ? "start" : "middle"
+        "text-anchor": k === "contemporary" ? "end" : "middle"
       }, svg);
       t.textContent = KIND[k].label;
     });
@@ -893,7 +905,7 @@
   function drawPerYear() {
     const svg = document.getElementById("c-peryear");
     clear(svg);
-    const W = 520, H = 260, m = { t: 16, r: 12, b: 44, l: 34 };
+    const H = 260, W = fit(svg, H), m = { t: 16, r: 12, b: 44, l: 34 };
     const iw = W - m.l - m.r, ih = H - m.t - m.b;
 
     const years = ["2024", "2025", "2026"];
@@ -958,7 +970,7 @@
   function drawStatus() {
     const svg = document.getElementById("c-status");
     clear(svg);
-    const W = 520, H = 260, m = { t: 10, r: 40, b: 26, l: 104 };
+    const H = 260, W = fit(svg, H), m = { t: 10, r: 40, b: 26, l: 104 };
     const iw = W - m.l - m.r, ih = H - m.t - m.b;
 
     const labels = {
@@ -1001,7 +1013,7 @@
   function drawOwned() {
     const svg = document.getElementById("c-owned");
     clear(svg);
-    const W = 520, H = 150, m = { t: 34, r: 12, b: 44, l: 12 };
+    const H = 150, W = fit(svg, H), m = { t: 34, r: 12, b: 44, l: 12 };
     const iw = W - m.l - m.r;
     const barH = 40;
 
@@ -1046,7 +1058,7 @@
   function drawQuality() {
     const svg = document.getElementById("c-quality");
     clear(svg);
-    const W = 520, H = 260, m = { t: 10, r: 46, b: 26, l: 116 };
+    const H = 260, W = fit(svg, H), m = { t: 10, r: 46, b: 26, l: 116 };
     const iw = W - m.l - m.r, ih = H - m.t - m.b;
 
     const fields = [
@@ -1091,7 +1103,7 @@
   function drawShelfTime() {
     const svg = document.getElementById("c-shelf");
     clear(svg);
-    const W = 520, H = 260, m = { t: 16, r: 12, b: 52, l: 34 };
+    const H = 260, W = fit(svg, H), m = { t: 16, r: 12, b: 52, l: 34 };
     const iw = W - m.l - m.r, ih = H - m.t - m.b;
 
     const started = BOOKS.filter(b => b.rd.length);
@@ -1157,6 +1169,11 @@
   new MutationObserver(renderAll).observe(document.documentElement, {
     attributes: true, attributeFilter: ["data-theme"]
   });
-  window.addEventListener("resize", hideTip);
+  let rt;
+  window.addEventListener("resize", () => {
+    hideTip();
+    clearTimeout(rt);
+    rt = setTimeout(renderAll, 160);
+  });
 })();
 </script>
