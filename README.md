@@ -12,28 +12,36 @@ record in a library you own. Where that library lives — Markdown, SQLite, a Go
 Sheet, the thing you already use — is an adapter, not a decision the project makes
 for you.
 
-## Status: Phase 0, in progress
+## Status
 
-This repository is early and deliberately incomplete. What is here is real; what
-is not here is listed honestly.
-
-**Present**
+Phases 0–3 built and verified. The reference implementation passes the vectors
+on both shipped adapters.
 
 | | |
 |---|---|
-| `docs/METRICS.md` | The metrics catalogue — 25 entries, each with data requirements, chart form, tier and acceptance test. Normative. |
-| `fixtures/synthetic-library.json` | 30 invented books exercising re-reads, abandonment, unknown ownership and missing fields. |
-| `site/index.html` | A working demo dashboard. No backend — every chart is computed in the browser from the fixture. |
-| `scripts/privacy-check.js` | The release gate. Runs clean on this tree. |
+| `spec/` | Schema, invariants, intents, storage port, API contract. Normative. |
+| `conformance/` | **51 vectors** in language-agnostic JSON, plus the runner. The real contract. |
+| `safety/` | Allowlist, validation, idempotency, redaction. Fixed code, never generated. 27 tests. |
+| `onboarding/` | Inspection, defaults, the two questions worth asking, decision map. |
+| `reference/` | Domain, service, SQLite + Markdown adapters, CLI and Telegram intake, projection. 16 tests. |
+| `docs/METRICS.md` | 25-entry metrics catalogue with acceptance tests. |
+| `fixtures/` | 30 invented books exercising re-reads, abandonment and unknown ownership. |
+| `site/` | Working demo dashboard. No backend; charts computed from the fixture. |
 
-**Not yet written**
+```bash
+./scripts/check.sh          # privacy gate + 43 tests + 51 vectors
+```
 
-`spec/` (schema, intents, API contract) · `conformance/` (the test vectors) ·
-`safety/` (allowlist, validation, idempotency) · `onboarding/` ·
-`reference/` (the runnable implementation) · adapters · the bot.
+**Verified:** 51/51 vectors pass against both the SQLite and Markdown adapters.
+43 unit tests pass. The privacy gate is clean.
 
-The vectors are the part that matters most and the part that does not exist yet.
-Until they do, this is a well-specified idea rather than a working system.
+**Not verified:** the Telegram network path. Its policy layer — allowlist,
+idempotency, audit redaction — is covered by tests, but nothing has spoken to
+the live API, because that needs a real bot token. It is marked as such in the
+source.
+
+**Not built:** Google Sheets and PostgreSQL adapters, the projection HTTP API,
+`docker compose`, the dashboard wired to a live store rather than the fixture.
 
 ## The idea in one chart
 

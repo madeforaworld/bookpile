@@ -1,0 +1,66 @@
+{
+  "suite": "intents",
+  "description": "Message -> validated intent -> named operation -> read-back.",
+  "vectors": [
+    { "id": "add-minimal", "invariant": "I9",
+      "given": { "books": [] },
+      "when": { "message": "add The Tin Almanac" },
+      "then": { "library_size": 1, "book": { "ref": "The Tin Almanac", "status": "to_read", "rating": null, "owned": null } } },
+
+    { "id": "add-with-author", "invariant": "I9",
+      "given": { "books": [] },
+      "when": { "message": "add The Tin Almanac by Marguerite Sowande" },
+      "then": { "library_size": 1, "book": { "ref": "The Tin Almanac", "authors": ["Marguerite Sowande"] } } },
+
+    { "id": "add-is-idempotent", "invariant": "I9",
+      "given": { "books": [] },
+      "when": { "messages": ["add The Tin Almanac", "add The Tin Almanac"] },
+      "then": { "library_size": 1 } },
+
+    { "id": "start-appends-reading", "invariant": "I4",
+      "given": { "books": [ { "title": "Salt in the Wiring" } ] },
+      "when": { "message": "start Salt in the Wiring" },
+      "then": { "book": { "ref": "Salt in the Wiring", "status": "reading", "reading_count": 1, "finished_at": null } } },
+
+    { "id": "finish-closes-open-reading", "invariant": "I4",
+      "given": { "books": [ { "title": "Salt in the Wiring" } ] },
+      "when": { "messages": ["start Salt in the Wiring", "finished Salt in the Wiring"] },
+      "then": { "book": { "ref": "Salt in the Wiring", "status": "finished", "reading_count": 1, "completions": 1 } } },
+
+    { "id": "reread-appends-never-overwrites", "invariant": "I4",
+      "given": { "books": [ { "title": "Salt in the Wiring" } ] },
+      "when": { "messages": ["start Salt in the Wiring", "finished Salt in the Wiring",
+                             "start Salt in the Wiring", "finished Salt in the Wiring"] },
+      "then": { "book": { "ref": "Salt in the Wiring", "reading_count": 2, "completions": 2 } } },
+
+    { "id": "rating-lands-on-latest-reading", "invariant": "I4",
+      "given": { "books": [ { "title": "Quarry Light" } ] },
+      "when": { "messages": ["start Quarry Light", "finished Quarry Light", "Quarry Light 4 stars"] },
+      "then": { "book": { "ref": "Quarry Light", "rating": 4 } } },
+
+    { "id": "owned-false-is-not-unknown", "invariant": "I1",
+      "given": { "books": [ { "title": "The Gantry Wives" } ] },
+      "when": { "message": "i don't own The Gantry Wives" },
+      "then": { "book": { "ref": "The Gantry Wives", "owned": false } } },
+
+    { "id": "owned-defaults-to-unknown", "invariant": "I1",
+      "given": { "books": [ { "title": "Brass Sunday" } ] },
+      "when": { "noop": true },
+      "then": { "book": { "ref": "Brass Sunday", "owned": null } } },
+
+    { "id": "ambiguous-reference-asks", "invariant": "I9",
+      "given": { "books": [ { "title": "The Long Recension" }, { "title": "The Long Winter" } ] },
+      "when": { "message": "start The Long" },
+      "then": { "error": "AmbiguousReference" } },
+
+    { "id": "unknown-book-is-an-error-not-a-create", "invariant": "I9",
+      "given": { "books": [] },
+      "when": { "message": "finished Something Nobody Added" },
+      "then": { "error": "NotFound" } },
+
+    { "id": "gibberish-does-not-parse", "invariant": "I9",
+      "given": { "books": [] },
+      "when": { "message": "mumble mumble" },
+      "then": { "unparsed": true, "library_size": 0 } }
+  ]
+}

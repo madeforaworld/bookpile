@@ -57,7 +57,12 @@ function listFiles() {
   return acc;
 }
 
+// A security test suite must contain the strings it tests against. The only
+// exemption is a same-line pragma, which is greppable and counted below so it
+// can never grow silently.
+const PRAGMA = "privacy-check: test-fixture";
 const failures = [];
+let exempted = 0;
 const files = listFiles();
 
 for (const rel of files) {
@@ -84,6 +89,7 @@ for (const rel of files) {
   text.split("\n").forEach((line, i) => {
     for (const rule of DENY) {
       if (rule.re.test(line)) {
+        if (line.includes(PRAGMA)) { exempted++; continue; }
         failures.push({ file: rel, rule: rule.name, line: i + 1,
                         detail: rule.name.startsWith("local-") ? "(redacted)" : line.trim().slice(0, 90) });
       }
@@ -91,7 +97,8 @@ for (const rel of files) {
   });
 }
 
-console.log("privacy-check — scanned " + files.length + " files\n");
+console.log("privacy-check — scanned " + files.length + " files"
+  + (exempted ? ", " + exempted + " line(s) exempted by pragma" : "") + "\n");
 if (failures.length === 0) {
   console.log("PASS — nothing private found.");
   process.exit(0);

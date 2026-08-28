@@ -1,0 +1,66 @@
+{
+  "suite": "safety",
+  "description": "Message-level rejections. Language-agnostic: a build in any language must reject these, so they cannot live only in the Python unit tests.",
+  "vectors": [
+    { "id": "unknown-intent-rejected", "invariant": "I9",
+      "given": { "books": [] },
+      "when": { "validate": { "intent": "delete_everything", "book_ref": "X" } },
+      "then": { "rejected": true } },
+
+    { "id": "injected-key-rejected", "invariant": "I9",
+      "given": { "books": [] },
+      "when": { "validate": { "intent": "add_book", "title": "X", "sql": "DROP TABLE books" } },
+      "then": { "rejected": true } },
+
+    { "id": "relative-date-rejected", "invariant": "I9",
+      "given": { "books": [] },
+      "when": { "validate": { "intent": "set_reading_status", "book_ref": "X", "status": "finished", "date": "today" } },
+      "then": { "rejected": true } },
+
+    { "id": "impossible-date-rejected", "invariant": "I6",
+      "given": { "books": [] },
+      "when": { "validate": { "intent": "set_reading_status", "book_ref": "X", "status": "finished", "date": "2026-02-31" } },
+      "then": { "rejected": true } },
+
+    { "id": "rating-out-of-range-rejected", "invariant": "I9",
+      "given": { "books": [] },
+      "when": { "validate": { "intent": "rate_book", "book_ref": "X", "rating": 9 } },
+      "then": { "rejected": true } },
+
+    { "id": "rating-string-not-coerced", "invariant": "I9",
+      "given": { "books": [] },
+      "when": { "validate": { "intent": "rate_book", "book_ref": "X", "rating": "4" } },
+      "then": { "rejected": true } },
+
+    { "id": "low-confidence-refuses-to-write", "invariant": "I9",
+      "given": { "books": [] },
+      "when": { "validate": { "intent": "add_book", "title": "X", "confidence": 0.4 } },
+      "then": { "rejected": true } },
+
+    { "id": "owned-null-is-valid-not-missing", "invariant": "I1",
+      "given": { "books": [] },
+      "when": { "validate": { "intent": "set_owned", "book_ref": "X", "owned": null } },
+      "then": { "rejected": false } },
+
+    { "id": "set-owned-without-field-rejected", "invariant": "I1",
+      "given": { "books": [] },
+      "when": { "validate": { "intent": "set_owned", "book_ref": "X" } },
+      "then": { "rejected": true } },
+
+    { "id": "valid-intent-accepted", "invariant": "I9",
+      "given": { "books": [] },
+      "when": { "validate": { "intent": "set_reading_status", "book_ref": "X", "status": "finished", "date": "2026-08-28" } },
+      "then": { "rejected": false } },
+
+    { "id": "duplicate-delivery-writes-once", "invariant": "I9",
+      "given": { "books": [ { "title": "Salt in the Wiring" } ] },
+      "when": { "deliver_twice": { "message_id": "42", "message": "start Salt in the Wiring" } },
+      "then": { "book": { "ref": "Salt in the Wiring", "reading_count": 1 } } },
+
+    { "id": "distinct-messages-both-apply", "invariant": "I9",
+      "given": { "books": [ { "title": "Salt in the Wiring" } ] },
+      "when": { "deliver": [ { "message_id": "1", "message": "start Salt in the Wiring" },
+                             { "message_id": "2", "message": "finished Salt in the Wiring" } ] },
+      "then": { "book": { "ref": "Salt in the Wiring", "status": "finished", "completions": 1 } } }
+  ]
+}

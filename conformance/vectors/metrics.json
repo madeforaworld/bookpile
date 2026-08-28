@@ -1,0 +1,88 @@
+{
+  "suite": "metrics",
+  "description": "Projection correctness. Each metric asserts its acceptance clause from docs/METRICS.md.",
+  "vectors": [
+    { "id": "M04-abandonment-over-outcomes", "invariant": "I1",
+      "given": { "books": [
+        { "title": "A", "readings": [ { "started_at": "2025-01-01", "finished_at": "2025-01-05", "outcome": "finished" } ] },
+        { "title": "B", "readings": [ { "started_at": "2025-02-01", "outcome": "abandoned" } ] },
+        { "title": "C", "readings": [ { "started_at": "2025-03-01", "outcome": "in_progress" } ] } ] },
+      "when": { "project": "summary" },
+      "then": { "expect": { "abandoned_readings": 1, "concluded_readings": 2 } } },
+
+    { "id": "M04-abandon-then-finish-counts-both", "invariant": "I1",
+      "given": { "books": [
+        { "title": "A", "readings": [
+          { "started_at": "2025-01-01", "outcome": "abandoned" },
+          { "started_at": "2026-01-01", "finished_at": "2026-01-09", "outcome": "finished" } ] } ] },
+      "when": { "project": "summary" },
+      "then": { "expect": { "abandoned_readings": 1, "concluded_readings": 2 } } },
+
+    { "id": "M05-mean-excludes-unrated", "invariant": "I1",
+      "given": { "books": [
+        { "title": "A", "readings": [ { "outcome": "in_progress", "rating": 4 } ] },
+        { "title": "B" } ] },
+      "when": { "project": "summary" },
+      "then": { "expect": { "mean_rating": 4.0, "rated_books": 1, "unrated_books": 1 } } },
+
+    { "id": "M05-empty-library-has-no-mean-not-zero", "invariant": "I1",
+      "given": { "books": [] },
+      "when": { "project": "summary" },
+      "then": { "expect": { "mean_rating": null, "library_size": 0 } } },
+
+    { "id": "M03-counts-completions-not-books", "invariant": "I4",
+      "given": { "books": [
+        { "title": "A", "readings": [
+          { "started_at": "2026-01-01", "finished_at": "2026-01-10", "outcome": "finished" },
+          { "started_at": "2026-06-01", "finished_at": "2026-06-10", "outcome": "finished" } ] } ] },
+      "when": { "project": "summary", "year": "2026" },
+      "then": { "expect": { "completions_in_year": 2, "books_completed_in_year": 1 } } },
+
+    { "id": "M08-measured-to-first-reading", "invariant": "I5",
+      "given": { "books": [
+        { "title": "A", "added_at": "2025-01-01", "readings": [
+          { "started_at": "2025-01-11", "finished_at": "2025-01-20", "outcome": "finished" },
+          { "started_at": "2026-06-01", "finished_at": "2026-06-10", "outcome": "finished" } ] } ] },
+      "when": { "project": "shelf_time" },
+      "then": { "expect_bucket": { "label": "1-4wks", "count": 1 } } },
+
+    { "id": "M08-never-started-excluded-not-zero", "invariant": "I1",
+      "given": { "books": [ { "title": "A", "added_at": "2025-01-01" } ] },
+      "when": { "project": "shelf_time" },
+      "then": { "expect_excluded": { "never_started": 1 } } },
+
+    { "id": "M10-all-statuses-present-at-zero", "invariant": "I1",
+      "given": { "books": [ { "title": "A", "status": "finished" } ] },
+      "when": { "project": "status_breakdown" },
+      "then": { "status_keys": ["to_read", "reading", "finished", "paused", "abandoned", "reference"] } },
+
+    { "id": "M12-unknown-is-its-own-segment", "invariant": "I1",
+      "given": { "books": [
+        { "title": "A", "owned": true }, { "title": "B", "owned": false }, { "title": "C" } ] },
+      "when": { "project": "ownership" },
+      "then": { "expect": { "owned": 1, "not_owned": 1, "unknown": 1 } } },
+
+    { "id": "M26-invented-worlds-excluded", "invariant": "I3",
+      "given": { "books": [
+        { "title": "A", "first_published": 2019, "setting": { "anchor_year": 1687, "kind": "historical" } },
+        { "title": "B", "setting": { "kind": "fictional" } } ] },
+      "when": { "project": "setting_scatter" },
+      "then": { "point_count": 1, "expect_excluded": { "invented_world": 1 } } },
+
+    { "id": "M26-missing-year-excluded-separately", "invariant": "I3",
+      "given": { "books": [
+        { "title": "A", "setting": { "anchor_year": 1900, "kind": "historical" } } ] },
+      "when": { "project": "setting_scatter" },
+      "then": { "point_count": 0, "expect_excluded": { "missing_year": 1 } } },
+
+    { "id": "M30-null-never-counted-as-value", "invariant": "I1",
+      "given": { "books": [ { "title": "A", "page_count": 100 }, { "title": "B" } ] },
+      "when": { "project": "quality" },
+      "then": { "expect_field": { "field": "page_count", "present": 1, "total": 2 } } },
+
+    { "id": "tier-gating-hides-unfillable-metrics", "invariant": "I1",
+      "given": { "books": [ { "title": "A" } ] },
+      "when": { "project": "available_metrics" },
+      "then": { "excludes_metrics": ["M26", "M08", "M06"] } }
+  ]
+}

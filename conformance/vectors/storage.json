@@ -1,0 +1,43 @@
+{
+  "suite": "storage",
+  "description": "Adapter round-trips. Every adapter runs these. A latest-only adapter may fail multi_reading vectors ONLY if capabilities() declares it.",
+  "vectors": [
+    { "id": "nulls-survive-round-trip", "invariant": "I1",
+      "given": { "books": [ { "title": "A", "owned": null, "page_count": null, "rating": null } ] },
+      "when": { "reload": true },
+      "then": { "book": { "ref": "A", "owned": null, "page_count": null, "rating": null } } },
+
+    { "id": "owned-false-round-trips-as-false", "invariant": "I1",
+      "given": { "books": [ { "title": "B", "owned": false } ] },
+      "when": { "reload": true },
+      "then": { "book": { "ref": "B", "owned": false } } },
+
+    { "id": "multi-reading-round-trip", "invariant": "I4", "requires": "readings=full",
+      "given": { "books": [ { "title": "C", "readings": [
+          { "started_at": "2025-01-01", "finished_at": "2025-01-10", "outcome": "finished", "rating": 3 },
+          { "started_at": "2026-01-01", "finished_at": "2026-01-10", "outcome": "finished", "rating": 5 } ] } ] },
+      "when": { "reload": true },
+      "then": { "book": { "ref": "C", "reading_count": 2, "rating": 5, "finished_at": "2026-01-10" } } },
+
+    { "id": "added-at-is-immutable", "invariant": "I5",
+      "given": { "books": [ { "title": "D", "added_at": "2024-03-01" } ] },
+      "when": { "upsert_with": { "ref": "D", "added_at": "2099-01-01" } },
+      "then": { "book": { "ref": "D", "added_at": "2024-03-01" } } },
+
+    { "id": "upsert-is-idempotent", "invariant": "I9",
+      "given": { "books": [ { "title": "E" } ] },
+      "when": { "upsert_twice": { "ref": "E" } },
+      "then": { "library_size": 1 } },
+
+    { "id": "hostile-title-cannot-escape-storage", "invariant": "I9",
+      "given": { "books": [ { "title": "../../etc/passwd" } ] },
+      "when": { "reload": true },
+      "then": { "library_size": 1, "no_path_escape": true } },
+
+    { "id": "derived-fields-recomputed-not-trusted", "invariant": "I4",
+      "given": { "books": [ { "title": "F", "readings": [
+          { "started_at": "2025-05-01", "finished_at": "2025-05-09", "outcome": "finished", "rating": 2 } ] } ] },
+      "when": { "reload": true },
+      "then": { "book": { "ref": "F", "rating": 2, "started_at": "2025-05-01" } } }
+  ]
+}

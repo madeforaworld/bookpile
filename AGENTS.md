@@ -14,12 +14,16 @@ generating an implementation that passes the vectors.
 
 ## Current state — read before planning
 
-Phase 0, partial. `docs/METRICS.md`, `fixtures/` and `site/` exist. **`spec/`,
-`conformance/`, `safety/`, `onboarding/` and `reference/` do not exist yet.**
+`spec/`, `conformance/` (51 vectors), `safety/`, `onboarding/`, `reference/`,
+`docs/METRICS.md`, `fixtures/` and `site/` all exist and pass
+`./scripts/check.sh`.
 
-Do not pretend otherwise, and do not generate a system claiming conformance to
-vectors that have not been written. If asked to build the full thing today, say
-what is missing first.
+Still missing: Sheets and PostgreSQL adapters, the projection HTTP API, the
+compose setup, and a dashboard wired to a live store. The Telegram network path
+is written but has never spoken to the live API.
+
+**Run `./scripts/check.sh` before you claim anything works, and report its real
+output.**
 
 ## Onboarding: look before you ask
 
