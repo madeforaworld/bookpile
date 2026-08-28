@@ -75,38 +75,16 @@ bot   The Copper Question · owned
 Buying is not reading. Ownership flips; no reading is fabricated. When you do
 start it, `start The Copper Question` opens one.
 
-**You own too many books and cannot choose.**
+**You own too many books and cannot choose. Or you want something new.**
 
-```
-you   what should I read next, something speculative
-bot   For 'something speculative', on your shelf:
-        The Sieve and the Sea — speculative
-        The Copper Question — still unread
-        The Eighth of Never — still unread  (ownership unknown — check the shelf)
-      (1 more on your wishlist, not bought yet — ask "what should I buy")
-```
+![Two chat panels: picking from your own shelf, and building a buy list](docs/images/two-pools.png)
 
-It picks only from books you **own** and have not read — you cannot start a book
-you have not bought — and says why each surfaced. Unknown ownership stays a
-candidate but is flagged, because unknown is not no. No model required; the
-matching is deterministic.
+Two questions, two piles. *What should I read tonight* means choose from what
+you **own**; *what should I buy* means look at what you do not. Conflating them
+is how you get told to start a book that is not in the house.
 
-**You want something new, chosen from what you already read.**
-
-```
-you   what should I buy
-bot   Already on your list, not bought yet:
-        An Instrument of Tides — Halvard Nakamura
-
-      New, from subjects you read:
-        Emma — Jane Austen (1815)
-        The Great Gatsby — F. Scott Fitzgerald (1920)
-```
-
-**Two pools, not one.** Your own unbought wishlist comes first — you already
-decided you wanted those — then new titles drawn from the subjects you actually
-read. A book you borrowed and finished is unowned but already read, so it is in
-neither pool.
+A book you borrowed and finished is unowned but already read — so it is in
+neither pile.
 
 ## What gets captured
 
@@ -232,6 +210,10 @@ no provider configured Bookpile never touches the network.
 
 **Not built:** Sheets and PostgreSQL adapters, the projection HTTP API,
 `docker compose`, a dashboard wired to a live store rather than the fixture.
+
+**Known weak:** discovery returns famous books rather than interesting ones —
+it queries your *commonest* subjects, which is backwards. See `ROADMAP.md`,
+which is written to be honest about this rather than to advertise.
 
 ## Repository
 

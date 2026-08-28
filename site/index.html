@@ -733,6 +733,63 @@
     </div>
   </section>
 
+
+  <!-- ============ TWO POOLS ============ -->
+  <section>
+    <div class="lede">
+      <h2>Two questions, two piles of books.</h2>
+      <p>
+        <strong>What should I read tonight?</strong> means choose from what you
+        already own. <strong>What should I buy?</strong> means look at what you
+        do not. Conflating them is how you get told to start a book that is not
+        in the house.
+      </p>
+    </div>
+    <div class="two-up">
+      <div class="card">
+        <div class="card-head">
+          <span class="card-id">Reading pool &middot; owned and unread</span>
+          <span class="card-q">What should I read next?</span>
+        </div>
+        <div class="chat">
+          <div class="msg out">what should I read next, something speculative</div>
+          <div class="msg in">For 'something speculative', on your shelf:<br>
+            &nbsp;&nbsp;The Sieve and the Sea &mdash; speculative<br>
+            &nbsp;&nbsp;The Copper Question &mdash; still unread<br>
+            &nbsp;&nbsp;The Eighth of Never &mdash; <b>ownership unknown, check the shelf</b><br>
+            (1 more on your wishlist, not bought yet)</div>
+        </div>
+        <p class="card-note" style="margin:0 20px 20px">
+          Never suggests a book you do not own &mdash; you cannot start it tonight.
+          Unknown ownership stays a candidate but is flagged, because unknown is
+          not no. The matching is deterministic; no model is involved.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <span class="card-id">Buying pool &middot; unowned and unread</span>
+          <span class="card-q">What should I buy?</span>
+        </div>
+        <div class="chat">
+          <div class="msg out">Priya recommended The Winter Orchard</div>
+          <div class="msg in">Added &middot; The Winter Orchard &middot; not bought yet</div>
+          <div class="msg out">what should I buy</div>
+          <div class="msg in">Already on your list, not bought yet:<br>
+            &nbsp;&nbsp;An Instrument of Tides<br>
+            &nbsp;&nbsp;The Winter Orchard<br><br>
+            New, from subjects you read:<br>
+            &nbsp;&nbsp;Emma &mdash; Jane Austen (1815)</div>
+        </div>
+        <p class="card-note" style="margin:0 20px 20px">
+          Because somebody <em>told</em> you about it, ownership is set to false
+          rather than left unknown. Your own wishlist comes first &mdash; you
+          already decided you wanted those. A book you borrowed and finished is
+          unowned but already read, so it is in neither pile.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ THE DASHBOARD ============ -->
   <section>
     <div class="lede">
